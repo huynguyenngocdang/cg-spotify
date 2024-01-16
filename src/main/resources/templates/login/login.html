@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Spotify</title>
+    <link rel="icon" sizes="32x32" type="image/png"
+          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
+    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
+</head>
+
+<body class="text-white w-screen h-fit bg-gradient-white overflow-hidden min-h-screen overflow-y-scroll">
+<div th:replace="layout/login-signin-layout::header">
+</div>
+
+<div class="pt-14 h-fit">
+    <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10">
+        <div th:replace="layout/login-signin-layout::title(title='Log in to Spotify')"
+             class="font-bold px-28 flex flex-col items-center gap-8">
+        </div>
+
+        <hr class="border-white border opacity-10 my-10">
+
+        <div class="px-28 flex flex-col gap-8">
+            <div class="flex flex-col gap-6">
+                <div class="flex flex-col gap-2">
+                    <label for="email" class="text-base font-bold">Email</label>
+                    <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                           type="text" id="email" name="email" placeholder="Email" required>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label for="password-login" class="text-base font-bold">Password</label>
+                    <div class="relative">
+                        <input class="password bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white w-full"
+                               type="password" id="password-login" name="password" placeholder="Password" required>
+                        <i class="fa-regular fa-eye absolute text-xl right-4 top-3 cursor-pointer" id="eye-open-login" style="color: #ededed;"></i>
+                        <i class="fa-regular fa-eye-slash absolute text-xl right-4 top-3 cursor-pointer" id="eye-close-login" style="color: #ededed; visibility: hidden"></i>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 items-center">
+                    <div class="relative bg-green rounded-full h-5 w-10">
+                        <span class="z-10 bg-black rounded-full w-4 h-4 absolute right-0.5 top-0.5"></span>
+                    </div>
+                    <p class="text-sm">Remember me</p>
+                </div>
+
+                <button th:replace="layout/login-signin-layout::button(content='Log In')"></button>
+
+                <p class="text-base text-center underline hover:text-green-500 cursor-pointer">Forgot your password</p>
+            </div>
+
+        </div>
+
+        <hr class="border-white border opacity-10 my-10">
+
+        <div px-28>
+            <p class="text-base color-white-5 text-center">Don't have an account? <a href="" class="underline text-white hover:cursor-pointer hover:text-green-500">Sign
+                up for Spotify</a></p>
+        </div>
+
+        <div th:replace="layout/login-signin-layout::footer" class="text-center color-white-5 text-xs mt-20">
+        </div>
+    </form>
+</div>
+<script th:src="@{/assets/js/login.js}"></script>
+</body>
+</html>
