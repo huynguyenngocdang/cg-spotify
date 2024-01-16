@@ -1,0 +1,26 @@
+body > div:nth-child(2) {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0) 100%);
+}
+
+body > div:nth-child(2) > div:nth-child(2) > div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+body > div:last-child {
+    grid-row-start: 2;
+    grid-column: span 2;
+    padding: 1rem;
+    background: linear-gradient(to right, #a2268d 0%, #a2268d 10%, #5199f4 90%,  #5199f4 100%);
+    display: flex;
+    justify-content: space-between;
+}
+
+.bg-overlay {
+    background: #121212;
+}
+
+.brand-icons a:hover {
+    background: rgba(255, 255, 255, 0.25);
+}

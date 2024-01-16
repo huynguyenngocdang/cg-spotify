@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/index-layout::head('Spotify - Search', '', 'assets/js/colorGenerate.js')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar"></div>
+
+<div style="background: black;">
+    <div th:replace="layout/index-layout::main-topbar"></div>
+
+    <div>
+        <!--        content ở thẻ div này-->
+        <div th:replace="layout/content-layout::categories-search"></div>
+
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+</div>
+<div th:replace="layout/index-layout::footer">
+</div>
+</body>
+</html>

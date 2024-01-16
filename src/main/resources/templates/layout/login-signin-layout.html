@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Login - Spotify</title>
+    <link rel="icon" sizes="32x32" type="image/png"
+          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
+    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
+<!--    <script th:src="@{/assets/js/login.js}"></script>-->
+</head>
+<body class="text-white w-screen h-fit bg-gradient-white overflow-x-hidden overflow-y-scroll">
+<div th:fragment="header" class="bg-black w-full py-8 px-10">
+    <img class="w-32" src="/assets/img/logo/spotify-logo-white.png" alt="This is spotify logo">
+</div>
+
+<div class="pt-14 h-fit">
+    <div class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10">
+        <div th:fragment="title(title)" class="font-bold flex flex-col items-center gap-8">
+            <h1 class="text-6xl" th:text="${title}">Log in to Spotify</h1>
+            <div>
+                <div class="px-28 rounded-full w-full border-gray-500 hover:border-white border text-lg py-3 flex items-center gap-12 justify-center">
+                    <img class="w-8 h-auto" src="/assets/img/logo/google-logo-color.png" alt="google logo">
+                    <p>Continue with Google</p>
+                </div>
+            </div>
+        </div>
+
+        <hr th:fragment="hr" class="border-white border opacity-10 my-10">
+
+        <div class="px-28 flex flex-col gap-8">
+            <div class="flex flex-col gap-6">
+                <div th:fragment="input(label, field, placeholder)" class="flex flex-col gap-2">
+                    <label th:for="${field}" class="text-base font-bold" th:text="${label}">Email</label>
+                    <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                           type="text" th:id="${field}" th:name="${field}" th:placeholder="${placeholder}">
+                    <p>12345</p>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label for="password" class="text-base font-bold">Password</label>
+                    <div class="relative">
+                        <input class="password bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white w-full"
+                               type="password" id="password" name="password" placeholder="Password">
+                        <i class="eye-button fa-regular fa-eye absolute text-xl right-4 top-3 cursor-pointer" onclick="togglePasswordVisibility()" style="color: #ededed;"></i>
+                        <i class="fa-regular fa-eye-slash absolute text-xl right-4 top-3 cursor-pointer" onclick="togglePasswordVisibility()" style="color: #ededed"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-4 items-center">
+                <div class="relative bg-green rounded-full h-5 w-10">
+                    <span class="z-10 bg-black rounded-full w-4 h-4 absolute right-0.5 top-0.5"></span>
+                </div>
+                <p class="text-sm">Remember me</p>
+            </div>
+
+            <button th:fragment="button(content)" th:text="${content}" type="submit" class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-900">Log In</button>
+            <p class="text-base text-center underline hover:text-green-500 cursor-pointer">Forgot your password</p>
+        </div>
+
+        <hr class="border-white border opacity-10 my-10">
+
+        <div>
+            <p class="text-base color-white-5 text-center">Don't have an account? <a href="" class="underline text-white hover:cursor-pointer hover:text-green-500">Sign up for Spotify</a></p>
+        </div>
+
+        <div th:fragment="footer" class="text-center color-white-5 text-xs mt-20">
+            <p>This site is protected by reCAPTCHA and the Google <a href="">Privacy Policy</a> and <a href="">Terms of
+                Service</a> apply.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
