@@ -30,6 +30,10 @@
     background-color: #1ed760;
 }
 
+.bg-gray-custom {
+    background: #282828;
+}
+
 .bg-white-none {
     background-color: rgba(255, 255, 255, 0);
 }

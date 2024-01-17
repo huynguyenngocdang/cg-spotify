@@ -63,4 +63,9 @@ public class SongController {
     public String searchIndex() {
         return "/index/index-search";
     }
+
+    @GetMapping("home")
+    public String home() {
+        return "home";
+    }
 }

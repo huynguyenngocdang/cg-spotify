@@ -35,37 +35,20 @@
     </div>
 </div>
 
-<div th:fragment="categories-search" class="flex flex-col gap-5">
+<div th:fragment="categories-search" class="flex flex-col gap-4">
     <p class="font-bold text-2xl">Browse all</p>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
         <!--    <a href="" class="hover:cursor-pointer">-->
-        <!--        <div th:each="category : ${categories}">-->
+        <!--        <div th:each="category : ${genre}">-->
         <!--            <p th:text="${category.title}"></p>-->
         <!--        </div>-->
         <!--    </a>-->
-        <a href="" class="w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+        <a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
            style="aspect-ratio: 1;">
             <p class="font-bold text-2xl">Pop</p>
-        </a> <a href="" class="w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
-                style="aspect-ratio: 1;">
-        <p class="font-bold text-2xl">Pop</p>
-    </a> <a href="" class="w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
-            style="aspect-ratio: 1;">
-        <p class="font-bold text-2xl">Pop</p>
-    </a> <a href="" class="w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
-            style="aspect-ratio: 1;">
-        <p class="font-bold text-2xl">Pop</p>
-    </a> <a href="" class="w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
-            style="aspect-ratio: 1;">
-        <p class="font-bold text-2xl">Pop</p>
-    </a> <a href="" class="w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
-            style="aspect-ratio: 1;">
-        <p class="font-bold text-2xl">Pop</p>
-    </a> <a href="" class="w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
-            style="aspect-ratio: 1;">
-        <p class="font-bold text-2xl">Pop</p>
-    </a>
+            <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src="" alt="genre image">
+        </a>
     </div>
 </div>
 
