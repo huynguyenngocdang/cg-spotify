@@ -1,7 +1,7 @@
 package com.codegym.spotify.controller;
 
 import com.codegym.spotify.dto.SongDto;
-import com.codegym.spotify.model.Playlist;
+import com.codegym.spotify.entity.Playlist;
 import com.codegym.spotify.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping({"/", "/songs"})
 public class SongController {
     private SongService songService;
 
@@ -22,42 +21,14 @@ public class SongController {
         this.songService = songService;
     }
 
-    @GetMapping("")
+    @GetMapping("/songs")
     public ModelAndView listSongs() {
         List<SongDto> songs = songService.findAllSongs();
         ModelAndView modelAndView = new ModelAndView("index/index");
         modelAndView.addObject("songs", songs);
-
-        Playlist playlist1 = new Playlist();
-        playlist1.setTitle("Taylor");
-        playlist1.setPhotoUrl("https://upload.wikimedia.org/wikipedia/en/1/1f/Taylor_Swift_-_Taylor_Swift.png");
-        playlist1.setDescription("https://upload.wikimedia.org/wikipedia/en/1/1f/Taylor_Swift_-_Taylor_Swift.png");
-        List<Playlist> playlists = new ArrayList<>();
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        playlists.add(playlist1);
-        modelAndView.addObject("playlists", playlists);
         return modelAndView;
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "/login/login";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "/register/register";
-    }
 
     @GetMapping("/search")
     public String searchIndex() {
