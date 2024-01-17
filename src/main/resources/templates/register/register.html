@@ -17,12 +17,22 @@
 <div th:replace="layout/login-signin-layout::header">
 </div>
 
+
 <div class="pt-14 h-fit">
-    <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10">
+    <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10"
+          th:action="@{/register/save}" method="post" th:object="${user}" role="form">
         <div class="px-28 font-bold flex flex-col items-center gap-8">
             <h1 class="text-6xl">Sign up to start listening</h1>
         </div>
-
+        <div th:if="${param.error}" class="text-base font-bold">
+            Invalid Username or password!
+        </div>
+        <div th:if="${param.logout}" class="text-base font-bold">
+            You have been logout!
+        </div>
+        <div th:if="${param.fail}" class="text-base font-bold">
+            Username or email already exist!
+        </div>
         <div class="px-28 flex flex-col gap-8 mt-10">
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col gap-2">
@@ -31,26 +41,40 @@
                         <p class="text-sm color-white-5">This name will be appear on your profile</p>
                     </div>
                     <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
-                           type="text" id="username" name="username" placeholder="Name" required>
+                           type="text"
+                           id="username"
+                           name="username"
+                           th:field="*{username}"
+                           placeholder="Name" required>
+                    <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}"></p>
                 </div>
-
                 <div class="flex flex-col gap-2" id="input-1">
                     <label for="email" class="text-base font-bold">Email address</label>
                     <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
-                           type="text" id="email" name="email" placeholder="name@domain.com" required>
+                           type="text"
+                           id="email"
+                           name="email"
+                           th:field="*{email}"
+                           placeholder="name@domain.com" required>
+                    <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}"></p>
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label for="password-register" class="text-base font-bold">Password</label>
                     <div class="relative flex flex-col gap-2">
                         <input class="password bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white w-full"
-                               type="password" id="password-register" name="password" placeholder="Password" required>
+                               type="password"
+                               id="password-register"
+                               name="password"
+                               th:field="*{password}"
+                               placeholder="Password" required>
                         <i class="eye-button fa-regular fa-eye absolute text-xl right-4 top-3 cursor-pointer"
                            style="color: #ededed;" id="eye-open-register"></i>
                         <i class="fa-regular fa-eye-slash absolute text-xl right-4 top-3 cursor-pointer"
                            style="color: #ededed; visibility: hidden" id="eye-close-register"></i>
                         <p class="text-sm color-white-5">The password must contain at least 8 characters. We recommend including at least 1 number and 1 special character.</p>
                     </div>
+                    <p th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></p>
                 </div>
 
                 <div class="flex flex-col gap-4 text-sm">
@@ -62,7 +86,10 @@
                             href="https://www.spotify.com/vn-en/legal/privacy-policy/">Spotify's Privacy Policy</a>.</p>
                 </div>
 
-                <button type="submit" class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-400">Sign up</button>
+                <button type="submit"
+                        class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-400">Sign up</button>
+
+
             </div>
         </div>
 

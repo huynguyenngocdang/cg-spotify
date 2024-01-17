@@ -10,6 +10,9 @@
     <div th:replace="layout/index-layout::main-topbar"></div>
 
     <div>
+        <div th:if="${param.success}" class="text-base font-bold">
+            You're logging in
+        </div>
 <!--        content ở thẻ div này-->
         <div th:replace="layout/content-layout::playlist-list"></div>
 

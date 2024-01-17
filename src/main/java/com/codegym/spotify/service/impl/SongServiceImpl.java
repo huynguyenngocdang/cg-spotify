@@ -1,9 +1,10 @@
 package com.codegym.spotify.service.impl;
 
 import com.codegym.spotify.dto.SongDto;
-import com.codegym.spotify.model.Song;
+import com.codegym.spotify.entity.Song;
 import com.codegym.spotify.repository.SongRepository;
 import com.codegym.spotify.service.SongService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,29 +14,26 @@ import java.util.stream.Collectors;
 @Service
 public class SongServiceImpl implements SongService {
     private SongRepository songRepository;
-
+    private final ModelMapper modelMapper;
     @Autowired
-    public SongServiceImpl(SongRepository songRepository) {
+    public SongServiceImpl(SongRepository songRepository, ModelMapper modelMapper) {
         this.songRepository = songRepository;
+        this.modelMapper = modelMapper;
     }
+
 
     @Override
     public List<SongDto> findAllSongs() {
         List<Song> songs = songRepository.findAll();
-        return songs.stream().map((song -> mapToSongDto(song))).collect(Collectors.toList());
+        return songs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    private SongDto mapToSongDto(Song song) {
-        SongDto songDto = SongDto.builder()
-                .id(song.getId())
-                .title(song.getTitle())
-                .photoUrl(song.getPhotoUrl())
-                .artistId(song.getArtistId())
-                .albumId(song.getAlbumId())
-                .createdOn(song.getCreatedOn())
-                .updatedOn(song.getUpdatedOn())
-                .build();
-        return songDto;
+    private SongDto convertToDto(Song song) {
+        return modelMapper.map(song, SongDto.class);
+    }
+
+    private Song convertToEntity(SongDto songDto) {
+        return modelMapper.map(songDto, Song.class);
     }
 
 }

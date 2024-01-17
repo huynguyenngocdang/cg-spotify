@@ -1,4 +1,4 @@
-package com.codegym.spotify.model;
+package com.codegym.spotify.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -20,7 +20,7 @@
 </div>
 
 <div class="pt-14 h-fit">
-    <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10">
+    <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10" th:action="@{/login}" role="form" method="post">
         <div th:replace="layout/login-signin-layout::title(title='Log in to Spotify')"
              class="font-bold px-28 flex flex-col items-center gap-8">
         </div>
@@ -30,39 +30,58 @@
         <div class="px-28 flex flex-col gap-8">
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col gap-2">
-                    <label for="email" class="text-base font-bold">Email</label>
-                    <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
-                           type="text" id="email" name="email" placeholder="Email" required>
-                </div>
-
-                <div class="flex flex-col gap-2">
-                    <label for="password-login" class="text-base font-bold">Password</label>
-                    <div class="relative">
-                        <input class="password bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white w-full"
-                               type="password" id="password-login" name="password" placeholder="Password" required>
-                        <i class="fa-regular fa-eye absolute text-xl right-4 top-3 cursor-pointer" id="eye-open-login" style="color: #ededed;"></i>
-                        <i class="fa-regular fa-eye-slash absolute text-xl right-4 top-3 cursor-pointer" id="eye-close-login" style="color: #ededed; visibility: hidden"></i>
+                    <div th:if="${param.error}" class="text-base font-bold">
+                        Invalid Username or password!
+                    </div>
+                    <div th:if="${param.logout}" class="text-base font-bold">
+                        You have been logout!
+                    </div>
+                    <div th:if="${param.fail}" class="text-base font-bold">
+                        Username or email already exist!
                     </div>
                 </div>
 
-                <div class="flex gap-4 items-center">
-                    <div class="relative bg-green rounded-full h-5 w-10">
-                        <span class="z-10 bg-black rounded-full w-4 h-4 absolute right-0.5 top-0.5"></span>
+                    <div class="flex flex-col gap-2">
+                        <label for="username" class="text-base font-bold">Username</label>
+                        <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                               type="text"
+                               id="username"
+                               name="username"
+                               placeholder="Username" required>
                     </div>
-                    <p class="text-sm">Remember me</p>
-                </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="password-login" class="text-base font-bold">Password</label>
+                        <div class="relative">
+                            <input class="password bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white w-full"
+                                   type="password"
+                                   id="password-login"
+                                   name="password"
+                                   placeholder="Password" required>
+                            <i class="fa-regular fa-eye absolute text-xl right-4 top-3 cursor-pointer"
+                               id="eye-open-login" style="color: #ededed;"></i>
+                            <i class="fa-regular fa-eye-slash absolute text-xl right-4 top-3 cursor-pointer"
+                               id="eye-close-login" style="color: #ededed; visibility: hidden"></i>
+                        </div>
+                    </div>
 
-                <button th:replace="layout/login-signin-layout::button(content='Log In')"></button>
+                    <div class="flex gap-4 items-center">
+                        <div class="relative bg-green rounded-full h-5 w-10">
+                            <span class="z-10 bg-black rounded-full w-4 h-4 absolute right-0.5 top-0.5"></span>
+                        </div>
+                        <p class="text-sm">Remember me</p>
+                    </div>
 
-                <p class="text-base text-center underline hover:text-green-500 cursor-pointer">Forgot your password</p>
+                    <button th:replace="layout/login-signin-layout::button(content='Log In')" type="submit"></button>
+                    <p class="text-base text-center underline hover:text-green-500 cursor-pointer">Forgot your
+                        password</p>
             </div>
-
         </div>
 
         <hr class="border-white border opacity-10 my-10">
 
         <div px-28>
-            <p class="text-base color-white-5 text-center">Don't have an account? <a href="" class="underline text-white hover:cursor-pointer hover:text-green-500">Sign
+            <p class="text-base color-white-5 text-center">Don't have an account? <a href=""
+                                                                                     class="underline text-white hover:cursor-pointer hover:text-green-500">Sign
                 up for Spotify</a></p>
         </div>
 
