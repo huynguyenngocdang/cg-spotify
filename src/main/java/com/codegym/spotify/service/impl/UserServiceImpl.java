@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -46,5 +48,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public List<RegistrationDto> findAllUserEntity() {
+        List<UserEntity> registrationDtos = userRepository.findAll();
+        return registrationDtos.stream().map(this::mapToRegistrationDto).collect(Collectors.toList());
+    }
+
+    protected RegistrationDto mapToRegistrationDto(UserEntity userEntity){
+        RegistrationDto registrationDto = RegistrationDto.builder()
+                .id(userEntity.getId())
+                .username(userEntity.getUsername())
+                .password(userEntity.getPassword())
+                .email(userEntity.getEmail())
+                .build();
+        return registrationDto;
     }
 }

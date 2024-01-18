@@ -44,6 +44,9 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .permitAll()
                 );
+        http.authorizeRequests()
+                .requestMatchers("/admin","/admin/**")
+                .access("hasAnyRole('ROLE_ADMIN')");
         return http.build();
     }
 

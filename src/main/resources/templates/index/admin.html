@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar"></div>
+
+<div>
+    <div th:replace="layout/index-layout::main-topbar"></div>
+
+
+    <!--        content ở thẻ div này-->
+    <div th:replace="layout/content-layout::playlist-list">
+
+    </div>
+    <div class="flex flex-col gap-3 h-fit">
+        <div class="flex justify-between items-center font-bold" th:if="${param.continue}">
+            <table id="datatablesSimple" border="1" align="center">
+                <thead>
+                <tr>
+                    <th><p class="text-xl ">Id</p></th>
+                    <th><p class="text-xl ">Username</p></th>
+                    <th><p class="text-xl ">Email</p></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="reg : ${registrationDtos}">
+                    <td th:text="${reg.id}" class="text-xl hover:underline"></td>
+                    <td th:text="${reg.username}" class="text-xl hover:underline"></td>
+                    <td th:text="${reg.email}" class="text-xl hover:underline"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div th:replace="layout/index-layout::main-footer"></div>
+</div>
+</div>
+<div th:replace="layout/index-layout::footer">
+</div>
+</body>
+</html>
