@@ -17,7 +17,10 @@
 </head>
 <body class="text-white w-screen h-fit bg-gradient-white overflow-x-hidden overflow-y-scroll">
 <div th:fragment="header" class="bg-black w-full py-8 px-10">
-    <img class="w-32" src="/assets/img/logo/spotify-logo-white.png" alt="This is spotify logo">
+    <a th:href="@{/index}">
+        <img class="w-32" src="/assets/img/logo/spotify-logo-white.png" alt="This is spotify logo" >
+    </a>
+
 </div>
 
 <div class="pt-14 h-fit">

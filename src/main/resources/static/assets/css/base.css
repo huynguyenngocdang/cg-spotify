@@ -194,3 +194,7 @@
 button:hover {
     transform: scale(103%);
 }
+
+.account-overlay {
+    background-color: #282828;
+}

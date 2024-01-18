@@ -13,25 +13,25 @@
     </div>
 
     <div class="grid grid-cols-2 md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
-        <div th:each="playlist, iterStat : ${playlists}" th:classappend="${iterStat.index < 2 ? 'flex' :
-                                    (iterStat.index < 3 ? 'hidden md:flex' :
-                                    (iterStat.index < 4 ? 'hidden lg:flex' :
-                                    (iterStat.index < 5 ? 'hidden xl:flex' :
-                                    (iterStat.index < 7 ? 'hidden 2xl:flex' : 'hidden'))))}"
-             class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
-            <div class="relative">
-                <img class="rounded-md object-cover w-full aspect-square box-shadow"
-                     th:src="${playlist.photoUrl}" alt="">
-                <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
-                </div>
-            </div>
+<!--        <div th:each="playlist, iterStat : ${playlists}" th:classappend="${iterStat.index < 2 ? 'flex' :-->
+<!--                                    (iterStat.index < 3 ? 'hidden md:flex' :-->
+<!--                                    (iterStat.index < 4 ? 'hidden lg:flex' :-->
+<!--                                    (iterStat.index < 5 ? 'hidden xl:flex' :-->
+<!--                                    (iterStat.index < 7 ? 'hidden 2xl:flex' : 'hidden'))))}"-->
+<!--             class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">-->
+<!--            <div class="relative">-->
+<!--                <img class="rounded-md object-cover w-full aspect-square box-shadow"-->
+<!--                     th:src="${playlist.photoUrl}" alt="">-->
+<!--                <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">-->
+<!--                </div>-->
+<!--            </div>-->
 
-            <div class="rounded-lg-content w-full flex flex-col gap-0.5">
-                <p class="font-bold text-base" th:text="${playlist.title}">Playlist title</p>
-                <p class="text-xs color-white-5 two-line-ellipsis" th:text="${playlist.description}">Playlist
-                    long description</p>
-            </div>
-        </div>
+<!--            <div class="rounded-lg-content w-full flex flex-col gap-0.5">-->
+<!--                <p class="font-bold text-base" th:text="${playlist.title}">Playlist title</p>-->
+<!--                <p class="text-xs color-white-5 two-line-ellipsis" th:text="${playlist.description}">Playlist-->
+<!--                    long description</p>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </div>
 
@@ -52,6 +52,15 @@
     </div>
 </div>
 
+<div th:fragment="main-playlist" class="flex flex-col gap-4">
+    <p class="font-bold text-2xl">Good morning</p>
 
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+        <div class="flex items-center rounded-md w-full bg-white cursor-pointer bg-opacity-10 hover:bg-opacity-20 h-14 overflow-hidden">
+            <img class="h-full aspect-square" src="/assets/img/albums/demo1.webp" alt="">
+            <p class="px-3 font-black text-base mt-1">Title Playlist</p>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-body > div:last-child {
+body > div:last-child, .stream-bar {
     grid-row-start: 2;
     grid-column: span 2;
 }
