@@ -29,7 +29,7 @@ public class SongController {
 
     @GetMapping("/search")
     public String searchIndex() {
-        return "/index/index-search";
+        return "index/index-search";
     }
 
     @GetMapping("/home")
@@ -39,6 +39,6 @@ public class SongController {
 
     @GetMapping("account")
     public String account() {
-        return "account";
+        return "account/account";
     }
 }
