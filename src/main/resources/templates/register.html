@@ -1,17 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up - Spotify</title>
-    <link rel="icon" sizes="32x32" type="image/png"
-          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
-    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/login-signin-layout::head('Sign up - Spotify')">
 </head>
 <body class="text-white w-screen h-fit bg-gradient-white overflow-hidden min-h-screen overflow-y-scroll">
 <div th:replace="layout/login-signin-layout::header">
@@ -48,7 +38,7 @@
                            placeholder="Name" required>
                     <p th:if="${#fields.hasErrors('username')}" class="text-red-500 text-base pt-1" th:errors="*{username}"></p>
                 </div>
-                <div class="flex flex-col gap-2" id="input-1">
+                <div class="flex flex-col gap-2">
                     <label for="email" class="text-base font-bold">Email address</label>
                     <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
                            type="text"

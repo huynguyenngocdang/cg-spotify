@@ -62,5 +62,11 @@
         </div>
     </div>
 </div>
+
+<div th:fragment="input-required(label, field, placeholder)" class="flex flex-col gap-2">
+    <label th:for="${field}" class="text-base font-bold" th:text="${label}">Email</label>
+    <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+           type="text" th:id="${field}" th:field="*{${field}}" th:name="${field}" th:placeholder="${placeholder}">
+</div>
 </body>
 </html>

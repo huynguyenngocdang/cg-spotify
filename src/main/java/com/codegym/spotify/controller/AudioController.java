@@ -20,14 +20,4 @@ public class AudioController {
         response.put("audioUrl", AUDIO_FOLDER + audioFile);
         return response;
     }
-
-//    @GetMapping("/next")
-//    public Map<String, String> nextAudio(@RequestParam String audioFile) {
-//        loadAudio(audioFile);
-//    }
-//
-//    @GetMapping("/previous")
-//    public Map<String, String> nextAudio(@RequestParam String audioFile) {
-//        loadAudio(audioFile);
-//    }
 }

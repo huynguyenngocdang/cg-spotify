@@ -30,6 +30,14 @@
     background-color: #1ed760;
 }
 
+.bg-gray-user {
+    background-color: #121212;
+}
+
+.text-lightgray-user {
+    color: #b3b3b3;
+}
+
 .bg-gray-custom {
     background: #282828;
 }
