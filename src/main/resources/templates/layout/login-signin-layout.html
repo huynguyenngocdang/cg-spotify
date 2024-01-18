@@ -13,7 +13,6 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
-<!--    <script th:src="@{/assets/js/login.js}"></script>-->
 </head>
 <body class="text-white w-screen h-fit bg-gradient-white overflow-x-hidden overflow-y-scroll">
 <div th:fragment="header" class="bg-black w-full py-8 px-10">
@@ -43,10 +42,9 @@
                     <label th:for="${field}" class="text-base font-bold" th:text="${label}">Email</label>
                     <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
                            type="text" th:id="${field}" th:name="${field}" th:placeholder="${placeholder}">
-                    <p>12345</p>
                 </div>
 
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-2" th:fragment="password">
                     <label for="password" class="text-base font-bold">Password</label>
                     <div class="relative">
                         <input class="password bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white w-full"
@@ -64,7 +62,7 @@
                 <p class="text-sm">Remember me</p>
             </div>
 
-            <button th:fragment="button(content)" th:text="${content}" type="submit" class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-900">Log In</button>
+            <button th:fragment="button(content)" th:text="${content}" type="submit" class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-opacity-75">Log In</button>
             <p class="text-base text-center underline hover:text-green-500 cursor-pointer">Forgot your password</p>
         </div>
 
@@ -79,6 +77,20 @@
                 Service</a> apply.</p>
         </div>
     </div>
+</div>
+
+<div th:fragment="input-register(label, field, placeholder, note)" class="flex flex-col gap-2">
+    <div>
+        <label th:for="${field}" class="text-base font-bold" th:text="${label}">Name</label>
+        <p class="text-sm color-white-5" th:text="${note}" >This name will be appear on your profile</p>
+    </div>
+    <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+           type="text"
+           th:id="${field}"
+           th:name="${field}"
+           th:field="*{${field}}"
+           th:placeholder="${placeholder}" required>
+    <p th:if="${#fields.hasErrors(${field})}" class="text-red-500 text-base pt-1" th:errors="*{${field}}"></p>
 </div>
 </body>
 </html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Spotify - Web Player: Music for everyone</title>
+    <link rel="icon" sizes="32x32" type="image/png"
+          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
+    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/home.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/playlist-hover.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/hide-search-bar.css}">
+    <script th:src="@{/assets/js/layoutIndexTopSideBar.js}"></script>
+</head>
+<body>
+<div th:fragment="sidebar" class="overflow-hidden">
+    <div class="sidebar-top rounded-lg font-bold px-2 py-1 bg-white-07 h-fit">
+        <div class="flex flex-col text-base p-4 justify-between gap-4">
+            <a href="">
+                <img class="home-logo h-6 w-fit object-contain" src="/assets/img/logo/spotify-logo-white.png"
+                     alt="This is spotify logo" th:fragment="logo">
+            </a>
+            <a href="" class="home-select color-white-5 hover:text-white">
+                <div class="home-icon flex items-center">
+                    <i class="fa-solid fa-house text-xl"></i>
+                    <p class="ml-4 mt-1">Home</p>
+                </div>
+            </a>
+            <a href="" class="search-select color-white-5 hover:text-white">
+                <div class="search-icon flex items-center">
+                    <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                    <p class="ml-4 mt-1">Search</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="sidebar-main rounded-lg p-2 relative z-10 flex flex-col bg-white-07 gap-5 overflow-hidden">
+        <div class="absolute top-0 left-0 w-full library-top-section flex flex-col gap-5 p-4 text-base items-center mt-2 box-shadow">
+            <div class="flex justify-between w-full">
+                <div class="color-white-5 hover:text-white library-icon font-bold flex items-center">
+                    <i class="fa-solid fa-layer-group text-xl"></i>
+                    <p class="ml-4">Your Library</p>
+                </div>
+
+                <div class="color-white-5 hover:text-white plus-icon">
+                    <i class="fa-solid fa-plus text-base"></i>
+                </div>
+            </div>
+
+
+            <div class="flex gap-2 w-full">
+                <div class="text-nowrap rounded-full px-3.5 py-1.5 bg-white-1 cursor-pointer text-sm">Playlists</div>
+                <div class="text-nowrap rounded-full px-3.5 py-1.5 bg-white-1 cursor-pointer text-sm">Artists</div>
+                <div class="text-nowrap rounded-full px-3.5 py-1.5 bg-white-1 cursor-pointer text-sm">Podcasts</div>
+            </div>
+        </div>
+
+        <div class="flex flex-col p-1 mt-28 w-full overflow-y-scroll">
+            <div class="flex w-full bg-white cursor-pointer hover:bg-opacity-5 bg-opacity-0 h-16 p-2 rounded-md justify-stretch items-center">
+                <img src="/assets/img/albums/demo1.webp" alt="" class="rounded-md h-full aspect-square">
+
+                <div class="flex flex-col flex-grow px-3">
+                    <p class="text-base">Title</p>
+                    <p class="text-sm color-white-5">Playlist . Username</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div th:fragment="main-topbar" class="bg-black">
+        <div class="flex items-center gap-4">
+            <div class="flex gap-2 text-base">
+                <i class="bg-white bg-opacity-5 cursor-pointer hover:bg-opacity-10 rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-left"></i>
+                <i class="bg-white bg-opacity-5 cursor-pointer hover:bg-opacity-10 rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-right"></i>
+            </div>
+
+            <div class="search-bar relative text-base">
+                <i class="absolute top-2 left-3.5 color-white-7 fa-solid fa-magnifying-glass text-xl"></i>
+                <input class="search-input rounded-full pl-12 pr-6 py-3 text-clip overflow-hidden bg-white-1 hover:border-gray-500 focus:text-white focus:border-white w-80"
+                       type="text" name="searchKeyword" placeholder="What do you want to listen to?">
+            </div>
+        </div>
+
+        <div id="user-icon" class="user-icon rounded-full bg-white bg-opacity-10 h-10 w-10 flex justify-center items-center cursor-pointer hover:bg-opacity-20">
+            <i class="fa-regular fa-user text-white text-base"></i>
+        </div>
+
+
+    </div>
+
+    <div class="bg-white-07 min-h-full">
+
+        <!--        content ở thẻ div này-->
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+</div>
+<div th:fragment="player" class="stream-bar p-3 flex justify-between items-center overflow-hidden w-full">
+    <!--    <audio th:src="">Your browser did not support this audio format</audio>-->
+
+    <div class="h-full flex items-center gap-3">
+        <img class="h-full aspect-square object-cover" src="/assets/img/albums/demo1.webp" alt="">
+
+        <div class="flex flex-col">
+            <p class="text-base text-nowrap">Song Title</p>
+            <p class="text-sm color-white-5 text-nowrap">Artist name</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col items-center h-full justify-between">
+        <div class="color-white-5 text-xl flex items-center justify-center gap-4">
+            <i class="hover:text-white fa-solid fa-backward-fast"></i>
+            <button class="w-8 h-8 box-shadow-heavy bg-white rounded-full p-0.5"><img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt=""></button>
+            <i class="hover:text-white fa-solid fa-forward-fast"></i>
+        </div>
+
+        <div class="text-xs color-white-5 flex gap-2 items-center">
+            <span>0:00</span>
+            <div class="w-40 md:w-96 bg-white-5 h-1 rounded-full"></div>
+            <span>2:30</span>
+        </div>
+    </div>
+
+    <div class="color-white-5 text-xl gap-4 flex">
+        <i class="fa-solid fa-bars"></i>
+        <i class="fa-solid fa-volume-low"></i>
+    </div>
+</div>
+
+<div th:fragment="account-overlay" id="account-overlay" class="fixed right-12 top-16 box-shadow account-overlay z-40 p-1 w-40 h-fit rounded-md flex-col text-sm" style="display: none">
+    <div class="flex flex-col w-full">
+        <a href="" class="p-3 hover:bg-white hover:bg-opacity-5">Account</a>
+        <a href="" class="p-3 hover:bg-white hover:bg-opacity-5">Profile</a>
+        <a href="https://support.spotify.com/vn-en/" class="p-3 hover:bg-white hover:bg-opacity-5">Support</a>
+    </div>
+    <hr class="w-full opacity-20">
+    <a href="" class="p-3 hover:bg-white hover:bg-opacity-5 w-full">Log out</a>
+</div>
+
+<script th:src="@{/assets/js/accountOverlay.js}"></script>
+
+</body>
+</html>
