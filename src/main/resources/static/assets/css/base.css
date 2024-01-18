@@ -30,6 +30,18 @@
     background-color: #1ed760;
 }
 
+.bg-gray-user {
+    background-color: #121212;
+}
+
+.text-lightgray-user {
+    color: #b3b3b3;
+}
+
+.bg-gray-custom {
+    background: #282828;
+}
+
 .bg-white-none {
     background-color: rgba(255, 255, 255, 0);
 }
@@ -187,6 +199,18 @@
     background: linear-gradient(to bottom, #212121 0%, black 70%, black 100%);
 }
 
+.bg-gradient-footer {
+    background: linear-gradient(to right, #a2268d 0%, #a2268d 10%, #5199f4 90%,  #5199f4 100%);
+}
+
+.bg-gradient-index {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0) 100%);
+}
+
 button:hover {
     transform: scale(103%);
+}
+
+.account-overlay {
+    background-color: #282828;
 }

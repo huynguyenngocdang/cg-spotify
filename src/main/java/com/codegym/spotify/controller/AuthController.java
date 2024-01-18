@@ -24,7 +24,7 @@ public class AuthController {
     public String getRegisterForm(Model model) {
         RegistrationDto registrationDto = new RegistrationDto();
         model.addAttribute("user", registrationDto);
-        return "register/register";
+        return "register";
     }
 
     @PostMapping("/register/save")
@@ -48,7 +48,7 @@ public class AuthController {
         }
         if(result.hasErrors()){
             model.addAttribute("user", user);
-            return "register/register";
+            return "register";
         }
 
         userService.saveUser(user);
@@ -57,6 +57,6 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "/login/login";
+        return "/login";
     }
 }

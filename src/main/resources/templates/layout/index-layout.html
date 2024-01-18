@@ -99,7 +99,7 @@
 </div>
 
 <div>
-    <div th:fragment="main-topbar">
+    <div th:fragment="main-topbar" class="bg-white-05">
         <div class="flex items-center gap-4">
             <div class="flex gap-2 text-base">
                 <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-left"></i>
@@ -122,18 +122,18 @@
 
             <span class="bg-white color-white-full w-0.5 h-full">|</span>
 
-            <div class="user flex gap-8 items-center">
-                <div sec:authorize="!isAuthenticated()">
-                    <a th:href="@{/register}" class="hover:text-white">Sign up</a>
-                    <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/login}" sec:authorize="!isAuthenticated()">Log in</a>
-                </div>
-                <div sec:authorize="isAuthenticated()">
-                    <span th:text="'Hi, ' + ${user.username}"></span>
-                    <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/logout}" sec:authorize="isAuthenticated()">Log out</a>
-                </div>
-
-
+            <div class="user flex gap-8 items-center" sec:authorize="!isAuthenticated()">
+                <a th:href="@{/register}" class="hover:text-white">Sign up</a>
+                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/login}"
+                   sec:authorize="!isAuthenticated()">Log in</a>
             </div>
+            <div class="user flex gap-8 items-center" sec:authorize="isAuthenticated()">
+                <span th:text="'Hi, ' + ${user.username}"></span>
+                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/logout}"
+                   sec:authorize="isAuthenticated()">Log out</a>
+            </div>
+
+
         </div>
     </div>
 
@@ -167,13 +167,13 @@
                 </div>
 
                 <div class="brand-icons text-lg hidden col-start-1 md:col-start-3 lg:flex lg:col-start-4 xl:col-start-5 2xl:col-start-7 ml-auto gap-3">
-                    <a href="" class="bg-white-1 rounded-full w-11 h-11 flex justify-center items-center">
+                    <a href="" class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
                         <i class="fa-brands fa-instagram" style="color: #ffffff;"></i>
                     </a>
-                    <a href="" class="bg-white-1 rounded-full w-11 h-11 flex justify-center items-center">
+                    <a href="" class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
                         <i class="fa-brands fa-twitter" style="color: #ffffff;"></i>
                     </a>
-                    <a href="" class="bg-white-1 rounded-full w-11 h-11 flex justify-center items-center">
+                    <a href="" class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
                         <i class="fa-brands fa-facebook" style="color: #ffffff;"></i>
                     </a>
                 </div>
@@ -187,14 +187,14 @@
         </div>
     </div>
 </div>
-<div th:fragment="footer">
+<div th:fragment="footer" class="bg-gradient-footer">
     <div class="banner-content flex flex-col justify-between text-base">
         <p class="banner-title font-bold">Preview of Spotify</p>
         <p class="text-xs md:text-base">Sign up to get unlimited songs and podcasts with occasional ads. No credit card
             needed.</p>
     </div>
     <a th:href="@{/register}">
-        <button class="bg-white rounded-full text-black text-base font-bold py-3 px-8 whitespace-nowrap" >Sign up free
+        <button class="bg-white rounded-full text-black text-base font-bold py-3 px-8 whitespace-nowrap">Sign up free
         </button>
     </a>
 
