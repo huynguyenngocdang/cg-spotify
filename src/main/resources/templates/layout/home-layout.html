@@ -100,11 +100,13 @@
     </div>
 
     <div th:fragment="content" class="bg-white-07 min-h-full">
-        <div th:replace="layout/content-layout::main-playlist"></div>
-
+        <div th:replace="layout/content-layout::main-playlist">
+        </div>
         <!--        content ở thẻ div này-->
 
     </div>
+
+
 </div>
 <div th:fragment="player" class="stream-bar p-3 flex justify-between items-center overflow-hidden w-full bg-black">
     <!--    <audio th:src="">Your browser did not support this audio format</audio>-->
@@ -142,7 +144,7 @@
     <div class="flex flex-col w-full">
         <a href="" class="p-3 hover:bg-white hover:bg-opacity-5">Account</a>
         <a href="" class="p-3 hover:bg-white hover:bg-opacity-5">Profile</a>
-        <a href="https://support.spotify.com/vn-en/" class="p-3 hover:bg-white hover:bg-opacity-5">Support</a>
+        <a th:href="@{/admin}" class="p-3 hover:bg-white hover:bg-opacity-5">Support</a>
     </div>
     <hr class="w-full opacity-20">
     <a th:href="@{/logout}" class="p-3 hover:bg-white hover:bg-opacity-5 w-full">Log out</a>

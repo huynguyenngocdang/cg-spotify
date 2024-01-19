@@ -121,19 +121,11 @@
             </div>
 
             <span class="bg-white color-white-full w-0.5 h-full">|</span>
-
             <div class="user flex gap-8 items-center" sec:authorize="!isAuthenticated()">
                 <a th:href="@{/register}" class="hover:text-white">Sign up</a>
                 <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/login}"
                    sec:authorize="!isAuthenticated()">Log in</a>
             </div>
-            <div class="user flex gap-8 items-center" sec:authorize="isAuthenticated()">
-                <span th:text="'Hi, ' + ${user.username}"></span>
-                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/logout}"
-                   sec:authorize="isAuthenticated()">Log out</a>
-            </div>
-
-
         </div>
     </div>
 

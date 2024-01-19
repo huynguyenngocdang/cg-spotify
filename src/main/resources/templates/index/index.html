@@ -7,6 +7,13 @@
 <body>
 <div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
 <div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
+<div th:if="${param.access_denied}">
+    <script>
+        alert("You do not have permission to access this page. We'll send you back to home page.");
+        window.location.href = '/access-denied'
+    </script>
+</div>
+
 
 <div>
     <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>

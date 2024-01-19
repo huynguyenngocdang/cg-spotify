@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -22,7 +21,13 @@ public class AdminController {
     @GetMapping("/admin")
     public String showUserTable(Model model){
         List<RegistrationDto> registrationDtos = userServiceImpl.findAllUserEntity();
-        model.addAttribute("registrationDtos",registrationDtos);
+        model.addAttribute("user",registrationDtos);
         return "index/admin";
     }
+
+    @GetMapping("/access-denied")
+    public String showError(){
+        return "redirect:/index";
+    }
+
 }
