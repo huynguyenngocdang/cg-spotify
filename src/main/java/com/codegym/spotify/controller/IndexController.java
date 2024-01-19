@@ -56,4 +56,9 @@ public class IndexController {
 //        model.addAttribute("playlists", playlists);
     return "index/index";
     }
+
+    @GetMapping("account")
+    public String account() {
+        return "account/account-menu";
+    }
 }

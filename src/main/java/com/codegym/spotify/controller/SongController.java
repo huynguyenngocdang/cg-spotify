@@ -37,8 +37,4 @@ public class SongController {
         return "home";
     }
 
-    @GetMapping("account")
-    public String account() {
-        return "account/account";
-    }
 }
