@@ -142,7 +142,7 @@
 
 <div th:fragment="account-overlay" id="account-overlay" class="fixed right-10 top-20 box-shadow account-overlay z-40 p-1 w-40 h-fit rounded-md flex-col text-sm" style="display: none">
     <div class="flex flex-col w-full">
-        <a href="" class="p-3 hover:bg-white hover:bg-opacity-5">Account</a>
+        <a th:href="@{/account}" class="p-3 hover:bg-white hover:bg-opacity-5">Account</a>
         <a href="" class="p-3 hover:bg-white hover:bg-opacity-5">Profile</a>
         <a th:href="@{/admin}" class="p-3 hover:bg-white hover:bg-opacity-5">Support</a>
     </div>

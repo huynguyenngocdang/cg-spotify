@@ -1,13 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [],
-  theme: {
-    extend: {
-      width: {
-        'w-fit': 'fit-content',
-      }
+    content: ['src/main/resources/templates/*.html'],
+    theme: {
+        // ...
     },
-  },
-  plugins: [],
+    extend: {
+        '.color-green-spotify': {
+            color:'#1ed760',
+        }, 'bg-green-spotify': {
+            backgroundColor: '#1ed760',
+        }
+    },
 }
-
