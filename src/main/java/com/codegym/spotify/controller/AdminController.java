@@ -25,9 +25,4 @@ public class AdminController {
         return "index/admin";
     }
 
-    @GetMapping("/access-denied")
-    public String showError(){
-        return "redirect:/index";
-    }
-
 }
