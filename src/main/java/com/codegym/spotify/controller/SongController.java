@@ -32,9 +32,4 @@ public class SongController {
         return "index/index-search";
     }
 
-    @GetMapping("/home")
-    public String home() {
-        return "home";
-    }
-
 }

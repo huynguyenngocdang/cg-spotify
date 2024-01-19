@@ -27,9 +27,9 @@ public class IndexController {
 
     @GetMapping({"/", "/index"})
     public String displayIndex(Model model) {
-        UserEntity user =new UserEntity();
+        UserEntity user = new UserEntity();
         String username = SecurityUtil.getSessionUser();
-        if(username!= null) {
+        if (username != null) {
             user = userService.findByUsername(username);
         }
         model.addAttribute("user", user);
@@ -54,11 +54,12 @@ public class IndexController {
 //        playlists.add(playlist1);
 //        playlists.add(playlist1);
 //        model.addAttribute("playlists", playlists);
-    return "index/index";
+        return "index/index";
     }
 
     @GetMapping("account")
     public String account() {
         return "account/account-menu";
     }
+
 }
