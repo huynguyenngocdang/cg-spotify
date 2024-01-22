@@ -34,26 +34,6 @@ public class IndexController {
         }
         model.addAttribute("user", user);
 
-//        List<SongDto> songs = songService.findAllSongs();
-//        model.addAttribute("songs", songs);
-//        Playlist playlist1 = new Playlist();
-//        playlist1.setTitle("Taylor");
-//        playlist1.setPhotoUrl("https://upload.wikimedia.org/wikipedia/en/1/1f/Taylor_Swift_-_Taylor_Swift.png");
-//        playlist1.setDescription("https://upload.wikimedia.org/wikipedia/en/1/1f/Taylor_Swift_-_Taylor_Swift.png");
-//        List<Playlist> playlists = new ArrayList<>();
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        playlists.add(playlist1);
-//        model.addAttribute("playlists", playlists);
         return "index/index";
     }
 
