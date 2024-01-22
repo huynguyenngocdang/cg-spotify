@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar"></div>
+
+<div>
+    <div th:replace="layout/index-layout::main-topbar"></div>
+
+    <div>
+        <div th:if="${param.successArtist}" class="text-base font-bold">
+            You've created artist profile
+        </div>
+        <div th:if="${param.failArtist}" class="text-base font-bold">
+            You've NOT created artist profile
+        </div>
+        <!--        content ở thẻ div này-->
+        <!--        <div th:replace="layout/content-layout::playlist-list"></div>-->
+        <div th:each="album : ${albumList}" class="color-white-5">
+            <p th:text="${album.title}"></p>
+            <img th:src="@{/albums/image/{albumId}(albumId=${album.id})}" />
+            <a th:href="@{/{albumId}/songs/upload(albumId=${album.id})}" class="p-3 text-xl rounded-2xl" >New Song</a>
+            <a th:href="@{/{albumId}/songs(albumId=${album.id})}" class="p-3 text-xl rounded-2xl" >List Song</a>
+
+        </div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+</div>
+<div th:replace="layout/index-layout::footer">
+</div>
+</body>
+</html>

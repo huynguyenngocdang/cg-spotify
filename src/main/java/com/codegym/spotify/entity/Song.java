@@ -21,12 +21,13 @@ public class Song {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String photoUrl;
-    private Long artistId;
-    private Long albumId;
-    private Long songGenreId;
+    private String filename;
     @CreationTimestamp
     private LocalDateTime createdOn;
     @UpdateTimestamp
     private LocalDateTime updatedOn;
+
+    @ManyToOne
+    @JoinColumn(name = "album_id", nullable = false)
+    private Album album;
 }

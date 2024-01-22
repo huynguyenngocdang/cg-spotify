@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar"></div>
+
+<div>
+    <div th:replace="layout/index-layout::main-topbar"></div>
+
+    <div>
+
+        <audio th:src="@{'/assets/song/' + ${song.filename}}" controls>
+            Your browser does not support the audio tag.
+        </audio>
+        <!--        content ở thẻ div này-->
+        <!--        <div th:replace="layout/content-layout::playlist-list"></div>-->
+        <div th:if="${lyrics != null}" th:object="${lyrics}">
+            <h2 class="text-2xl">Song Lyrics:</h2>
+            <p th:each="line : ${lyrics}">
+                <span th:text="${line}" class="text-xs"></span><br>
+            </p>
+
+        </div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+</div>
+<div th:replace="layout/index-layout::footer">
+</div>
+</body>
+</html>
