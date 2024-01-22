@@ -1,6 +1,6 @@
 package com.codegym.spotify.service.impl;
 
-import com.codegym.spotify.dto.SongDto;
+import com.codegym.spotify.configuration.dto.SongDto;
 import com.codegym.spotify.entity.Song;
 import com.codegym.spotify.repository.SongRepository;
 import com.codegym.spotify.service.SongService;

@@ -1,5 +1,6 @@
 package com.codegym.spotify.entity;
 
+import com.codegym.spotify.constant.VarConstant;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.time.LocalDateTime;
 
 @Data
@@ -17,10 +19,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "wallets")
-public class Wallet {
+@Table(name = "subscriptions")
+public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double balance;
+    private String name;
+    private Integer months;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 }
+

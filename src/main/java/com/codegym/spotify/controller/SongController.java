@@ -1,6 +1,6 @@
 package com.codegym.spotify.controller;
 
-import com.codegym.spotify.dto.SongDto;
+import com.codegym.spotify.configuration.dto.SongDto;
 import com.codegym.spotify.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.codegym.spotify.dto;
+package com.codegym.spotify.configuration.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

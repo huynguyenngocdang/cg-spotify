@@ -1,6 +1,6 @@
 package com.codegym.spotify.controller;
 
-import com.codegym.spotify.dto.RegistrationDto;
+import com.codegym.spotify.configuration.dto.RegistrationDto;
 import com.codegym.spotify.entity.UserEntity;
 import com.codegym.spotify.service.UserService;
 import jakarta.validation.Valid;

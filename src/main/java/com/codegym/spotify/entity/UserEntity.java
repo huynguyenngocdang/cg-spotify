@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,4 +39,9 @@ public class UserEntity {
             inverseJoinColumns ={@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
+    private UserProfile userProfile;
 }
