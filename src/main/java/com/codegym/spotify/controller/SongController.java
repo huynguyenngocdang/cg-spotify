@@ -85,6 +85,9 @@ public class SongController {
             return "song/upload";
         }
 
+        String songFilename = songDto.getFilename().replace(" ", "").toLowerCase();
+        songDto.setFilename(songFilename);
+
         if(songService.handleSongUpload(file, songDto.getFilename()) ){
             songService.saveSong(songDto, file);
             return "redirect:/index?uploadSuccess";
