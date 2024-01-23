@@ -109,10 +109,4 @@ public class SongController {
         model.addAttribute("song", songDto);
         return "song/songs-detail";
     }
-
-
-    @GetMapping("/manage-plan")
-    public String managePlan() {
-        return "account/manage-plan";
-    }
 }
