@@ -111,5 +111,8 @@ public class SongController {
     }
 
 
-
+    @GetMapping("/songdetail")
+    public String albumlist() {
+        return "song/song-detail-giang";
+    }
 }
