@@ -10,9 +10,7 @@
 
 <div class="pt-14 h-fit">
     <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10"
-          th:action="@{/userProfiles/{userId}/profile(userId=${userId})}"
-          method="post"
-         th:object="${userProfile}"
+          th:action="@{/userProfiles/{userId}/profile/create(userId=${userProfile.userId})}" method="post" th:object="${userProfile}"
           role="form">
         <div class="px-28 flex flex-col gap-8 mt-10">
             <div class="flex flex-col gap-6">
@@ -26,7 +24,7 @@
                            name="fullName"
                            th:field="*{fullName}"
                            placeholder="Name" required
-                           th:readonly="readOnly">
+                    >
                     <p th:if="${#fields.hasErrors('fullName')}" class="text-red-500 text-base pt-1"
                        th:errors="*{fullName}"></p>
                 </div>
@@ -38,7 +36,7 @@
                            name="email"
                            th:field="*{email}"
                            placeholder="name@domain.com" required
-                           th:readonly="readOnly">
+                    >
                     <p th:if="${#fields.hasErrors('email')}" class="text-red-500 text-base pt-1"
                        th:errors="*{email}"></p>
                 </div>
@@ -48,35 +46,23 @@
                     <div class="relative flex flex-col gap-2">
                         <input class="password bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white w-full"
                                type="text"
-                               pattern="\*d"
+                               pattern="\d*"
                                id="phoneNumber"
                                name="phoneNumber"
                                th:field="*{phoneNumber}"
                                placeholder="phoneNumber" required
-                               th:readonly="readOnly">
-                    </div>
-                    <p th:if="${#fields.hasErrors('phoneNumber')}" class="text-red-500 text-base pt-1"
-                       th:errors="*{phoneNumber}"></p>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <label for="balance" class="text-base font-bold">Balance</label>
-                    <div class="relative flex flex-col gap-2">
-                        <input class="password bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white w-full"
-                               type="text"
-                               pattern="\*d"
-                               id="balance"
-                               name="phoneNumber"
-                               th:field="*{balance}"
-                               placeholder="0.0" required
-                               th:readonly="readOnly">
+                        >
                     </div>
                     <p th:if="${#fields.hasErrors('phoneNumber')}" class="text-red-500 text-base pt-1"
                        th:errors="*{phoneNumber}"></p>
                 </div>
                 <button type="submit"
-                        class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-400"
-
-                > Edit
+                        class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-400">
+                    Save
+                </button>
+                <button type="reset"
+                        class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-400">
+                    Reset
                 </button>
             </div>
         </div>
@@ -86,11 +72,6 @@
         </div>
     </form>
     <script>
-        function enableEdit(){
-            document.getElementById("fullName").readOnly = false;
-            document.getElementById("email").readOnly = false;
-            document.getElementById("phoneNumber").readOnly = false;
-        }
     </script>
 </div>
 <script th:src="@{/assets/js/register.js}"></script>

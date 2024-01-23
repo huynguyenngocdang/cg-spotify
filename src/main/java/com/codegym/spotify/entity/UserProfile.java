@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.time.LocalDateTime;
 
@@ -34,10 +35,7 @@ public class UserProfile {
     @CreationTimestamp
     private LocalDateTime createOn;
 
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "subscription_id", referencedColumnName = "id")
-//    private Subscription subscription;
-
-    @OneToOne(mappedBy = "userProfile", cascade = CascadeType.ALL)
+    @OneToOne( cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_entity_id", referencedColumnName = "id")
     private UserEntity userEntity;
 }

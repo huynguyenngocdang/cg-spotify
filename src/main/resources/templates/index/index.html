@@ -30,10 +30,12 @@
     </div>
 
     <div th:replace="layout/home-layout::content" sec:authorize="isAuthenticated()"></div>
-
+<p class="text-xl-start"> abc abc</p>
 </div>
 
-<div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
+<div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()">
+
+</div>
 
 <div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
 <div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>

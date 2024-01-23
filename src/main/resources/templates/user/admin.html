@@ -32,15 +32,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="reg : ${user}">
+            <tr th:each="reg : ${user2}">
                 <td th:text="${reg.id}" class="text-xl hover:underline"></td>
                 <td th:text="${reg.username}" class="text-xl hover:underline"></td>
                 <td th:text="${reg.email}" class="text-xl hover:underline"></td>
                 <td>
-                    <a th:href="@{/user/detail/{id}(id=${reg.id})}" class="text-blue-500 hover:underline">Detail</a>
+                    <a th:href="@{/user/detail/{id}(id=${reg.id})}" class="text-blue-500 text-xl hover:underline">Detail</a>
                 </td>
                 <td>
-                    <a th:href="@{/user/delete/{id}(id=${reg.id})}" class="text-red-500 hover:underline">Delete</a>
+                    <a th:href="@{/user/delete/{id}(id=${reg.id})}" class="text-red-500 text-xl hover:underline">Delete</a>
                 </td>
             </tr>
             </tbody>

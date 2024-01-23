@@ -1,7 +1,7 @@
 package com.codegym.spotify.service.impl;
 
 import com.codegym.spotify.constant.VarConstant;
-import com.codegym.spotify.configuration.dto.RegistrationDto;
+import com.codegym.spotify.dto.RegistrationDto;
 import com.codegym.spotify.entity.Role;
 import com.codegym.spotify.entity.UserEntity;
 import com.codegym.spotify.repository.RoleRepository;
@@ -65,4 +65,6 @@ public class UserServiceImpl implements UserService {
                 .build();
         return registrationDto;
     }
+
+
 }

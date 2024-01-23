@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar"></div>
+
+<div>
+    <div th:replace="layout/index-layout::main-topbar"></div>
+
+    <div>
+        <!--        content ở thẻ div này-->
+
+            <div class="pt-14 h-fit">
+                <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10"
+                      th:action="@{/{albumId}/songs/upload(albumId=${albumId})}" method="post" th:object="${song}" role="form" enctype="multipart/form-data">
+                    <div class="px-28 flex flex-col gap-8 mt-10">
+                        <div class="flex flex-col gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label for="title" class="text-base font-bold">Title</label>
+                                <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                                       type="text"
+                                       id="title"
+                                       name="title"
+                                       th:field="*{title}"
+                                       placeholder="Song Title" required>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label for="filename" class="text-base font-bold">Filename</label>
+                                <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                                       type="text"
+                                       id="filename"
+                                       name="filename"
+                                       th:field="*{filename}"
+                                       placeholder="Song Title" required>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label for="file" class="text-base font-bold">File</label>
+                                <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                                       type="file"
+                                       id="file"
+                                       name="file"
+                                        required>
+                            </div>
+                        </div>
+                        <button type="submit"
+                                class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-400">Upload</button>
+                    </div>
+                </form>
+            </div>
+
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+</div>
+<div th:replace="layout/index-layout::footer">
+</div>
+</body>
+</html>

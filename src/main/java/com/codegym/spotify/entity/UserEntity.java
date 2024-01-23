@@ -41,7 +41,6 @@ public class UserEntity {
     private List<Role> roles = new ArrayList<>();
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userEntity")
     private UserProfile userProfile;
 }

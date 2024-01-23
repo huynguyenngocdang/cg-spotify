@@ -1,4 +1,4 @@
-package com.codegym.spotify.configuration.dto;
+package com.codegym.spotify.dto;
 
 import lombok.Builder;
 import lombok.Data;

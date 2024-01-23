@@ -1,8 +1,23 @@
 package com.codegym.spotify.service;
 
-import com.codegym.spotify.configuration.dto.SongDto;
+
+import com.codegym.spotify.dto.SongDto;
+
+import com.codegym.spotify.entity.Song;
+import org.springframework.web.multipart.MultipartFile;
+
+
 import java.util.List;
 
 public interface SongService {
     List<SongDto> findAllSongs();
+    List<SongDto> findSongsByAlbumId(Long albumId);
+
+    SongDto findSongById(Long songId);
+
+    SongDto convertToSongDto(Song song);
+    Song convertToSongEntity(SongDto songDto);
+    boolean handleSongUpload(MultipartFile file, String fileName);
+    void saveSong(SongDto songDto, MultipartFile file);
+
 }

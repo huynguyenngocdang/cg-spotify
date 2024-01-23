@@ -1,6 +1,6 @@
 package com.codegym.spotify.service.impl;
 
-import com.codegym.spotify.configuration.dto.SubscriptionDto;
+import com.codegym.spotify.dto.SubscriptionDto;
 import com.codegym.spotify.entity.Subscription;
 import com.codegym.spotify.repository.SubscriptionRepository;
 import com.codegym.spotify.service.SubscriptionService;
