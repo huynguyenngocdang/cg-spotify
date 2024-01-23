@@ -17,4 +17,5 @@ public class ArtistDto {
     private String name;
     private byte[] artistImage;
     private List<Long> albumsId = new ArrayList<>();
+    private Long createdById;
 }

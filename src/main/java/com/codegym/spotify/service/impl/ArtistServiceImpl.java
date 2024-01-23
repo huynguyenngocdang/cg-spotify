@@ -3,9 +3,13 @@ package com.codegym.spotify.service.impl;
 import com.codegym.spotify.dto.ArtistDto;
 import com.codegym.spotify.entity.Album;
 import com.codegym.spotify.entity.Artist;
+import com.codegym.spotify.entity.UserEntity;
 import com.codegym.spotify.repository.AlbumRepository;
 import com.codegym.spotify.repository.ArtistRepository;
+import com.codegym.spotify.repository.UserRepository;
+import com.codegym.spotify.security.SecurityUtil;
 import com.codegym.spotify.service.ArtistService;
+import com.codegym.spotify.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +21,20 @@ public class ArtistServiceImpl implements ArtistService {
     private final ArtistRepository artistRepository;
     private final ModelMapper modelMapper;
     private final AlbumRepository albumRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
-    @Autowired
-    public ArtistServiceImpl(ArtistRepository artistRepository, ModelMapper modelMapper, AlbumRepository albumRepository) {
+
+    public ArtistServiceImpl(ArtistRepository artistRepository,
+                             ModelMapper modelMapper,
+                             AlbumRepository albumRepository,
+                             UserRepository userRepository,
+                             UserService userService) {
         this.artistRepository = artistRepository;
         this.modelMapper = modelMapper;
         this.albumRepository = albumRepository;
+        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     private Artist convertToArtistEntity(ArtistDto artistDto) {
@@ -31,6 +43,11 @@ public class ArtistServiceImpl implements ArtistService {
             List<Album> albums = albumRepository.findAllById(artistDto.getAlbumsId());
             artist.setAlbums(albums);
             albums.forEach(album -> album.setArtist(artist));
+        }
+
+
+        if (artistDto.getCreatedById() != null) {
+          userRepository.findById(artistDto.getCreatedById()).ifPresent(artist::setCreatedBy);
         }
         return artist;
     }
@@ -43,6 +60,11 @@ public class ArtistServiceImpl implements ArtistService {
                     .toList();
             artistDto.setAlbumsId(albumIds);
         }
+
+        if (artist.getCreatedBy() != null) {
+            artistDto.setCreatedById(artistDto.getCreatedById());
+        }
+
         return artistDto;
     }
 
@@ -63,7 +85,10 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public void saveArtist(ArtistDto artistDto) {
+        String username = SecurityUtil.getSessionUser();
+        UserEntity user = userService.findByUsername(username);
         Artist artist = convertToArtistEntity(artistDto);
+        artist.setCreatedBy(user);
         artistRepository.save(artist);
     }
 }
