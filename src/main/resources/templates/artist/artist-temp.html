@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar"></div>
+
+<div>
+    <div th:replace="layout/index-layout::main-topbar"></div>
+
+    <div>
+        <div th:if="${param.successArtist}" class="text-base font-bold">
+            You've created artist profile
+        </div>
+        <div th:if="${param.failArtist}" class="text-base font-bold">
+            You've NOT created artist profile
+        </div>
+        <!--        content ở thẻ div này-->
+        <!--        <div th:replace="layout/content-layout::playlist-list"></div>-->
+<!--        <div th:each="artist : ${artists}" class="color-white-5">-->
+<!--            <p th:text="${artist.name}" class="p-3 text-xl rounded-2xl"></p>-->
+<!--            <img th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" />-->
+<!--            <a th:href="@{/{artistId}/albums/new(artistId=${artist.id})}" class="p-3 text-xs rounded-2xl" >New Album</a>-->
+<!--            <a th:href="@{/{artistId}/albums(artistId=${artist.id})}" class="p-3 text-xs rounded-2xl" >List Album</a>-->
+<!--        </div>-->
+
+        <div class="pt-14 h-fit">
+            <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10"
+                  th:action="@{/artist/new}" method="post" th:object="${artist}" role="form" enctype="multipart/form-data">
+                <div class="px-28 flex flex-col gap-8 mt-10">
+                    <div class="flex flex-col gap-6">
+                        <div class="flex flex-col gap-2">
+                            <label for="name" class="text-base font-bold">Name</label>
+                            <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                                   type="text"
+                                   id="name"
+                                   name="name"
+                                   th:field="*{name}"
+                                   placeholder="Artist Name" required>
+                        </div>
+                        <p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
+                    </div>
+
+                    <div class="flex flex-col gap-6">
+                        <div class="flex flex-col gap-2">
+                            <label for="imageArtistUpload" class="text-base font-bold">Image</label>
+                            <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                                   type="file"
+                                   id="imageArtistUpload"
+                                   name="imageArtistUpload"
+                                   required>
+                        </div>
+                    </div>
+                    <button type="submit"
+                            class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-400">Create</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+</div>
+<div th:replace="layout/index-layout::footer">
+</div>
+</body>
+</html>

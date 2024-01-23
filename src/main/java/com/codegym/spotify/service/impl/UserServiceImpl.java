@@ -6,6 +6,7 @@ import com.codegym.spotify.entity.Role;
 import com.codegym.spotify.entity.UserEntity;
 import com.codegym.spotify.repository.RoleRepository;
 import com.codegym.spotify.repository.UserRepository;
+import com.codegym.spotify.security.SecurityUtil;
 import com.codegym.spotify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,5 +47,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserEntity findById(Long userId) {
+        return userRepository.findById(userId).get();
+    }
+    @Override
+    public UserEntity getCurrentUser(){
+        UserEntity user = new UserEntity();
+        String username = SecurityUtil.getSessionUser();
+        if (username != null) {
+            user = findByUsername(username);
+        }
+        return user;
     }
 }
