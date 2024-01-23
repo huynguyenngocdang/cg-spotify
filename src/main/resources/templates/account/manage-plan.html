@@ -2,9 +2,144 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Manage your plan - Account</title>
+    <link rel="icon" sizes="32x32" type="image/png"
+          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
+    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/user.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
 </head>
-<body>
+<body class="bg-gray-user flex flex-col w-screen text-white items-center overflow-x-hidden">
+<div class="w-full xl:w-3/4 p-5 flex justify-between items-center md:px-24 xl:px-auto">
+    <img class="w-32 h-auto" th:src="@{/assets/img/logo/spotify-logo-white.png}" alt="">
 
+    <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">
+        <div class="hidden md:flex support gap-8 items-center">
+            <a href="" class="hover:text-white">Premium</a>
+            <a target="_blank"
+               href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+               class="hover:text-white">Support</a>
+            <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/"
+               class="hover:text-white">Download</a>
+        </div>
+
+        <span class="hidden md:inline bg-white color-white-full w-0.5 h-full"></span>
+
+        <div class="relative user flex items-center gap-3 cursor-pointer text-white opacity-80 hover:opacity-100" id="user-icon">
+            <i class="fa-regular fa-user rounded-full border-white border-2  w-10 h-10 text-center pt-2"></i>
+            <span class="hidden md:inline text-base font-bold">Profile</span>
+            <i class="hidden md:inline fa-solid fa-chevron-down"></i>
+
+            <div id="account-overlay"
+                 class="absolute top-14 right-0 box-shadow z-40 w-40 p-2 h-fit rounded-sm flex-col text-sm bg-white"
+                 style="display: none">
+                <a th:href="@{/account}" class="p-1 text-black opacity-70 hover:opacity-100 cursor-pointer">Account</a>
+                <a th:href="@{/logout}" class="p-1 text-black opacity-70 hover:opacity-100 cursor-pointer">Log out</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="px-5 md:px-24 xl:px-0 w-full xl:w-1/2 flex flex-col items-center justify-center mt-10 gap-5">
+    <div>
+
+    </div>
+</div>
+
+<div class="bg-black w-full mt-14 flex justify-center">
+    <div class="flex flex-col w-full xl:w-3/4 p-5 gap-24 md:px-24 xl:px-auto mt-10">
+        <div class="gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7">
+            <div>
+                <img class="w-32 h-auto" th:src="@{/assets/img/logo/spotify-logo-white.png}" alt="">
+            </div>
+
+            <div class="footer-category text-base leading-7 p-4">
+                <p class="font-bold">Company</p>
+                <div class="color-white-5 flex flex-col">
+                    <a href="https://www.spotify.com/vn-en/about-us/contact/" target="_blank"
+                       class="hover:text-green-500">About</a>
+                    <a href="https://www.lifeatspotify.com/?_gl=1*uli4hd*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                       target="_blank" class="hover:text-green-500">Jobs</a>
+                    <a href="" target="_blank" class="hover:text-green-500">For the Record</a>
+                </div>
+            </div>
+            <div class="footer-category text-base leading-7 p-4">
+                <p class="font-bold">Communities</p>
+                <div class="color-white-5 flex flex-col">
+                    <a target="_blank"
+                       href="https://artists.spotify.com/home?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                       class="hover:text-green-500">For Artists</a>
+                    <a target="_blank"
+                       href="https://developer.spotify.com/?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                       class="hover:text-green-500">Developers</a>
+                    <a target="_blank"
+                       href="https://ads.spotify.com/en-US/?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                       class="hover:text-green-500">Advertising</a>
+                    <a target="_blank" href="https://investors.spotify.com/home/default.aspx"
+                       class="hover:text-green-500">Investors</a>
+                    <a target="_blank" href="https://spotifyforvendors.com/" class="hover:text-green-500">Vendors</a>
+                </div>
+            </div>
+            <div class="footer-category text-base leading-7 p-4">
+                <p class="font-bold">Useful links</p>
+                <div class="color-white-5 flex flex-col">
+                    <a target="_blank"
+                       href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                       class="hover:text-green-500">Support</a>
+                    <a href="/" class="hover:text-green-500">Web Player</a>
+                    <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/"
+                       class="hover:text-green-500">Free Mobile App</a>
+                </div>
+            </div>
+            <div class="brand-icons text-lg hidden col-start-1 md:col-start-3 lg:flex lg:col-start-4 xl:col-start-5 2xl:col-start-7 ml-auto gap-3">
+                <a target="_blank" href="https://www.instagram.com/spotify"
+                   class="bg-white bg-opacity-10 rounded-full w-11 h-11 flex justify-center items-center cursor-pointer">
+                    <i class="hover:text-green-500 fa-brands fa-instagram text-white"></i>
+                </a>
+                <a target="_blank" href="https://twitter.com/spotify"
+                   class="bg-white bg-opacity-10 rounded-full w-11 h-11 flex justify-center items-center cursor-pointer">
+                    <i class="hover:text-green-500 fa-brands fa-twitter text-white"></i>
+                </a>
+                <a target="_blank" href="https://www.facebook.com/SpotifyVietnam/?brand_redir=6243987495"
+                   class="bg-white bg-opacity-10 rounded-full w-11 h-11 flex justify-center items-center cursor-pointer">
+                    <i class="hover:text-green-500 fa-brands fa-facebook text-white"></i>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="text-sm color-white-5 mt-4 mb-8 flex flex-col md:flex-row justify-between">
+            <div class="md:flex gap-4 hidden">
+                <a href="https://www.spotify.com/vn-en/legal/end-user-agreement/"
+                   class="hover:text-green-500 cursor-pointer">
+                    Legal
+                </a><a href="https://www.spotify.com/vn-en/privacy"
+                       class="hover:text-green-500 cursor-pointer">
+                Privacy Center
+            </a><a href="https://www.spotify.com/vn-en/legal/privacy-policy/"
+                   class="hover:text-green-500 cursor-pointer">
+                Privacy Policy
+            </a><a href="https://www.spotify.com/vn-en/legal/cookies-policy/"
+                   class="hover:text-green-500 cursor-pointer">
+                Cookies
+            </a><a href="https://www.spotify.com/vn-en/legal/privacy-policy/#s3"
+                   class="hover:text-green-500 cursor-pointer">
+                About Ads
+            </a><a href="https://www.spotify.com/vn-en/accessibility"
+                   class="hover:text-green-500 cursor-pointer">
+                Accessibility
+            </a>
+            </div>
+            <p>© 2024 Spotify AB</p>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/assets/js/accountOverlay.js}"></script>
 </body>
 </html>

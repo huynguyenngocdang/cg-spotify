@@ -108,8 +108,8 @@ public class SongController {
     }
 
 
-    @GetMapping("/songdetail")
-    public String albumlist() {
-        return "song/song-detail-giang";
+    @GetMapping("/manage-plan")
+    public String managePlan() {
+        return "account/manage-plan";
     }
 }

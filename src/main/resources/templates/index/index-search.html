@@ -8,12 +8,59 @@
 <div th:replace="layout/index-layout::sidebar"></div>
 
 <div style="background: black;">
-    <div th:replace="layout/index-layout::main-topbar"></div>
+    <div th:fragment="main-topbar" class="bg-white-05">
+        <div class="flex items-center gap-4">
+            <div class="flex gap-2 text-base">
+                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-left"></i>
+                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-right"></i>
+            </div>
 
+            <form autocomplete="off" class="search-bar relative text-base">
+                <i class="absolute top-2 left-3.5 color-white-7 fa-solid fa-magnifying-glass text-xl"></i>
+                <input class="search-input rounded-full pl-12 pr-6 py-3 text-clip overflow-hidden bg-white-1 hover:border-gray-500 focus:text-white focus:border-white w-80"
+                       type="text" id="search" name="searchKeyword" placeholder="What do you want to listen to?">
+            </form>
+        </div>
+
+        <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">
+            <div class="support flex gap-8 items-center">
+                <a href="" class="hover:text-white">Premium</a>
+                <a th:href="@{/artist}" class="hover:text-white">List Artist</a>
+                <a th:href="@{/artist/new}" class="hover:text-white">New Artist</a>
+                <a target="_blank" href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:text-white">Support</a>
+                <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/" class="hover:text-white">Download</a>
+            </div>
+
+            <span class="bg-white color-white-full w-0.5 h-full">|</span>
+
+            <div class="user flex gap-8 items-center" sec:authorize="!isAuthenticated()">
+                <a th:href="@{/register}" class="hover:text-white">Sign up</a>
+                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/login}"
+                   sec:authorize="!isAuthenticated()">Log in</a>
+            </div>
+            <div class="user flex gap-8 items-center" sec:authorize="isAuthenticated()">
+                <span th:text="'Hi, ' + ${user.username}"></span>
+                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/logout}"
+                   sec:authorize="isAuthenticated()">Log out</a>
+            </div>
+
+
+        </div>
+    </div>
     <div>
-        <!--        content ở thẻ div này-->
-        <div th:replace="layout/content-layout::categories-search"></div>
+        <div class="flex flex-col gap-4">
+            <p class="font-bold text-2xl">Browse all</p>
 
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+<!--                Vong lap categories-->
+
+                <a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                    <p class="font-bold text-2xl">Pop</p>
+                    <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src="" alt="genre image">
+                </a>
+            </div>
+        </div>
 
         <div th:replace="layout/index-layout::main-footer"></div>
     </div>
