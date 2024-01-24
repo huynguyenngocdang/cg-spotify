@@ -53,7 +53,7 @@ public class AlbumServiceImpl implements com.codegym.spotify.service.AlbumServic
         return convertToAlbumDto(album);
     }
     @Override
-    public List<AlbumDto> findAlbumByArtistId(Long artistId) {
+    public List<AlbumDto> findAlbumsByArtistId(Long artistId) {
         List<Album> albums = albumRepository.findAlbumsByArtistId(artistId);
         return albums.stream().map(this::convertToAlbumDto).collect(Collectors.toList());
     }

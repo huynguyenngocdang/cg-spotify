@@ -7,5 +7,7 @@ import java.util.List;
 public interface AlbumService {
     void saveAlbum(AlbumDto albumDto);
     AlbumDto findAlbumById(Long albumId);
-    List<AlbumDto> findAlbumByArtistId(Long artistId);
+
+    List<AlbumDto> findAlbumsByArtistId(Long artistId);
+
 }

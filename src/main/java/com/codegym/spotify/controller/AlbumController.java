@@ -32,7 +32,7 @@ public class AlbumController {
     @GetMapping("/{artistId}/albums")
     public String displayAlbumList(@PathVariable("artistId")Long artistId,
             Model model) {
-        List<AlbumDto> albumList = albumService.findAlbumByArtistId(artistId);
+        List<AlbumDto> albumList = albumService.findAlbumsByArtistId(artistId);
         model.addAttribute("albumList", albumList);
         model.addAttribute("artistId", artistId);
         return "album/album-list";
