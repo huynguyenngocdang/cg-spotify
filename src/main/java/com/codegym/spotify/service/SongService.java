@@ -10,6 +10,7 @@ import java.util.List;
 public interface SongService {
     List<SongDto> findAllSongs();
     List<SongDto> findSongsByAlbumId(Long albumId);
+    List<SongDto> findSongsByArtistId(Long artistId);
 
     SongDto findSongById(Long songId);
 
