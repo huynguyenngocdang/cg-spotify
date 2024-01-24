@@ -29,15 +29,6 @@ public class AlbumController {
         this.albumService = albumService;
     }
 
-//    @GetMapping("/{artistId}/albums")
-//    public String displayAlbumList(@PathVariable("artistId")Long artistId,
-//            Model model) {
-//        List<AlbumDto> albumList = albumService.findAlbumByArtistId(artistId);
-//        model.addAttribute("albumList", albumList);
-//        model.addAttribute("artistId", artistId);
-//        return "album/album-list";
-//    }
-
     @GetMapping("/{artistId}/albums/new")
     public String displayNewAlbumForm(@PathVariable("artistId") Long artistId, Model model) {
         AlbumDto albumDto = new AlbumDto();

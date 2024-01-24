@@ -13,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -61,5 +64,23 @@ public class UserServiceImpl implements UserService {
             user = findByUsername(username);
         }
         return user;
+    }
+
+    @Override
+    public List<UserEntity> getAllNonAdminUsers() {
+        return userRepository.findAllNonAdminUsers();
+    }
+
+    public void updateUserRole(Long userId, String role) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Role newRole = roleRepository.findByRoleType(role);
+
+        // Clear the current roles and add the new role
+        user.getRoles().clear();
+        user.getRoles().add(newRole);
+
+        userRepository.save(user);
     }
 }

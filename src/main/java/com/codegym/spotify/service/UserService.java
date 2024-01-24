@@ -3,6 +3,8 @@ package com.codegym.spotify.service;
 import com.codegym.spotify.dto.RegistrationDto;
 import com.codegym.spotify.entity.UserEntity;
 
+import java.util.List;
+
 public interface UserService {
     void saveUser(RegistrationDto registrationDto);
     UserEntity findByEmail(String email);
@@ -10,4 +12,7 @@ public interface UserService {
 
     UserEntity findById(Long userId);
     UserEntity getCurrentUser();
+    List<UserEntity> getAllNonAdminUsers();
+
+    void updateUserRole(Long userId, String role);
 }
