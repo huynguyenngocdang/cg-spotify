@@ -18,5 +18,5 @@ public interface SongService {
     Song convertToSongEntity(SongDto songDto);
     boolean handleSongUpload(MultipartFile file, String fileName);
     void saveSong(SongDto songDto, MultipartFile file);
-
+    boolean deleteSong(Long songId);
 }

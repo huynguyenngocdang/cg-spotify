@@ -32,6 +32,7 @@
 
                 <div class="flex flex-col gap-6">
                     <div class="flex flex-col gap-2">
+
                         <label for="title" class="text-base font-bold">Album Title</label>
                         <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
                                type="text"
@@ -45,11 +46,14 @@
 
                 <div class="flex flex-col gap-6">
                     <div class="flex flex-col gap-2">
+                        <img id="imagePreview" alt="Album Image" class="w-64 h-64" style="display: none"/>
+
                         <label for="imageAlbumUpload" class="text-base font-bold">Image</label>
                         <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
                                type="file"
                                id="imageAlbumUpload"
                                name="imageAlbumUpload"
+                               onchange="previewImage()"
                                required>
                     </div>
                 </div>
@@ -61,6 +65,26 @@
         </form>
 
 </div>
+
+<script>
+    function previewImage() {
+        let preview = document.getElementById('imagePreview');
+        let file    = document.getElementById('imageAlbumUpload').files[0];
+        let reader  = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+            preview.style.display = 'block'
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = ""; // Set a placeholder or keep the old image if no file is chosen
+            preview.style.display = 'none';
+        }
+    }
+</script>
 
 
 <div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>

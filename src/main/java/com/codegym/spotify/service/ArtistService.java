@@ -10,4 +10,7 @@ public interface ArtistService {
     void saveArtist(ArtistDto artistDto);
     ArtistDto findArtistById(Long id);
 
+    void editArtist(ArtistDto artistDto, Long artistId);
+
+    void deleteArtist(Long artistId);
 }
