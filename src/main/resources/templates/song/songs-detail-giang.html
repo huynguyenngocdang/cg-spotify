@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-    Songs
+        Songs
     </title>
     <link rel="icon" sizes="32x32" type="image/png"
           href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
@@ -40,24 +40,30 @@
     <div class="w-full overflow-y-scroll">
         <div class="w-full p-4 flex gap-6">
             <img class="h-fit box-shadow-heavy aspect-square w-60 object-cover"
-                 th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" alt="">
+                 th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
 
-            <div class="text-white flex flex-col gap-3 h-fit mt-auto">
+            <div class="change-song text-white flex flex-col gap-2 h-fit mt-auto">
                 <p class="text-base">Song</p>
-                <p class="text-7xl font-black" th:text="${song.title}">Song title</p>
-                <p class="font-bold text-base mt-3" th:text="'Artist: ' + ${artist.name}">Artist name
-
-                </p>
-                <p class="font-bold text-base mt-3" th:text="'Album: ' + ${album.title}"></p>
+                <p class="text-7xl font-bold" th:text="${song.title}">Song title</p>
+                <div class="flex gap-3">
+                    <p class="text-base mt-3" th:text="${artist.name}">Artist name</p>
+                    <p class="color-white-5 text-base mt-3" th:text="${album.title}"></p>
+                </div>
             </div>
 
         </div>
 
-        <div class="w-full text-base mx-5 flex flex-col" th:if="${lyrics != null}" th:object="${lyrics}">
+        <div class="w-full text-base mx-5 flex flex-col" th:object="${lyrics}">
             <p class="font-bold text-xl">Lyrics</p>
-            <p class="color-white-5" th:each="line : ${lyrics}">
-                <span th:text="${line}" class="text-xs"></span><br>
+            <p class="color-white-5" th:if="${!lyrics.isEmpty()}" th:each="line : ${lyrics}">
+                <span th:text="${line}" class="text-base"></span><br>
             </p>
+            <p th:if="${lyrics.isEmpty()}" class="color-white-5 text-lg mb-10">Lyrics for this song currently not available. We will update soon!</p>
+        </div>
+
+
+        <div class="w-full text-base mx-5 flex flex-col" th:if="${lyrics == null}">
+            <p class="color-white-5">Lyrics for this song currently not available. We will update soon!</p>
         </div>
 
         <div th:replace="layout/index-layout::main-footer"></div>
@@ -68,31 +74,35 @@
 <div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
 
 <div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
-<div class="stream-bar p-3 flex justify-between items-center overflow-hidden w-full bg-black">
+<div sec:authorize="isAuthenticated()" class="stream-bar p-3 flex justify-between items-center overflow-hidden w-full bg-black">
     <!--    <audio th:src="">Your browser did not support this audio format</audio>-->
 
     <div class="h-full flex items-center gap-3">
-        <img class="h-full aspect-square object-cover" th:src="@{/artist/image/{artistId}(artistId=${artist.id})}"  alt="">
+        <img class="h-full aspect-square object-cover" th:src="@{/albums/image/{albumId}(albumId=${album.id})}"
+             alt="">
 
         <div class="flex flex-col">
-            <p class="text-base text-nowrap" th:text="${song.title}">Song Title</p>
-            <p class="text-sm color-white-5 text-nowrap" th:text="${artist.name}">Artist name</p>
+            <p id="songTitle" class="text-base text-nowrap" th:text="${song.title}">Song Title</p>
+            <p id="songArtist" class="text-sm color-white-5 text-nowrap" th:text="${artist.name}">Artist name</p>
         </div>
     </div>
 
     <div class="flex flex-col items-center h-full justify-between">
-<!--        <div class="color-white-5 text-xl flex items-center justify-center gap-4">-->
-<!--            <i class="hover:text-white fa-solid fa-backward-fast"></i>-->
-<!--            <button class="w-8 h-8 box-shadow-heavy bg-white rounded-full p-0.5"><img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt=""></button>-->
-<!--            <i class="hover:text-white fa-solid fa-forward-fast"></i>-->
-<!--        </div>-->
+                <div class="color-white-5 text-xl flex items-center justify-center gap-4">
+                    <i class="hover:text-white fa-solid fa-backward-fast"></i>
+                    <button class="w-8 h-8 box-shadow-heavy bg-white rounded-full p-0.5" id="play-button">
+                        <img id="play" src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" style="display: none" alt="">
+                        <img id="stop" src="https://cdn-icons-png.flaticon.com/512/10149/10149821.png" alt="">
+                    </button>
+                    <i class="hover:text-white fa-solid fa-forward-fast"></i>
+                </div>
 
-<!--        <div class="text-xs color-white-5 flex gap-2 items-center">-->
-<!--            <span>0:00</span>-->
-<!--            <div class="w-40 md:w-96 bg-white-5 h-1 rounded-full"></div>-->
-<!--            <span>2:30</span>-->
-<!--        </div>-->
-        <audio th:src="@{'/assets/song/' + ${song.filename}}" controls class="flex items-center justify-center gap-4">
+                <div class="text-xs color-white-5 flex gap-2 items-center">
+                    <span>0:00</span>
+                    <div class="w-40 md:w-96 bg-white-5 h-1 rounded-full"></div>
+                    <span>2:30</span>
+                </div>
+        <audio id="audio" th:src="@{'/assets/song/' + ${song.filename}}" autoplay loop class="hidden">
             Your browser does not support the audio tag.
         </audio>
     </div>
@@ -104,5 +114,6 @@
 </div>
 
 <script th:src="@{/assets/js/accountOverlay.js}" sec:authorize="isAuthenticated()"></script>
+<script th:src="@{/assets/js/musicPlayer.js}" sec:authorize="isAuthenticated()"></script>
 </body>
 </html>

@@ -59,7 +59,7 @@ public class ArtistController {
     @GetMapping("/artist/{artistId}")
     public String displayArtist(@PathVariable("artistId") Long artistId, Model model) {
         ArtistDto artistDto = artistService.findArtistById(artistId);
-        List<AlbumDto> albums = albumService.findAlbumByArtistId(artistId);
+        List<AlbumDto> albums = albumService.findAlbumsByArtistId(artistId);
         List<SongDto> songs = songService.findSongsByArtistId(artistId);
         model.addAttribute("songs", songs);
         model.addAttribute("albums", albums);
