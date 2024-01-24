@@ -109,10 +109,4 @@ public class SongController {
         model.addAttribute("song", songDto);
         return "song/songs-detail";
     }
-
-
-    @GetMapping("/songdetail")
-    public String albumlist() {
-        return "song/song-detail-giang";
-    }
 }
