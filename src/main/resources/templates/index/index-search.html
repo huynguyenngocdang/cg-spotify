@@ -2,18 +2,186 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org/"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head th:replace="layout/index-layout::head('Spotify - Search', '/assets/css/genre.css', '/assets/js/colorGenerate.js')">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Spotify - Web Player: Music for everyone</title>
+    <link rel="icon" sizes="32x32" type="image/png"
+          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
+    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/playlist-hover.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/genre.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script th:src="@{/assets/js/layoutIndexTopSideBar.js}"></script>
+    <script th:src="@{/assets/js/colorGenerate.js}"></script>
+    <script th:src="@{/assets/js/search-autocomplete.js}"></script>
 </head>
 <body>
 <div th:replace="layout/index-layout::sidebar"></div>
 
 <div style="background: black;">
-    <div th:replace="layout/index-layout::main-topbar"></div>
+    <div th:fragment="main-topbar" class="bg-black">
+        <div class="flex items-center gap-4">
+            <div class="flex gap-2 text-base">
+                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-left"></i>
+                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-right"></i>
+            </div>
 
+            <form autocomplete="off" class="search-bar relative text-base">
+                <i class="absolute top-2 left-3.5 color-white-7 fa-solid fa-magnifying-glass text-xl"></i>
+                <input class="search-input rounded-full pl-12 pr-6 py-3 text-clip overflow-hidden bg-white-1 hover:border-gray-500 focus:text-white focus:border-white w-80"
+                       type="text" id="search" name="searchKeyword" placeholder="What do you want to listen to?">
+            </form>
+        </div>
+
+        <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">
+            <div class="support flex gap-8 items-center">
+                <a href="" class="hover:text-white">Premium</a>
+                <a th:href="@{/artist}" class="hover:text-white">List Artist</a>
+                <a th:href="@{/artist/new}" class="hover:text-white">New Artist</a>
+                <a target="_blank" href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:text-white">Support</a>
+                <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/" class="hover:text-white">Download</a>
+            </div>
+
+            <span class="bg-white color-white-full w-0.5 h-full">|</span>
+
+            <div class="user flex gap-8 items-center" sec:authorize="!isAuthenticated()">
+                <a th:href="@{/register}" class="hover:text-white">Sign up</a>
+                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/login}"
+                   sec:authorize="!isAuthenticated()">Log in</a>
+            </div>
+            <div class="user flex gap-8 items-center" sec:authorize="isAuthenticated()">
+                <span th:text="'Hi, ' + ${user.username}"></span>
+                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/logout}"
+                   sec:authorize="isAuthenticated()">Log out</a>
+            </div>
+
+
+        </div>
+    </div>
     <div>
-        <!--        content ở thẻ div này-->
-        <div th:replace="layout/content-layout::categories-search"></div>
+        <div id="categories-container" class="flex flex-col gap-4">
+            <p class="font-bold text-2xl">Browse all</p>
 
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+<!--                Vong lap categories-->
+
+                <a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                    <p class="font-bold text-2xl">Pop</p>
+                    <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src="" alt="genre image">
+                </a>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-16" id="search-result">
+            <div class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 lg:gap-5 gap-16">
+                <div class="flex flex-col flex-nowrap overflow-hidden gap-2 justify-between col-span-full lg:col-span-2 row-start-1 col-start-1">
+                    <p class="font-bold text-2xl">Top Result</p>
+                    <div class="w-full md:w-fit flex flex-col justify-between h-64 border-none rounded-lg bg-white bg-opacity-10 cursor-pointer hover:bg-opacity-20 p-6 overflow-hidden mt-2">
+                        <img class="object-cover w-28 aspect-square rounded-lg" th:src="@{/assets/img/albums/demo1.webp}" alt="">
+
+                        <div class="overflow-hidden">
+                            <p class="font-bold text-xl md:text-3xl whitespace-nowrap text-ellipsis">Song name top result very long name</p>
+                            <p class="color-white-5 text-lg whitespace-nowrap">Artist name</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col gap-2 lg:row-start-1 row-start-2 col-span-full lg:col-span-2 xl:col-span-3 2xl:col-span-5">
+                    <p class="font-bold text-2xl">Songs</p>
+
+                    <div class="flex flex-col h-60">
+                        <div class="p-2 flex items-center gap-3 bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer h-16">
+                            <img class="h-full rounded-md aspect-square" th:src="@{/assets/img/albums/demo1.webp}" alt="">
+                            <div class="flex flex-col text-base">
+                                <p>Song name</p>
+                                <p class="color-white-5">Artist name</p>
+                            </div>
+                        </div>
+                        <div class="p-2 flex items-center gap-3 bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer h-16">
+                            <img class="h-full rounded-md aspect-square" th:src="@{/assets/img/albums/demo1.webp}" alt="">
+                            <div class="flex flex-col text-base">
+                                <p>Song name</p>
+                                <p class="color-white-5">Artist name</p>
+                            </div>
+                        </div>                        <div class="p-2 flex items-center gap-3 bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer h-16">
+                            <img class="h-full rounded-md aspect-square" th:src="@{/assets/img/albums/demo1.webp}" alt="">
+                            <div class="flex flex-col text-base">
+                                <p>Song name</p>
+                                <p class="color-white-5">Artist name</p>
+                            </div>
+                        </div>                        <div class="p-2 flex items-center gap-3 bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer h-16">
+                            <img class="h-full rounded-md aspect-square" th:src="@{/assets/img/albums/demo1.webp}" alt="">
+                            <div class="flex flex-col text-base">
+                                <p>Song name</p>
+                                <p class="color-white-5">Artist name</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2 h-fit w-full">
+                <div class="flex justify-between items-center font-bold">
+                    <p class="text-xl hover:underline">Artists</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                    <div class="playlist rounded-lg p-4 flex-col bg-white-07 overflow-hidden"> <!--th:each="playlist, iterStat : ${albums}" th:classappend="${iterStat.index < 2 ? 'flex' :
+                                                        (iterStat.index < 3 ? 'hidden md:flex' :
+                                                        (iterStat.index < 4 ? 'hidden lg:flex' :
+                                                        (iterStat.index < 5 ? 'hidden xl:flex' :
+                                                        (iterStat.index < 7 ? 'hidden 2xl:flex' : 'hidden'))))}"-->
+                        <div class="relative">
+                            <img class="rounded-full object-cover w-full aspect-square box-shadow"
+                                 th:src="@{/assets/img/albums/demo1.webp}" alt="">
+                            <div style="display: none" class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full">
+                            </div>
+                        </div>
+
+                        <div class="rounded-lg-content w-full mt-4">
+                            <p class="font-bold text-lg">Artist name</p>
+                            <p class="text-base color-white-5 two-line-ellipsis">Artist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2 h-fit w-full">
+                <div class="flex justify-between items-center font-bold">
+                    <p class="text-xl hover:underline">Albums</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                    <div th:each="playlist, iterStat : ${albums}" th:classappend="${iterStat.index < 2 ? 'flex' :
+                                                        (iterStat.index < 3 ? 'hidden md:flex' :
+                                                        (iterStat.index < 4 ? 'hidden lg:flex' :
+                                                        (iterStat.index < 5 ? 'hidden xl:flex' :
+                                                        (iterStat.index < 7 ? 'hidden 2xl:flex' : 'hidden'))))}"
+                         class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
+                        <div class="relative">
+                            <img class="rounded-md object-cover w-full aspect-square box-shadow"
+                                 th:src="@{/assets/img/albums/demo1.webp}" alt="">
+                            <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
+                            </div>
+                        </div>
+
+                        <div class="rounded-lg-content w-full">
+                            <p class="font-bold text-lg" th:text="Taylor Swift playlist">Playlist title</p>
+                            <p class="text-base color-white-5 two-line-ellipsis" th:text="A long description about something">
+                                Playlist
+                                long description</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div th:replace="layout/index-layout::main-footer"></div>
     </div>

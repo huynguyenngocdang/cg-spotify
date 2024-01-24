@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/playlist-hover.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/hide-search-bar.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script th:src="@{/assets/js/layoutIndexTopSideBar.js}"></script>
 </head>
 <body>
@@ -87,10 +88,10 @@
             <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">
                 <div class="support flex gap-8 items-center">
                     <a href="" class="hover:text-white">Premium</a>
-                    <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
+                    <div>
                         <a th:href="@{/artist}" class="hover:text-white">List Artist</a>
                     </div>
-                    <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
+                    <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')') or #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                         <a th:href="@{/artist/new}" class="hover:text-white">New Artist</a>
                     </div>
                     <a target="_blank" href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:text-white">Support</a>
