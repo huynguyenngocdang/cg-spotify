@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -50,7 +51,6 @@ public class ArtistController {
                 .map(artist -> Base64.getEncoder().encodeToString(artist.getArtistImage()))
                 .collect(Collectors.toList());
         model.addAttribute("imagesBase64", imageArtistBase64);
-
         UserEntity user = userService.getCurrentUser();
         model.addAttribute("user", user);
         return "artist/artist-list";
@@ -65,6 +65,8 @@ public class ArtistController {
         model.addAttribute("albums", albums);
         model.addAttribute("artist", artistDto);
 
+        UserEntity user = userService.getCurrentUser();
+        model.addAttribute("user", user);
         return "artist/artist-details";
     }
 
@@ -98,7 +100,55 @@ public class ArtistController {
         } catch (IOException e) {
             return "redirect:/artist?failArtist";
         }
+    }
 
+    @GetMapping("/artist/edit/{artistId}")
+    public String editArtist(@PathVariable("artistId") Long artistId,
+                             Model model) {
+        ArtistDto artistDto = artistService.findArtistById(artistId);
+        model.addAttribute("artist", artistDto);
+        model.addAttribute("artistId", artistId);
 
+        if (artistDto.getArtistImage() != null) {
+            String imageArtistBase64 = Base64.getEncoder().encodeToString(artistDto.getArtistImage());
+            model.addAttribute("imageBase64", imageArtistBase64);
+        }
+        return "artist/artist-edit";
+    }
+
+    @PostMapping("/artist/edit/{artistId}")
+    public String updateArtist(@ModelAttribute("artist") ArtistDto artist,
+                               @PathVariable("artistId") Long artistId,
+                               @RequestParam("imageArtistUpload") MultipartFile file,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            if (file != null && !file.isEmpty()) {
+                artist.setArtistImage(file.getBytes());
+            }
+
+            UserEntity user = userService.getCurrentUser();
+            if(user.getId().equals(artist.getCreatedById())) {
+                artistService.editArtist(artist, artistId);
+                redirectAttributes.addFlashAttribute("success", "Artist updated successfully");
+            } else {
+                return "redirect:/forbidden";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "There was an error processing the image");
+        }
+        return "redirect:/artist";
+    }
+
+    @PostMapping("/artist/delete/{artistId}")
+    public String deleteArtist(@PathVariable("artistId")Long artistId) {
+        ArtistDto artistDto = artistService.findArtistById(artistId);
+        UserEntity user = userService.getCurrentUser();
+        if(artistDto.getCreatedById().equals(user.getId())) {
+            artistService.deleteArtist(artistId);
+            return "redirect:/artist";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 }

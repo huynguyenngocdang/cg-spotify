@@ -39,16 +39,22 @@
     <div th:replace="layout/home-layout::main-topbar"></div>
     <div class="w-full overflow-y-scroll">
         <div class="w-full p-4 flex gap-6">
-            <img class="h-fit box-shadow-heavy aspect-square w-60 object-cover"
+            <img class="box-shadow-heavy aspect-square w-60 object-cover"
                  th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
 
             <div class="change-song text-white flex flex-col gap-2 h-fit mt-auto">
                 <p class="text-base">Song</p>
-                <p class="text-7xl font-bold" th:text="${song.title}">Song title</p>
-                <div class="flex gap-3">
-                    <p class="text-base mt-3" th:text="${artist.name}">Artist name</p>
-                    <p class="color-white-5 text-base mt-3" th:text="${album.title}"></p>
-                </div>
+
+                <p class="text-7xl font-black" th:text="${song.title}">Song title</p>
+                <p class="font-bold text-base mt-3" th:text="'Artist: ' + ${artist.name}">Artist name
+
+                </p>
+                <p class="font-bold text-base mt-3" th:text="'Album: ' + ${album.title}"></p>
+
+                <form th:action="@{/song/delete/{songId}(songId=${song.id})}" method="post">
+                    <button type="submit" class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
+                            onclick="return confirmDelete()">Delete Song<i class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
+                </form>
             </div>
 
         </div>
@@ -70,6 +76,12 @@
     </div>
 
 </div>
+
+<script>
+    function confirmDelete() {
+        return confirm('Are you sure you want to delete this Song?');
+    }
+</script>
 
 <div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
 
