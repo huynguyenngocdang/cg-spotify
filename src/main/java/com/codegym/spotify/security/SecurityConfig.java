@@ -31,7 +31,7 @@ public class SecurityConfig {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .requestMatchers("/login", "/assets/**", "/", "/index", "/register/**").permitAll()
+                .requestMatchers("/login", "/assets/**", "/", "/index", "/register/**", "/forbidden").permitAll()
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -45,6 +45,14 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/index")
                         .permitAll()
                 );
+        http.authorizeRequests()
+                .requestMatchers("/admin/**")
+                .access("hasAnyRole('ROLE_ADMIN')");
+
+        http.authorizeRequests()
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/forbidden");
         return http.build();
     }
 

@@ -27,6 +27,11 @@ public class AuthController {
         return "register";
     }
 
+    @GetMapping("/forbidden")
+    public String displayForbidden(Model model) {
+        return "error/forbidden";
+    }
+
     @PostMapping("/register/save")
     public String register(@Valid @ModelAttribute("user") RegistrationDto user,
                            BindingResult result,
