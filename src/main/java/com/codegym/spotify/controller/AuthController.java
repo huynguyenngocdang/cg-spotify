@@ -32,6 +32,11 @@ public class AuthController {
         return "error/forbidden";
     }
 
+    @GetMapping("/error")
+    public String displayError() {
+        return "error/error";
+    }
+
     @PostMapping("/register/save")
     public String register(@Valid @ModelAttribute("user") RegistrationDto user,
                            BindingResult result,

@@ -102,4 +102,17 @@ public class ArtistServiceImpl implements ArtistService {
         artist.setCreatedBy(user);
         artistRepository.save(artist);
     }
+
+    @Override
+    public void editArtist(ArtistDto artistDto, Long artistId) {
+        Artist artist = artistRepository.findArtistById(artistId);
+        artist.setName(artistDto.getName());
+        artist.setArtistImage(artistDto.getArtistImage());
+        artistRepository.save(artist);
+    }
+
+    @Override
+    public void deleteArtist(Long artistId) {
+        artistRepository.deleteById(artistId);
+    }
 }

@@ -1,6 +1,6 @@
 package com.codegym.spotify.service.impl;
 
-import com.codegym.spotify.dto.AlbumDto;
+import com.codegym.spotify.constant.VarConstant;
 import com.codegym.spotify.dto.SongDto;
 import com.codegym.spotify.entity.Album;
 import com.codegym.spotify.entity.Song;
@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.codegym.spotify.constant.VarConstant.ALLOWED_EXTENSIONS;
@@ -47,7 +48,7 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public SongDto findSongById(Long songId) {
-        Song song = songRepository.findSongsById(songId);
+        Song song = songRepository.findSongById(songId);
         return convertToSongDto(song);
     }
 
@@ -143,4 +144,24 @@ public class SongServiceImpl implements SongService {
         songRepository.save(song);
     }
 
+    @Override
+    public boolean deleteSong(Long songId) {
+        Optional<Song> songOptional = songRepository.findById(songId);
+        if(songOptional.isPresent()) {
+            Song song = songOptional.get();
+            String filename = song.getFilename();
+            Path fileToDeletePath = Paths.get(SONG_PATH + filename);
+            try {
+                Files.deleteIfExists(fileToDeletePath);
+                songRepository.deleteById(songId);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+    }
 }

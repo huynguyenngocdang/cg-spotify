@@ -49,6 +49,12 @@
 
                 </p>
                 <p class="font-bold text-base mt-3" th:text="'Album: ' + ${album.title}"></p>
+
+                <form th:action="@{/song/delete/{songId}(songId=${song.id})}" method="post">
+                    <button type="submit" class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
+                            onclick="return confirmDelete()">Delete Song<i class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
+                </form>
+
             </div>
 
         </div>
@@ -64,6 +70,12 @@
     </div>
 
 </div>
+
+<script>
+    function confirmDelete() {
+        return confirm('Are you sure you want to delete this Song?');
+    }
+</script>
 
 <div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
 

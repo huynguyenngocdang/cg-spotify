@@ -3,10 +3,12 @@ package com.codegym.spotify.controller;
 import com.codegym.spotify.dto.AlbumDto;
 import com.codegym.spotify.dto.ArtistDto;
 import com.codegym.spotify.dto.SongDto;
+import com.codegym.spotify.entity.UserEntity;
 import com.codegym.spotify.service.AlbumService;
 import com.codegym.spotify.service.ArtistService;
 import com.codegym.spotify.service.LyricService;
 import com.codegym.spotify.service.SongService;
+import com.codegym.spotify.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,18 +30,21 @@ public class SongController {
     private final AlbumService albumService;
     private final ArtistService artistService;
     private final LyricService lyricService;
+    private final UserService userService;
 
 
     @Autowired
     public SongController(SongService songService,
                           AlbumService albumService,
                           ArtistService artistService,
-                          LyricService lyricService
+                          LyricService lyricService,
+                          UserService userService
                           ) {
         this.songService = songService;
         this.albumService = albumService;
         this.artistService = artistService;
         this.lyricService = lyricService;
+        this.userService = userService;
     }
     @GetMapping("/songs")
     public ModelAndView listSongs() {
@@ -53,17 +58,7 @@ public class SongController {
     public String searchIndex() {
         return "index/index-search";
     }
-    @GetMapping("/{albumId}/songs")
-    public String listSongs(@PathVariable("albumId") Long albumId,Model model) {
-        List<SongDto> songs = songService.findSongsByAlbumId(albumId);
-        model.addAttribute("songs", songs);
-        model.addAttribute("albumId", albumId);
-        AlbumDto albumDto = albumService.findAlbumById(albumId);
-        ArtistDto artistDto = artistService.findArtistById(albumDto.getArtistId());
-        model.addAttribute("artist", artistDto);
-        model.addAttribute("album", albumDto);
-        return "song/songs-list";
-    }
+
 
     @GetMapping("/{albumId}/songs/upload")
     public String displayUploadSong(@PathVariable("albumId") Long albumId, Model model) {
@@ -97,7 +92,7 @@ public class SongController {
             ArtistDto artistDto = artistService.findArtistById(albumDto.getArtistId());
             model.addAttribute("artist", artistDto);
             model.addAttribute("album", albumDto);
-            return "song/songs-list";
+            return ("redirect:/albums/detail/" + albumId + "/songs");
         }
         return "redirect:/index?uploadFail";
     }
@@ -118,6 +113,25 @@ public class SongController {
         AlbumDto albumDto = albumService.findAlbumById(songDto.getAlbumId());
         model.addAttribute("album", albumDto);
         return "song/songs-detail-giang";
+    }
+
+    @PostMapping("/song/delete/{songId}")
+    public String deleteSong(@PathVariable("songId")Long songId) {
+        SongDto songDto = songService.findSongById(songId);
+        AlbumDto albumDto = albumService.findAlbumById(songDto.getAlbumId());
+        ArtistDto artistDto = artistService.findArtistById(albumDto.getArtistId());
+
+        UserEntity user = userService.getCurrentUser();
+        if(user.getId().equals(artistDto.getCreatedById())) {
+            if(songService.deleteSong(songId)){
+                return "redirect:/artist";
+            } else {
+                return "redirect:/error";
+            }
+        } else {
+            return "redirect:/forbidden";
+        }
+
     }
 
 }
