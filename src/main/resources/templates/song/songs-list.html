@@ -59,39 +59,9 @@
             </tr>
         </table>
 
-        <div th:replace="layout/index-layout::main-footer"></div>
     </div>
 
 
-    <div th:replace="layout/index-layout::main-footer"></div>
-</div>
-
-<div class="flex flex-col gap-4">
-    <p class="font-bold text-2xl">Artist List</p>
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-        <table class="table">
-            <thead>
-            <tr>
-                <td class="text-xs">Songs</td>
-                <td class="text-xs">Artist</td>
-                <td class="text-xs">Album</td>
-                <td class="text-xs">Controller</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="song : ${songs}">
-                <td><p th:text="${song.title}" class="text-xs"></p></td>
-                <td><p th:text="${artist.name}" class="text-xs"></p></td>
-                <td><p th:text="${album.title}" class="text-xs"></p></td>
-                <td>
-                    <a th:href="@{/{artistId}/{songId}/songs/songsDetail(artistId=${artist.id}, songId=${song.id})}"
-                       class="text-xs">View Song</a>
-
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
 
 <script>
@@ -106,6 +76,7 @@
 <div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>
 
 <script th:src="@{/assets/js/accountOverlay.js}" sec:authorize="isAuthenticated()"></script>
+<script th:src="@{/assets/js/musicPlayer.js}" sec:authorize="isAuthenticated()"></script>
 
 </body>
 </html>
