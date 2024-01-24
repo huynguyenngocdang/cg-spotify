@@ -100,7 +100,7 @@
 </div>
 
 <div>
-    <div th:fragment="main-topbar" class="bg-white-05">
+    <div th:fragment="main-topbar" class="bg-black">
         <div class="flex items-center gap-4">
             <div class="flex gap-2 text-base">
                 <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-left"></i>
@@ -110,7 +110,7 @@
             <form class="search-bar relative text-base">
                 <i class="absolute top-2 left-3.5 color-white-7 fa-solid fa-magnifying-glass text-xl"></i>
                 <input class="search-input rounded-full pl-12 pr-6 py-3 text-clip overflow-hidden bg-white-1 hover:border-gray-500 focus:text-white focus:border-white w-80"
-                      id="search" type="text" name="searchKeyword" placeholder="What do you want to listen to?">
+                       id="search" type="text" name="searchKeyword" placeholder="What do you want to listen to?">
             </form>
         </div>
 
@@ -119,7 +119,9 @@
                 <a href="" class="hover:text-white">Premium</a>
                 <a th:href="@{/artist}" class="hover:text-white">List Artist</a>
                 <a th:href="@{/artist/new}" class="hover:text-white">New Artist</a>
-                <a target="_blank" href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:text-white">Support</a>
+                <a target="_blank"
+                   href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                   class="hover:text-white">Support</a>
                 <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/" class="hover:text-white">Download</a>
             </div>
 
@@ -140,37 +142,54 @@
                 <div class="footer-category text-base leading-7 p-4">
                     <p class="font-bold">Company</p>
                     <div class="color-white-5">
-                        <a target="_blank" href="https://www.spotify.com/vn-en/about-us/contact/" class="hover:underline hover:text-white">About</a>
-                        <a target="_blank" href="https://www.lifeatspotify.com/?_gl=1*uli4hd*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:underline hover:text-white">Jobs</a>
+                        <a target="_blank" href="https://www.spotify.com/vn-en/about-us/contact/"
+                           class="hover:underline hover:text-white">About</a>
+                        <a target="_blank"
+                           href="https://www.lifeatspotify.com/?_gl=1*uli4hd*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">Jobs</a>
                         <a target="_blank" href="" class="hover:underline hover:text-white">For the Record</a>
                     </div>
                 </div>
                 <div class="footer-category text-base leading-7 p-4">
                     <p class="font-bold">Communities</p>
                     <div class="color-white-5">
-                        <a target="_blank" href="https://artists.spotify.com/home?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:underline hover:text-white">For Artists</a>
-                        <a target="_blank" href="https://developer.spotify.com/?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:underline hover:text-white">Developers</a>
-                        <a target="_blank" href="https://ads.spotify.com/en-US/?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:underline hover:text-white">Advertising</a>
-                        <a target="_blank" href="https://investors.spotify.com/home/default.aspx" class="hover:underline hover:text-white">Investors</a>
-                        <a target="_blank" href="https://spotifyforvendors.com/" class="hover:underline hover:text-white">Vendors</a>
+                        <a target="_blank"
+                           href="https://artists.spotify.com/home?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">For Artists</a>
+                        <a target="_blank"
+                           href="https://developer.spotify.com/?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">Developers</a>
+                        <a target="_blank"
+                           href="https://ads.spotify.com/en-US/?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">Advertising</a>
+                        <a target="_blank" href="https://investors.spotify.com/home/default.aspx"
+                           class="hover:underline hover:text-white">Investors</a>
+                        <a target="_blank" href="https://spotifyforvendors.com/"
+                           class="hover:underline hover:text-white">Vendors</a>
                     </div>
                 </div>
                 <div class="footer-category text-base leading-7 p-4">
                     <p class="font-bold">Useful links</p>
                     <div class="color-white-5">
-                        <a target="_blank" href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:underline hover:text-white">Support</a>
-                        <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/" class="hover:underline hover:text-white">Free Mobile App</a>
+                        <a target="_blank"
+                           href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">Support</a>
+                        <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/"
+                           class="hover:underline hover:text-white">Free Mobile App</a>
                     </div>
                 </div>
 
                 <div class="brand-icons text-lg hidden col-start-1 md:col-start-3 lg:flex lg:col-start-4 xl:col-start-5 2xl:col-start-7 ml-auto gap-3">
-                    <a target="_blank" href="https://www.instagram.com/spotify" class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
+                    <a target="_blank" href="https://www.instagram.com/spotify"
+                       class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
                         <i class="fa-brands fa-instagram" style="color: #ffffff;"></i>
                     </a>
-                    <a target="_blank" href="https://twitter.com/spotify" class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
+                    <a target="_blank" href="https://twitter.com/spotify"
+                       class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
                         <i class="fa-brands fa-twitter" style="color: #ffffff;"></i>
                     </a>
-                    <a target="_blank" href="https://www.facebook.com/SpotifyVietnam/?brand_redir=6243987495" class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
+                    <a target="_blank" href="https://www.facebook.com/SpotifyVietnam/?brand_redir=6243987495"
+                       class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
                         <i class="fa-brands fa-facebook" style="color: #ffffff;"></i>
                     </a>
                 </div>

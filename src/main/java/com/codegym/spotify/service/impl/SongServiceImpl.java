@@ -1,8 +1,11 @@
 package com.codegym.spotify.service.impl;
 
+import com.codegym.spotify.dto.AlbumDto;
 import com.codegym.spotify.dto.SongDto;
+import com.codegym.spotify.entity.Album;
 import com.codegym.spotify.entity.Song;
 import com.codegym.spotify.repository.AlbumRepository;
+import com.codegym.spotify.repository.ArtistRepository;
 import com.codegym.spotify.repository.SongRepository;
 import com.codegym.spotify.service.SongService;
 import org.modelmapper.ModelMapper;
@@ -15,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,12 +30,13 @@ public class SongServiceImpl implements SongService {
     private final SongRepository songRepository;
     private final ModelMapper modelMapper;
     private final AlbumRepository albumRepository;
-
+    private final ArtistRepository artistRepository;
     @Autowired
-    public SongServiceImpl(SongRepository songRepository, ModelMapper modelMapper, AlbumRepository albumRepository) {
+    public SongServiceImpl(SongRepository songRepository, ModelMapper modelMapper, AlbumRepository albumRepository, ArtistRepository artistRepository) {
         this.songRepository = songRepository;
         this.modelMapper = modelMapper;
         this.albumRepository = albumRepository;
+        this.artistRepository = artistRepository;
     }
 
     @Override
@@ -49,6 +54,17 @@ public class SongServiceImpl implements SongService {
     @Override
     public List<SongDto> findSongsByAlbumId(Long albumId) {
         List<Song> songs = songRepository.findSongsByAlbumId(albumId);
+        return songs.stream().map(this::convertToSongDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SongDto> findSongsByArtistId(Long artistId) {
+        List<Album> albums = albumRepository.findAlbumsByArtistId(artistId);
+        List<Song> songs = new ArrayList<>();
+        for (Album album : albums) {
+            List<Song> albumSongs = songRepository.findSongsByAlbumId(album.getId());
+            songs.addAll(albumSongs);
+        }
         return songs.stream().map(this::convertToSongDto).collect(Collectors.toList());
     }
 

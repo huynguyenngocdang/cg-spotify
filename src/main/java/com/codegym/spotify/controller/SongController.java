@@ -90,7 +90,14 @@ public class SongController {
 
         if(songService.handleSongUpload(file, songDto.getFilename()) ){
             songService.saveSong(songDto, file);
-            return "redirect:/index?uploadSuccess";
+            List<SongDto> songs = songService.findSongsByAlbumId(albumId);
+            model.addAttribute("songs", songs);
+            model.addAttribute("albumId", albumId);
+            AlbumDto albumDto = albumService.findAlbumById(albumId);
+            ArtistDto artistDto = artistService.findArtistById(albumDto.getArtistId());
+            model.addAttribute("artist", artistDto);
+            model.addAttribute("album", albumDto);
+            return "song/songs-list";
         }
         return "redirect:/index?uploadFail";
     }
