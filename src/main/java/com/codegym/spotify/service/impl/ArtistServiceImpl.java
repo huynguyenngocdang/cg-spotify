@@ -78,6 +78,17 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
+    public List<ArtistDto> findArtistByUserId() {
+        String username = SecurityUtil.getSessionUser();
+        UserEntity user = userService.findByUsername(username);
+        List<Artist> artists = user.getArtists();
+
+        return artists.stream()
+                .map(this::convertToArtistDto)
+                .toList();
+    }
+
+    @Override
     public ArtistDto findArtistById(Long id) {
         Artist artist = artistRepository.findArtistById(id);
         return convertToArtistDto(artist);

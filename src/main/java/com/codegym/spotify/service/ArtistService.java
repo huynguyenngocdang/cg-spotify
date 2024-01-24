@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface ArtistService {
     List<ArtistDto> findAllArtist();
-
+    List<ArtistDto> findArtistByUserId();
     void saveArtist(ArtistDto artistDto);
     ArtistDto findArtistById(Long id);
+
 }
