@@ -8,8 +8,6 @@ public interface UserProfileService {
     List<UserProfileDto> findAll();
     UserProfileDto findById(Long id);
 
-    UserProfileDto findByUserEntityId(Long id);
-
     void createNewUserProfile(UserProfileDto userProfileDto);
 
     boolean userProfileIsExist(Long id);

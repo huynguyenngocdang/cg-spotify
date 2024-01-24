@@ -1,7 +1,9 @@
 package com.codegym.spotify.controller;
 
 import com.codegym.spotify.dto.ArtistDto;
+import com.codegym.spotify.entity.UserEntity;
 import com.codegym.spotify.service.ArtistService;
+import com.codegym.spotify.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,9 +27,11 @@ import java.util.stream.Collectors;
 @Controller
 public class ArtistController {
     private ArtistService artistService;
-    @Autowired
-    public ArtistController(ArtistService artistService) {
+    private UserService userService;
+
+    public ArtistController(ArtistService artistService, UserService userService) {
         this.artistService = artistService;
+        this.userService = userService;
     }
 
     @GetMapping("/artist")
@@ -38,6 +42,9 @@ public class ArtistController {
                 .map(artist -> Base64.getEncoder().encodeToString(artist.getArtistImage()))
                 .collect(Collectors.toList());
         model.addAttribute("imagesBase64", imageArtistBase64);
+
+        UserEntity user = userService.getCurrentUser();
+        model.addAttribute("user", user);
         return "artist/artist-list";
     }
 

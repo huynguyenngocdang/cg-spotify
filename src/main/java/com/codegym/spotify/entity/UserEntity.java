@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table (name = "users")
+@Table(name = "users")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +37,13 @@ public class UserEntity {
     @JoinTable(
             name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns ={@JoinColumn(name = "role_id", referencedColumnName = "id")}
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
 
-
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "userEntity")
     private UserProfile userProfile;
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.REMOVE)
+    private List<Artist> artists = new ArrayList<>();
+
 }

@@ -22,19 +22,17 @@ public class IndexController {
 
     @GetMapping({"/", "/index"})
     public String displayIndex(Model model) {
-        UserEntity user = new UserEntity();
-        String username = SecurityUtil.getSessionUser();
-        if (username != null) {
-            user = userService.findByUsername(username);
-        }
+        UserEntity user = userService.getCurrentUser();
         model.addAttribute("user", user);
-
         return "index/index";
     }
 
     @GetMapping("account")
-    public String account() {
+    public String account(Model model) {
+        UserEntity user = userService.getCurrentUser();
+        model.addAttribute("user", user);
         return "account/account-menu";
     }
+
 
 }

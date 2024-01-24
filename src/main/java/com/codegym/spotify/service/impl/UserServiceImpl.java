@@ -6,6 +6,7 @@ import com.codegym.spotify.entity.Role;
 import com.codegym.spotify.entity.UserEntity;
 import com.codegym.spotify.repository.RoleRepository;
 import com.codegym.spotify.repository.UserRepository;
+import com.codegym.spotify.security.SecurityUtil;
 import com.codegym.spotify.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,9 +35,15 @@ public class UserServiceImpl implements UserService {
         user.setUsername(registrationDto.getUsername());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         user.setEmail(registrationDto.getEmail());
-
         Role role = roleRepository.findByRoleType(VarConstant.ROLE_TYPE_USER);
         user.setRoles(Arrays.asList(role));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updatePassword(String newPassword) {
+        UserEntity user = getCurrentUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
 
@@ -66,5 +73,30 @@ public class UserServiceImpl implements UserService {
         return registrationDto;
     }
 
+    public RegistrationDto findById(Long userId) {
+        UserEntity user = userRepository.findById(userId).get();
+        return mapToRegistrationDto(user);
+    }
+    @Override
+    public UserEntity getCurrentUser(){
+        UserEntity user = new UserEntity();
+        String username = SecurityUtil.getSessionUser();
+        if (username != null) {
+            user = findByUsername(username);
+        }
+        return user;
+    }
+
+    @Override
+    public boolean checkExistingPassword(String currentEnterPassword) {
+        UserEntity userEntity = getCurrentUser();
+        String currentUserPassword = userEntity.getPassword();
+        return passwordEncoder.matches(currentEnterPassword, currentUserPassword);
+    }
+
+    @Override
+    public boolean passwordValid(String password1, String password2) {
+        return password1.equals(password2);
+    }
 
 }

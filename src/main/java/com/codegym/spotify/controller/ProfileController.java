@@ -25,7 +25,7 @@ public class ProfileController {
     @GetMapping("/user-profiles/{userId}/profile")
     public String displayUserProfile(@PathVariable("userId") Long userId,
                                      Model model) {
-            UserProfileDto userProfileDto = userProfileService.findByUserEntityId(userId);
+            UserProfileDto userProfileDto = userProfileService.findById(userId);
             model.addAttribute("userProfile",userProfileDto);
             return "user/profile";
     }
@@ -67,7 +67,4 @@ public class ProfileController {
         userProfileService.createNewUserProfile(userProfileDto);
         return "redirect:/index?addNewProfile";
     }
-
-
-
 }

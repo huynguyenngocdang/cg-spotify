@@ -35,12 +35,6 @@ public class UserProfileServiceImpl implements UserProfileService {
         UserProfile userProfile = userProfileRepository.findById(id).get();
         return mapToUserProfileDto(userProfile);
     }
-
-    @Override
-    public UserProfileDto findByUserEntityId(Long id) {
-        UserProfile userProfile = userProfileRepository.findUserProfileByUserEntityId(id);
-        return mapToUserProfileDto(userProfile);
-    }
     @Override
     public void createNewUserProfile(UserProfileDto userProfileDto) {
         UserProfile userProfile = convertToProfileEntity(userProfileDto);
@@ -49,12 +43,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public boolean userProfileIsExist(Long id) {
-        try{
-            List<UserProfile> userProfiles = userProfileRepository.findAll();
-            return userProfiles != null && userProfiles.stream().anyMatch(userProfile -> userProfile.getId().equals(id));
-        }catch (NullPointerException e){
-            return false;
-        }
+        UserProfileDto userProfileDto = findById(id);
+        return userProfileDto != null;
     }
 
     public UserProfileDto mapToUserProfileDto(UserProfile userProfile){

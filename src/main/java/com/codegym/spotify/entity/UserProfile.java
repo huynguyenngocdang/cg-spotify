@@ -35,7 +35,7 @@ public class UserProfile {
     @CreationTimestamp
     private LocalDateTime createOn;
 
-    @OneToOne( cascade = CascadeType.ALL)
+    @OneToOne( fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_entity_id", referencedColumnName = "id")
     private UserEntity userEntity;
 }

@@ -84,6 +84,19 @@
                 <i class="bg-white bg-opacity-5 cursor-pointer hover:bg-opacity-10 rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-left"></i>
                 <i class="bg-white bg-opacity-5 cursor-pointer hover:bg-opacity-10 rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-right"></i>
             </div>
+            <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">
+                <div class="support flex gap-8 items-center">
+                    <a href="" class="hover:text-white">Premium</a>
+                    <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
+                        <a th:href="@{/artist}" class="hover:text-white">List Artist</a>
+                    </div>
+                    <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
+                        <a th:href="@{/artist/new}" class="hover:text-white">New Artist</a>
+                    </div>
+                    <a target="_blank" href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:text-white">Support</a>
+                    <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/" class="hover:text-white">Download</a>
+                </div>
+            </div>
 
             <div class="search-bar relative text-base">
                 <i class="absolute top-2 left-3.5 color-white-7 fa-solid fa-magnifying-glass text-xl"></i>

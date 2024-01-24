@@ -11,8 +11,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findByEmail(String email);
     UserEntity findByUsername(String username);
     UserEntity findFirstByUsername(String username);
+
     @Query("SELECT r.roleType FROM UserEntity u " +
             "JOIN u.roles r " +
             "WHERE u.username = :username ")
     List<String> findRoleByUsername(@Param("username") String username);
+
 }

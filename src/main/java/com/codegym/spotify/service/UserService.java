@@ -10,4 +10,11 @@ public interface UserService {
     UserEntity findByEmail(String email);
     UserEntity findByUsername(String username);
     List<RegistrationDto> findAllUserEntity();
+    RegistrationDto findById(Long userId);
+    UserEntity getCurrentUser();
+
+    void updatePassword(String newPassword);
+
+    boolean checkExistingPassword(String currentPassword);
+    boolean passwordValid(String password1, String password2);
 }
