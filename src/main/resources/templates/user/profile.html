@@ -10,7 +10,7 @@
 
 <div class="pt-14 h-fit">
     <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10"
-          th:action="@{/userProfiles/{userId}/profile(userId=${userId})}"
+          th:action="@{/user-profiles/{userId}/profile(userId=${userId})}"
           method="post"
          th:object="${userProfile}"
           role="form">
@@ -75,7 +75,6 @@
                 </div>
                 <button type="submit"
                         class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-400"
-
                 > Edit
                 </button>
             </div>

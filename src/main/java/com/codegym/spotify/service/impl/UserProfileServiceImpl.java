@@ -6,11 +6,13 @@ import com.codegym.spotify.entity.UserProfile;
 import com.codegym.spotify.repository.UserProfileRepository;
 import com.codegym.spotify.repository.UserRepository;
 import com.codegym.spotify.service.UserProfileService;
+import com.codegym.spotify.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,12 +20,15 @@ public class UserProfileServiceImpl implements UserProfileService {
     private UserProfileRepository userProfileRepository;
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
+    private UserService userService;
 
-    public UserProfileServiceImpl(UserProfileRepository userProfileRepository, ModelMapper modelMapper, UserRepository userRepository) {
+    public UserProfileServiceImpl(UserProfileRepository userProfileRepository, ModelMapper modelMapper, UserRepository userRepository, UserService userService) {
         this.userProfileRepository = userProfileRepository;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
+
     @Override
     public List<UserProfileDto> findAll() {
         List<UserProfile> userProfileList = userProfileRepository.findAll();
@@ -31,9 +36,13 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserProfileDto findById(Long id) {
-        UserProfile userProfile = userProfileRepository.findById(id).get();
-        return mapToUserProfileDto(userProfile);
+    public UserProfileDto findById(Long id) throws Exception {
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(id);
+        if (optionalUserProfile.isPresent()) {
+            UserProfile userProfile = optionalUserProfile.get();
+            return mapToUserProfileDto(userProfile);
+        }
+        throw new Exception();
     }
     @Override
     public void createNewUserProfile(UserProfileDto userProfileDto) {
@@ -43,7 +52,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public boolean userProfileIsExist(Long id) {
-        UserProfileDto userProfileDto = findById(id);
+        Optional<UserProfile> userProfileDto = userProfileRepository.findById(id);
         return userProfileDto != null;
     }
 
@@ -72,5 +81,21 @@ public class UserProfileServiceImpl implements UserProfileService {
             userProfile.setUserEntity(userEntity);
         }
         return userProfile;
+    }
+
+    @Override
+    public void updateUserProfile(String fullName, String email, String phoneNumber) {
+        UserProfile userProfile = new UserProfile();
+        userProfile.setFullName(fullName);
+        userProfile.setEmail(email);
+        userProfile.setPhoneNumber(phoneNumber);
+        userProfileRepository.save(userProfile);
+    }
+
+    @Override
+    public void createUserProfileWithId(UserEntity userEntity) {
+        UserProfile userProfile = new UserProfile();
+        userEntity = userService.getCurrentUser();
+        userProfile.setUserEntity(userEntity);
     }
 }
