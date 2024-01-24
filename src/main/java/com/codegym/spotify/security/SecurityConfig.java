@@ -50,9 +50,45 @@ public class SecurityConfig {
                 .access("hasAnyRole('ROLE_ADMIN')");
 
         http.authorizeRequests()
+                        .requestMatchers("/artist/edit/**", "/artist/new", "/artist/delete/**", "/own-artist")
+                                .access("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')");
+
+        http.authorizeRequests()
+                .requestMatchers("/albums/new/**", "/albums/edit/**", "/album/delete/**")
+                .access("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')");
+
+        http.authorizeRequests()
+                .requestMatchers("/song/delete/**", "/*/songs/upload")
+                .access("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')");
+
+        http.authorizeRequests()
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/forbidden");
+
+//        http.authorizeRequests(authorizeRequests ->
+//                        authorizeRequests
+//                                .requestMatchers("/login", "/assets/**", "/", "/index", "/register/**", "/forbidden").permitAll()
+//                                .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
+//                                .requestMatchers("/artist/edit/**", "/artist/new", "/artist/delete/**", "/own-artist").hasAnyRole("ROLE_MODERATOR", "ROLE_ADMIN")
+//                                .requestMatchers("/albums/new/**", "/albums/edit/**", "/album/delete/**").hasAnyRole("ROLE_MODERATOR", "ROLE_ADMIN")
+//                                .requestMatchers("/song/delete/**", "/*/songs/upload").hasAnyRole("ROLE_MODERATOR", "ROLE_ADMIN")
+//                                .anyRequest().authenticated()
+//                )
+//                .formLogin(form -> form
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/index?success")
+//                        .loginProcessingUrl("/login")
+//                        .failureUrl("/login?error=true")
+//                        .permitAll()
+//                )
+//                .logout(logout -> logout
+//                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                        .logoutSuccessUrl("/index")
+//                        .permitAll()
+//                )
+//                .exceptionHandling()
+//                .accessDeniedPage("/forbidden");
         return http.build();
     }
 

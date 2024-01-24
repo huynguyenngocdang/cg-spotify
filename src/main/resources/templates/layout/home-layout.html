@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org/">
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,11 +25,11 @@
 <div th:fragment="sidebar" class="overflow-hidden">
     <div class="sidebar-top rounded-lg font-bold px-2 py-1 bg-white-07 h-fit">
         <div class="flex flex-col text-base p-4 justify-between gap-4">
-            <a href="">
+            <a th:href="@{/index}">
                 <img class="home-logo h-6 w-fit object-contain" src="/assets/img/logo/spotify-logo-white.png"
                      alt="This is spotify logo" th:fragment="logo">
             </a>
-            <a href="" class="home-select color-white-5 hover:text-white">
+            <a th:href="@{/index}" class="home-select color-white-5 hover:text-white">
                 <div class="home-icon flex items-center">
                     <i class="fa-solid fa-house text-xl"></i>
                     <p class="ml-4 mt-1">Home</p>
@@ -94,22 +95,34 @@
         </div>
         <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">
             <div class="support flex gap-8 items-center">
-                <a href="" class="hover:text-white">Premium</a>
-                <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
-                    <a th:href="@{/artist}" class="hover:text-white">Your Artist</a>
+                <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <a th:href="@{/admin}" class="hover:text-white">Admin Menu</a>
                 </div>
-                <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
+<!--                <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">-->
+<!--                    <a th:href="@{/artist}" class="hover:text-white">Your Artist</a>-->
+<!--                </div>-->
+
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/artist}" class="hover:text-white">List all Artist</a>
+                </div>
+
+                <div  sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')">
+                    <a th:href="@{/own-artist}" class="hover:text-white">Your Artist</a>
+                </div>
+                <div sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')">
                     <a th:href="@{/artist/new}" class="hover:text-white">New Artist</a>
                 </div>
-                <a target="_blank" href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:text-white">Support</a>
+                <a target="_blank"
+                   href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                   class="hover:text-white">Support</a>
                 <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/" class="hover:text-white">Download</a>
             </div>
 
-            <div id="user-icon" class="user-icon rounded-full bg-white bg-opacity-10 h-10 w-10 flex justify-center items-center cursor-pointer hover:bg-opacity-20">
+            <div id="user-icon"
+                 class="user-icon rounded-full bg-white bg-opacity-10 h-10 w-10 flex justify-center items-center cursor-pointer hover:bg-opacity-20">
                 <i class="fa-regular fa-user text-white text-base"></i>
             </div>
         </div>
-
 
 
     </div>
@@ -136,7 +149,11 @@
     <div class="flex flex-col items-center h-full justify-between">
         <div class="color-white-5 text-xl flex items-center justify-center gap-4">
             <i class="hover:text-white fa-solid fa-backward-fast"></i>
-            <button class="w-8 h-8 box-shadow-heavy bg-white rounded-full p-0.5"><img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt=""></button>
+            <button class="w-8 h-8 box-shadow-heavy bg-white rounded-full p-0.5" id="play-button">
+                <img id="play" src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png"
+                     style="display: none" alt="">
+                <img id="stop" src="https://cdn-icons-png.flaticon.com/512/10149/10149821.png" alt="">
+            </button>
             <i class="hover:text-white fa-solid fa-forward-fast"></i>
         </div>
 
@@ -151,9 +168,14 @@
         <i class="fa-solid fa-bars"></i>
         <i class="fa-solid fa-volume-low"></i>
     </div>
+    <audio id="audio" autoplay loop class="hidden">
+        Your browser does not support the audio tag.
+    </audio>
 </div>
 
-<div th:fragment="account-overlay" id="account-overlay" class="fixed right-10 top-20 box-shadow account-overlay z-40 p-1 w-40 h-fit rounded-md flex-col text-sm" style="display: none">
+<div th:fragment="account-overlay" id="account-overlay"
+     class="fixed right-10 top-20 box-shadow account-overlay z-40 p-1 w-40 h-fit rounded-md flex-col text-sm"
+     style="display: none">
     <div class="flex flex-col w-full">
         <a th:href="@{/account}" class="p-3 hover:bg-white hover:bg-opacity-5">Account</a>
         <a href="" class="p-3 hover:bg-white hover:bg-opacity-5">Profile</a>

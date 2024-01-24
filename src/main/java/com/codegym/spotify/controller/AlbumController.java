@@ -42,7 +42,7 @@ public class AlbumController {
         this.userService = userService;
     }
 
-    @GetMapping("/{artistId}/albums/new")
+    @GetMapping("/albums/new/{artistId}")
     public String displayNewAlbumForm(@PathVariable("artistId") Long artistId, Model model) {
         AlbumDto albumDto = new AlbumDto();
         albumDto.setArtistId(artistId);
@@ -59,7 +59,7 @@ public class AlbumController {
                 .body(albumDto.getAlbumImage());
     }
 
-    @PostMapping("/{artistId}/albums/new")
+    @PostMapping("/albums/new/{artistId}")
     public String saveNewAlbum(@PathVariable("artistId") Long artistId,
                                @Valid @ModelAttribute("newAlbum") AlbumDto albumDto,
                                @RequestParam("imageAlbumUpload") MultipartFile file,
@@ -101,12 +101,18 @@ public class AlbumController {
                                    Model model) {
         AlbumDto albumDto = albumService.findAlbumById(albumId);
         model.addAttribute("album", albumDto);
-
-        if (albumDto.getAlbumImage() != null) {
-            String imageArtistBase64 = Base64.getEncoder().encodeToString(albumDto.getAlbumImage());
-            model.addAttribute("imageBase64", imageArtistBase64);
+        
+        UserEntity user= userService.getCurrentUser();
+        ArtistDto artistDto = artistService.findArtistById(albumDto.getArtistId());
+        if (user.getId().equals(artistDto.getCreatedById())) {
+            if (albumDto.getAlbumImage() != null) {
+                String imageArtistBase64 = Base64.getEncoder().encodeToString(albumDto.getAlbumImage());
+                model.addAttribute("imageBase64", imageArtistBase64);
+            }
+            return "album/album-edit";
+        } else {
+            return "redirect:/forbidden";
         }
-        return "album/album-edit";
     }
 
     @PostMapping("/albums/edit/{albumId}")
