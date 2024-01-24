@@ -76,7 +76,14 @@ public class ArtistController {
         } catch (IOException e) {
             return "redirect:/artist?failArtist";
         }
+    }
 
-
+    @GetMapping("/artist/edit{artistId}")
+    public String editArtist(@PathVariable("artistId") Long artistId,
+                             Model model) {
+        ArtistDto artistDto = artistService.findArtistById(artistId);
+        model.addAttribute("artist", artistDto);
+        model.addAttribute("artistId", artistId);
+        return "artist/artist-edit";
     }
 }
