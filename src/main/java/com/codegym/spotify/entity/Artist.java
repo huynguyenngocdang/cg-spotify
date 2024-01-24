@@ -33,12 +33,12 @@ public class Artist {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] artistImage;
+
     @OneToMany(mappedBy = "artist", cascade = CascadeType.REMOVE)
     private List<Album> albums = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private UserEntity createdBy;
-
 
 }

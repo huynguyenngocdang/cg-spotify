@@ -109,12 +109,10 @@ public class SongController {
         List<String> lyrics = lyricService.getSongLyrics(artistName, songName);
         model.addAttribute("lyrics", lyrics);
         model.addAttribute("song", songDto);
-        return "song/songs-detail";
+        model.addAttribute("artist", artistDto);
+        AlbumDto albumDto = albumService.findAlbumById(songDto.getAlbumId());
+        model.addAttribute("album", albumDto);
+        return "song/songs-detail-giang";
     }
 
-
-    @GetMapping("/songdetail")
-    public String albumlist() {
-        return "song/song-detail-giang";
-    }
 }

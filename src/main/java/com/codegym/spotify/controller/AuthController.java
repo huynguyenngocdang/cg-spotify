@@ -33,6 +33,11 @@ public class AuthController {
         return "register";
     }
 
+    @GetMapping("/forbidden")
+    public String displayForbidden(Model model) {
+        return "error/forbidden";
+    }
+
     @PostMapping("/register/save")
     public String register(@Valid @ModelAttribute("user") RegistrationDto user,
                            BindingResult result,
@@ -84,7 +89,7 @@ public class AuthController {
         if( userService.checkExistingPassword(currentPassword)) {
            if( userService.passwordValid(newPassword, passwordConfirm)){
                userService.updatePassword(newPassword);
-               return "redirect:/account/change-password";
+               return "redirect:/account/change-password?success";
            } else {
                return "redirect:/account/change-password?failSamePassword";
            }

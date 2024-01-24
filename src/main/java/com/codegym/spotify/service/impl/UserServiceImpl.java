@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
@@ -88,15 +88,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+
     public boolean checkExistingPassword(String currentEnterPassword) {
         UserEntity userEntity = getCurrentUser();
         String currentUserPassword = userEntity.getPassword();
         return passwordEncoder.matches(currentEnterPassword, currentUserPassword);
     }
-
     @Override
     public boolean passwordValid(String password1, String password2) {
         return password1.equals(password2);
     }
 
+    public List<UserEntity> getAllNonAdminUsers() {
+        return userRepository.findAllNonAdminUsers();
+    }
+
+    public void updateUserRole(Long userId, String role) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Role newRole = roleRepository.findByRoleType(role);
+
+        // Clear the current roles and add the new role
+        user.getRoles().clear();
+        user.getRoles().add(newRole);
+
+        userRepository.save(user);
+    }
 }

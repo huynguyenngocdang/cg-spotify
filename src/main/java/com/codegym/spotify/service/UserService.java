@@ -17,4 +17,7 @@ public interface UserService {
 
     boolean checkExistingPassword(String currentPassword);
     boolean passwordValid(String password1, String password2);
+    List<UserEntity> getAllNonAdminUsers();
+
+    void updateUserRole(Long userId, String role);
 }

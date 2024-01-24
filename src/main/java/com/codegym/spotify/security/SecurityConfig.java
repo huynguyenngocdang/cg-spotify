@@ -32,6 +32,7 @@ public class SecurityConfig {
 
         http.authorizeRequests()
                 .requestMatchers("/login", "/assets/**", "/", "/index", "/register/**","/admin-error").permitAll()
+                .requestMatchers("/login", "/assets/**", "/", "/index", "/register/**", "/forbidden").permitAll()
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -50,8 +51,15 @@ public class SecurityConfig {
                 .access("hasRole('ROLE_ADMIN')")
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/index?access_denied=true")
-        ;
+                .accessDeniedPage("/index?access_denied=true");
+
+        http.authorizeRequests()
+                .requestMatchers("/admin/**")
+                .access("hasAnyRole('ROLE_ADMIN')");
+        http.authorizeRequests()
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/forbidden");
         return http.build();
     }
 

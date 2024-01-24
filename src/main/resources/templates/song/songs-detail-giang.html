@@ -5,7 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> <!--th:text="${song.title()} + '- song and lyrics'"--></title>
+    <title>
+    Songs
+    </title>
     <link rel="icon" sizes="32x32" type="image/png"
           href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
     <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
@@ -28,12 +30,7 @@
 <div sec:authorize="!isAuthenticated()">
     <div th:replace="layout/index-layout::main-topbar"></div>
     <div class="bg-gradient-index">
-        <!--        <div th:if="${param.success}" class="text-base font-bold">-->
-        <!--            You're logging in-->
-        <!--        </div>-->
-        <!--        content ở thẻ div này-->
         <div th:replace="layout/content-layout::playlist-list"></div>
-
         <div th:replace="layout/index-layout::main-footer"></div>
     </div>
 
@@ -43,63 +40,23 @@
     <div class="w-full overflow-y-scroll">
         <div class="w-full p-4 flex gap-6">
             <img class="h-fit box-shadow-heavy aspect-square w-60 object-cover"
-                 th:src="@{/assets/img/albums/demo1.webp}" alt="">
+                 th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" alt="">
 
             <div class="text-white flex flex-col gap-3 h-fit mt-auto">
                 <p class="text-base">Song</p>
-                <p class="text-7xl font-black">Song title</p>
-                <p class="font-bold text-base mt-3">Artist name <span class="font-normal ml-2">Belong to which album</span></p>
+                <p class="text-7xl font-black" th:text="${song.title}">Song title</p>
+                <p class="font-bold text-base mt-3" th:text="'Artist: ' + ${artist.name}">Artist name
+
+                </p>
+                <p class="font-bold text-base mt-3" th:text="'Album: ' + ${album.title}"></p>
             </div>
+
         </div>
 
-        <div class="w-full text-base mx-5 flex flex-col">
+        <div class="w-full text-base mx-5 flex flex-col" th:if="${lyrics != null}" th:object="${lyrics}">
             <p class="font-bold text-xl">Lyrics</p>
-            <p class="color-white-5 whitespace-pre-line">
-                Happy Holiday
-                Happy holiday,
-
-                While the merry bells keep ringing
-                May your every wish come true
-
-                Happy holiday, happy holiday
-                May the calendar keep bringing
-                Happy holidays to you
-
-                (If your burdened down with trouble)
-                (If your nerves a wearing thin)
-                (Park your load down the road)
-                (And come to Holiday Inn)
-
-                If the traffic noise affects you
-                Like a squeaky violin
-                Kick your cares down the stairs
-                Come to Holiday Inn
-
-                (If you can't find someone who)
-                (Will set your heart a-whirl)
-                (Take your car and motor to)
-                (The home of boy meets girl)
-
-                If you're laid-up with a breakdown
-                Throw away your vitamin
-                (Don't get worse), grab your nurse
-                And come to Holiday Inn
-
-                (Happy holiday, happy holiday)
-                (While the merry bells are ringin')
-                (May your every wish come true)
-
-                (Happy holiday, happy holiday)
-                (May the calendar keep bringin')
-                (Happy holidays to you)
-
-                Happy holiday, happy holiday)
-                While the merry bells keep ringin'
-                May your every wish come true
-
-                Happy holiday, happy holiday
-                May the calendar keep bringin'
-                Happy holidays to you.
+            <p class="color-white-5" th:each="line : ${lyrics}">
+                <span th:text="${line}" class="text-xs"></span><br>
             </p>
         </div>
 
@@ -111,7 +68,40 @@
 <div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
 
 <div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
-<div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>
+<div class="stream-bar p-3 flex justify-between items-center overflow-hidden w-full bg-black">
+    <!--    <audio th:src="">Your browser did not support this audio format</audio>-->
+
+    <div class="h-full flex items-center gap-3">
+        <img class="h-full aspect-square object-cover" th:src="@{/artist/image/{artistId}(artistId=${artist.id})}"  alt="">
+
+        <div class="flex flex-col">
+            <p class="text-base text-nowrap" th:text="${song.title}">Song Title</p>
+            <p class="text-sm color-white-5 text-nowrap" th:text="${artist.name}">Artist name</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col items-center h-full justify-between">
+<!--        <div class="color-white-5 text-xl flex items-center justify-center gap-4">-->
+<!--            <i class="hover:text-white fa-solid fa-backward-fast"></i>-->
+<!--            <button class="w-8 h-8 box-shadow-heavy bg-white rounded-full p-0.5"><img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt=""></button>-->
+<!--            <i class="hover:text-white fa-solid fa-forward-fast"></i>-->
+<!--        </div>-->
+
+<!--        <div class="text-xs color-white-5 flex gap-2 items-center">-->
+<!--            <span>0:00</span>-->
+<!--            <div class="w-40 md:w-96 bg-white-5 h-1 rounded-full"></div>-->
+<!--            <span>2:30</span>-->
+<!--        </div>-->
+        <audio th:src="@{'/assets/song/' + ${song.filename}}" controls class="flex items-center justify-center gap-4">
+            Your browser does not support the audio tag.
+        </audio>
+    </div>
+
+    <div class="color-white-5 text-xl gap-4 flex">
+        <i class="fa-solid fa-bars"></i>
+        <i class="fa-solid fa-volume-low"></i>
+    </div>
+</div>
 
 <script th:src="@{/assets/js/accountOverlay.js}" sec:authorize="isAuthenticated()"></script>
 </body>
