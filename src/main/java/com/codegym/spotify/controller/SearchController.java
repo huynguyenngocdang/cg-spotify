@@ -43,4 +43,13 @@ public class SearchController {
         model.addAttribute("albums", albums);
         return "index/index-search-result";
     }
+
+    @GetMapping("/search/song/{songId}")
+    public String displaySongSearch(@PathVariable("songId") Long songId) {
+        SongDto songDto = songService.findSongById(songId);
+        AlbumDto albumDto = albumService.findAlbumById(songDto.getAlbumId());
+        ArtistDto artistDto = artistService.findArtistById(albumDto.getArtistId());
+
+        return "redirect:/" +artistDto.getId() +"/"+ songId +"/songs/songsDetail";
+    }
 }

@@ -26,7 +26,7 @@
 <div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
 
 <div class="bg-white-07 pb-10" sec:authorize="!isAuthenticated()">
-    <div th:replace="layout/home-layout::main-topbar"></div>
+    <div th:replace="layout/index-layout::main-topbar"></div>
     <div>
 
         <div class="w-full overflow-y-scroll overflow-x-hidden">
@@ -42,6 +42,25 @@
                         <div th:if="${user.id} == ${artist.getCreatedById()}">
                             <div class="flex items-center gap-6">
                                 <p class="font-bold text-base mt-3" th:text="${albums.size()} + ' album(s)'"></p>
+                                <<<<<<< HEAD
+                                =======
+                                <a th:href="@{/albums/new/{artistId}(artistId=${artist.id})}">
+                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">
+                                        Create new album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i>
+                                    </button>
+                                </a>
+                                <a th:href="@{/artist/edit/{artistId}(artistId=${artistId})}">
+                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">
+                                        Edit artist<i class="ml-2 fa-solid fa-pencil text-white text-lg"></i></button>
+                                </a>
+
+                                <form th:action="@{/artist/delete/{artistId}(artistId=${artistId})}" method="post">
+                                    <button type="submit"
+                                            class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
+                                            onclick="return confirmDelete()">Delete artist<i
+                                            class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
+                                </form>
+                                >>>>>>> 111afaf04e665d5166d4945c71c305f9855dc446
                             </div>
                         </div>
                     </div>
@@ -67,7 +86,8 @@
                         <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song) + 1}">1</td>
 
                         <td class="px-1 py-2.5">
-                            <a th:href="@{/{artistId}/{songId}/songs/songsDetail(artistId=${artist.id}, songId=${song.id})}" class="block hover:underline cursor-pointer" th:text="${song.title}">Song name</a>
+                            <a th:href="@{/{artistId}/{songId}/songs/songsDetail(artistId=${artist.id}, songId=${song.id})}"
+                               class="block hover:underline cursor-pointer" th:text="${song.title}">Song name</a>
                             <p th:text="${artist.name}" class="color-white-5">Artist name 1</p>
                         </td>
                     </tr>
@@ -82,7 +102,8 @@
                        th:href="@{/albums/detail/{albumId}/songs(albumId=${album.id})}"
                        class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
                         <div class="relative">
-                            <img class="rounded-md object-cover w-full aspect-square box-shadow" style="aspect-ratio: 1/1;"
+                            <img class="rounded-md object-cover w-full aspect-square box-shadow"
+                                 style="aspect-ratio: 1/1;"
                                  th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
                             <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
                             </div>
@@ -118,15 +139,20 @@
                             <div class="flex items-center gap-6">
                                 <p class="font-bold text-base mt-3" th:text="${albums.size()} + ' album(s)'"></p>
                                 <a th:href="@{/artist/{artistId}/albums/new(artistId=${artist.id})}">
-                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Create new album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i></button>
+                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">
+                                        Create new album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i>
+                                    </button>
                                 </a>
                                 <a th:href="@{/artist/edit/{artistId}(artistId=${artistId})}">
-                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Edit artist<i class="ml-2 fa-solid fa-pencil text-white text-lg"></i></button>
+                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">
+                                        Edit artist<i class="ml-2 fa-solid fa-pencil text-white text-lg"></i></button>
                                 </a>
 
                                 <form th:action="@{/artist/delete/{artistId}(artistId=${artistId})}" method="post">
-                                    <button type="submit" class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
-                                            onclick="return confirmDelete()">Delete artist<i class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
+                                    <button type="submit"
+                                            class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
+                                            onclick="return confirmDelete()">Delete artist<i
+                                            class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
                                 </form>
                             </div>
                         </div>
@@ -153,7 +179,8 @@
                         <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song) + 1}">1</td>
 
                         <td class="px-1 py-2.5">
-                            <a th:href="@{/{artistId}/{songId}/songs/songsDetail(artistId=${artist.id}, songId=${song.id})}" class="block hover:underline cursor-pointer" th:text="${song.title}">Song name</a>
+                            <a th:href="@{/{artistId}/{songId}/songs/songsDetail(artistId=${artist.id}, songId=${song.id})}"
+                               class="block hover:underline cursor-pointer" th:text="${song.title}">Song name</a>
                             <p th:text="${artist.name}" class="color-white-5">Artist name 1</p>
                         </td>
                     </tr>
@@ -168,7 +195,8 @@
                        th:href="@{/albums/detail/{albumId}/songs(albumId=${album.id})}"
                        class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
                         <div class="relative">
-                            <img class="rounded-md object-cover w-full aspect-square box-shadow" style="aspect-ratio: 1/1;"
+                            <img class="rounded-md object-cover w-full aspect-square box-shadow"
+                                 style="aspect-ratio: 1/1;"
                                  th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
                             <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
                             </div>

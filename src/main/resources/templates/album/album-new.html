@@ -25,7 +25,7 @@
 
     </div>
         <form class="mt-28 rounded-xl lg:px-12 xl:px-52 2xl:px-80 h-fit"
-              th:action="@{'/artist/' +${artistId}+'/albums/new'}" method="post" th:object="${newAlbum}" role="form"
+              th:action="@{/albums/new/{artistId}(artistId=${artistId})}" method="post" th:object="${newAlbum}" role="form">
               enctype="multipart/form-data">
             <div class="px-28 flex flex-col gap-8">
                 <p class="font-bold text-6xl">New Album</p>

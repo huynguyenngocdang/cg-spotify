@@ -27,16 +27,8 @@
 <div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
 <div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
 
-<div sec:authorize="!isAuthenticated()">
-    <div th:replace="layout/index-layout::main-topbar"></div>
-    <div class="bg-gradient-index">
-        <div th:replace="layout/content-layout::playlist-list"></div>
-        <div th:replace="layout/index-layout::main-footer"></div>
-    </div>
-
-</div>
 <div class="bg-white-07" sec:authorize="!isAuthenticated()">
-    <div th:replace="layout/home-layout::main-topbar"></div>
+    <div th:replace="layout/index-layout::main-topbar"></div>
     <div class="w-full overflow-y-scroll">
         <div class="w-full p-4 flex gap-6">
             <img class="box-shadow-heavy aspect-square w-60 object-cover"
@@ -50,11 +42,15 @@
 
                 </p>
                 <p class="font-bold text-base mt-3" th:text="'Album: ' + ${album.title}"></p>
+                <div  sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')">
+                    <div th:if="${user.id} == ${artist.getCreatedById()}">
+                        <form th:action="@{/song/delete/{songId}(songId=${song.id})}" method="post">
+                            <button type="submit" class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
+                                    onclick="return confirmDelete()">Delete Song<i class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
+                        </form>
+                    </div>
 
-                <form th:action="@{/song/delete/{songId}(songId=${song.id})}" method="post">
-                    <button type="submit" class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
-                            onclick="return confirmDelete()">Delete Song<i class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
-                </form>
+                </div>
             </div>
 
         </div>
@@ -150,7 +146,7 @@
                     <div class="w-40 md:w-96 bg-white-5 h-1 rounded-full"></div>
                     <span>2:30</span>
                 </div>
-        <audio id="audio" th:src="@{'/assets/song/' + ${song.filename}}" autoplay loop class="hidden">
+        <audio id="audio" th:src="@{'/assets/song/' + ${song.filename}}" autoplay loop>
             Your browser does not support the audio tag.
         </audio>
     </div>

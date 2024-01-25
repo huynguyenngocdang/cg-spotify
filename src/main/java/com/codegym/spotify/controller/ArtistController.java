@@ -42,12 +42,25 @@ public class ArtistController {
 
     @GetMapping("")
     public String displayArtistList(Model model) {
+        List<ArtistDto> artists = artistService.findAllArtist();
+        model.addAttribute("artists", artists);
+//        List<String> imageArtistBase64 = artists.stream()
+//                .map(artist -> Base64.getEncoder().encodeToString(artist.getArtistImage()))
+//                .collect(Collectors.toList());
+//        model.addAttribute("imagesBase64", imageArtistBase64);
+        UserEntity user = userService.getCurrentUser();
+        model.addAttribute("user", user);
+        return "artist/artist-list";
+    }
+
+    @GetMapping("/own-artist")
+    public String displayOwnArtistList(Model model) {
         List<ArtistDto> artists = artistService.findArtistByUserId();
         model.addAttribute("artists", artists);
-        List<String> imageArtistBase64 = artists.stream()
-                .map(artist -> Base64.getEncoder().encodeToString(artist.getArtistImage()))
-                .collect(Collectors.toList());
-        model.addAttribute("imagesBase64", imageArtistBase64);
+//        List<String> imageArtistBase64 = artists.stream()
+//                .map(artist -> Base64.getEncoder().encodeToString(artist.getArtistImage()))
+//                .collect(Collectors.toList());
+//        model.addAttribute("imagesBase64", imageArtistBase64);
         UserEntity user = userService.getCurrentUser();
         model.addAttribute("user", user);
         return "artist/artist-list";
@@ -140,11 +153,17 @@ public class ArtistController {
         model.addAttribute("artist", artistDto);
         model.addAttribute("artistId", artistId);
 
-        if (artistDto.getArtistImage() != null) {
-            String imageArtistBase64 = Base64.getEncoder().encodeToString(artistDto.getArtistImage());
-            model.addAttribute("imageBase64", imageArtistBase64);
+        UserEntity user = userService.getCurrentUser();
+        if(user.getId().equals(artistDto.getCreatedById())) {
+            if (artistDto.getArtistImage() != null) {
+                String imageArtistBase64 = Base64.getEncoder().encodeToString(artistDto.getArtistImage());
+                model.addAttribute("imageBase64", imageArtistBase64);
+            }
+            return "artist/artist-edit";
+        } else {
+            return "redirect:/forbidden";
         }
-        return "artist/artist-edit";
+
     }
 
     @PostMapping("/edit/{artistId}")

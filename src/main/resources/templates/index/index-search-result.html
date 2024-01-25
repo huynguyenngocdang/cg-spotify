@@ -24,49 +24,11 @@
     <script th:src="@{/assets/js/search-autocomplete.js}"></script>
 </head>
 <body>
-<div th:replace="layout/index-layout::sidebar"></div>
-
+<div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
 <div style="background: black;">
-    <div th:fragment="main-topbar" class="bg-black">
-        <div class="flex items-center gap-4">
-            <div class="flex gap-2 text-base">
-                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-left"></i>
-                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-right"></i>
-            </div>
-
-            <form th:action="@{/search/result}" method="get" class="search-bar relative text-base">
-                <i class="absolute top-2 left-3.5 color-white-7 fa-solid fa-magnifying-glass text-xl"></i>
-                <input class="search-input rounded-full pl-12 pr-6 py-3 text-clip overflow-hidden bg-white-1 hover:border-gray-500 focus:text-white focus:border-white w-80"
-                       type="text" id="searchKeyword" name="searchKeyword" placeholder="What do you want to listen to?">
-                <button class="hidden" type="submit">Search</button>
-            </form>
-        </div>
-
-        <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">
-            <div class="support flex gap-8 items-center">
-                <a href="" class="hover:text-white">Premium</a>
-                <a th:href="@{/artist}" class="hover:text-white">List Artist</a>
-                <a th:href="@{/artist/new}" class="hover:text-white">New Artist</a>
-                <a target="_blank" href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy" class="hover:text-white">Support</a>
-                <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/" class="hover:text-white">Download</a>
-            </div>
-
-            <span class="bg-white color-white-full w-0.5 h-full">|</span>
-
-            <div class="user flex gap-8 items-center" sec:authorize="!isAuthenticated()">
-                <a th:href="@{/register}" class="hover:text-white">Sign up</a>
-                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/login}"
-                   sec:authorize="!isAuthenticated()">Log in</a>
-            </div>
-            <div class="user flex gap-8 items-center" sec:authorize="isAuthenticated()">
-                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/logout}"
-                   sec:authorize="isAuthenticated()">Log out</a>
-            </div>
-
-
-        </div>
-    </div>
-
+    <div sec:authorize="!isAuthenticated()" th:replace="layout/index-layout::main-topbar"></div>
+    <div sec:authorize="isAuthenticated()" th:fragment="main-topbar" class="bg-black"></div>
     <div>
         <div th:if="${songs.isEmpty() && artists.isEmpty() && albums.isEmpty()}">
             <p class="text-lg text-center color-white-5 my-32">No results found.</p>
@@ -74,7 +36,7 @@
 
         <div th:if="${!songs.isEmpty() || !artists.isEmpty() || !albums.isEmpty()}" class="flex flex-col gap-16" id="search-result">
             <div th:if="${!songs.isEmpty()}" class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 lg:gap-5 gap-16">
-                <a class="flex flex-col flex-nowrap overflow-hidden gap-2 justify-between col-span-full lg:col-span-2 row-start-1 col-start-1">
+                <a th:href="@{/search/song/{songId}(songId=${songs.get(0).id})}" class="flex flex-col flex-nowrap overflow-hidden gap-2 justify-between col-span-full lg:col-span-2 row-start-1 col-start-1">
                     <p class="font-bold text-2xl">Top Result</p>
                     <div class="w-full md:w-fit flex flex-col justify-between h-64 border-none rounded-lg bg-white bg-opacity-10 cursor-pointer hover:bg-opacity-20 p-6 overflow-hidden mt-2">
                         <img class="object-cover w-28 aspect-square rounded-lg" th:src="@{/albums/image/{albumId}(albumId=${songs.get(0).albumId})}" alt="">
@@ -86,19 +48,19 @@
                     </div>
                 </a>
 
-                <a class="flex-grow flex flex-col gap-2 lg:row-start-1 row-start-2 col-span-full lg:col-span-2 xl:col-span-3 2xl:col-span-5">
+                <div class="flex-grow flex flex-col gap-2 lg:row-start-1 row-start-2 col-span-full lg:col-span-2 xl:col-span-3 2xl:col-span-5">
                     <p class="font-bold text-2xl">Songs</p>
 
                     <div class="flex flex-col h-60">
-                        <div th:each="song : ${songs}" class="p-2 flex items-center gap-3 bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer h-16">
+                        <a th:each="song : ${songs}" th:href="@{/search/song/{songId}(songId=${song.id})}" class="p-2 flex items-center gap-3 bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer h-16">
                             <img class="h-full rounded-md aspect-square" th:src="@{/albums/image/{albumId}(albumId=${song.albumId})}" alt="">
                             <div class="flex flex-col text-base">
                                 <p th:text="${song.title}">Song name</p>
                                 <p th:text="${song.title}" class="color-white-5">Artist name</p>
                             </div>
-                        </div>
+                        </a>
                     </div>
-                </a>
+                </div>
             </div>
 
             <div th:if="${!artists.isEmpty()}" class="flex flex-col gap-2 h-fit w-full">
@@ -159,5 +121,6 @@
 </div>
 <div th:replace="layout/index-layout::footer">
 </div>
+
 </body>
 </html>

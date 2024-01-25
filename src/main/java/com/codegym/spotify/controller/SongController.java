@@ -52,11 +52,18 @@ public class SongController {
 
     @GetMapping("/{albumId}/songs/upload")
     public String displayUploadSong(@PathVariable("albumId") Long albumId, Model model) {
-        SongDto song = new SongDto();
-        song.setAlbumId(albumId);
-        model.addAttribute("song", song);
-        model.addAttribute("albumId", albumId);
-        return "song/upload";
+        AlbumDto albumDto = albumService.findAlbumById(albumId);
+        ArtistDto artistDto = artistService.findArtistById(albumDto.getArtistId());
+        UserEntity user = userService.getCurrentUser();
+        if(user.getId().equals(artistDto.getCreatedById())) {
+            SongDto song = new SongDto();
+            song.setAlbumId(albumId);
+            model.addAttribute("song", song);
+            model.addAttribute("albumId", albumId);
+            return "song/upload";
+        } else {
+            return "redirect:/forbidden";
+        }
     }
 
     @PostMapping("/{albumId}/songs/upload")
@@ -102,6 +109,8 @@ public class SongController {
         model.addAttribute("artist", artistDto);
         AlbumDto albumDto = albumService.findAlbumById(songDto.getAlbumId());
         model.addAttribute("album", albumDto);
+        UserEntity user = userService.getCurrentUser();
+        model.addAttribute("user", user);
         return "song/songs-detail-giang";
     }
 
@@ -121,7 +130,5 @@ public class SongController {
         } else {
             return "redirect:/forbidden";
         }
-
     }
-
 }
