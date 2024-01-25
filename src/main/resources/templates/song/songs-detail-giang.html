@@ -32,17 +32,18 @@
     <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
     <div class="w-full overflow-y-scroll">
         <div class="w-full p-4 flex gap-6">
-            <img class="box-shadow-heavy aspect-square w-60 object-cover"
+            <img class="box-shadow-heavy aspect-square w-60 object-cover" style="aspect-ratio: 1/1"
                  th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
 
             <div class="change-song text-white flex flex-col gap-2 h-fit mt-auto">
                 <p class="text-base">Song</p>
 
                 <p class="text-7xl font-black" th:text="${song.title}">Song title</p>
-                <p class="font-bold text-base mt-3" th:text="'Artist: ' + ${artist.name}">Artist name
+                <div class="flex gap-4">
+                    <p class="text-base mt-3" th:text="${artist.name}">Artist name</p>
+                    <p class="text-base mt-3 color-white-5" th:text="${album.title}"></p>
+                </div>
 
-                </p>
-                <p class="font-bold text-base mt-3" th:text="'Album: ' + ${album.title}"></p>
                 <div  sec:authorize="hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')">
                     <div th:if="${user.id} == ${artist.getCreatedById()}">
                         <form th:action="@{/song/delete/{songId}(songId=${song.id})}" method="post">
@@ -87,7 +88,7 @@
     <!--    <audio th:src="">Your browser did not support this audio format</audio>-->
 
     <div class="h-full flex items-center gap-3">
-        <img class="h-full aspect-square object-cover" th:src="@{/albums/image/{albumId}(albumId=${album.id})}"
+        <img class="h-full aspect-square object-cover" style="aspect-ratio: 1/1" th:src="@{/albums/image/{albumId}(albumId=${album.id})}"
              alt="">
 
         <div class="flex flex-col">
