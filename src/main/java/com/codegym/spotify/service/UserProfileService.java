@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserProfileService {
     List<UserProfileDto> findAll();
-    UserProfileDto findById(Long id) throws Exception;
+    UserProfileDto findUserProfileByUserEntityId(Long id);
 
     void createNewUserProfile(UserProfileDto userProfileDto);
 
@@ -14,5 +14,7 @@ public interface UserProfileService {
 
     void updateUserProfile(String fullName, String email, String phoneNumber);
 
-    void createUserProfileWithUserName();
+    void createUserProfileWithUserName(String username);
+
+    void saveEditUserProfile(UserProfileDto userProfileDto, Long userId);
 }

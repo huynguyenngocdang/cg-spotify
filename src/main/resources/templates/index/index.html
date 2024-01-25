@@ -19,12 +19,24 @@
     <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>
     <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
 
-    <div class="bg-gradient-index" sec:authorize="!isAuthenticated()">
+    <div class="bg-gradient-index">
 <!--        <div th:if="${param.success}" class="text-base font-bold">-->
 <!--            You're logging in-->
 <!--        </div>-->
 <!--        content ở thẻ div này-->
-        <div th:replace="layout/content-layout::playlist-list"></div>
+        <div class="flex flex-col gap-3 h-fit">
+            <div class="flex justify-between items-center font-bold">
+                <div th:if="${param.createNewProfileSuccess}" class="text-base font-bold">-->
+                    We just created a new user profile for you
+                </div>
+                <p class="text-xl hover:underline">Keyword</p>
+                <p class="text-sm color-white-5 hover:underline hidden md:block">Show all</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-4">
+            <p class="font-bold text-2xl">Browse all</p>
+        </div>
 
         <div th:replace="layout/index-layout::main-footer"></div>
     </div>

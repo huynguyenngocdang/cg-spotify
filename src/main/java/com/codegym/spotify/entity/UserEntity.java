@@ -41,7 +41,7 @@ public class UserEntity {
     )
     private List<Role> roles = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "userEntity")
+    @OneToOne( mappedBy = "userEntity")
     private UserProfile userProfile;
 
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.REMOVE)

@@ -36,13 +36,13 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserProfileDto findById(Long id) throws Exception {
-        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(id);
-        if (optionalUserProfile.isPresent()) {
-            UserProfile userProfile = optionalUserProfile.get();
-            return mapToUserProfileDto(userProfile);
+    public UserProfileDto findUserProfileByUserEntityId(Long userEntityId) {
+        UserProfile userProfile = userProfileRepository.findUserProfileByUserEntityId(userEntityId);
+        if (userProfile != null) {
+            return convertToProfileDto(userProfile);
+        } else {
+            return null;
         }
-        throw new Exception();
     }
     @Override
     public void createNewUserProfile(UserProfileDto userProfileDto) {
@@ -93,9 +93,23 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public void createUserProfileWithUserName() {
+    public void createUserProfileWithUserName(String username) {
         UserProfile userProfile = new UserProfile();
-        UserEntity userEntity = userService.getCurrentUser();
-        userProfile.setUserEntity(userEntity);
+        UserEntity user = userService.findByUsername(username);
+        userProfile.setUserEntity(user);
+        userProfile.setFullName(username);
+        userProfile.setEmail(user.getEmail());
+        userProfile.setBalance((double) 0);
+        userProfile.setPhoneNumber("");
+        userProfileRepository.save(userProfile);
+    }
+
+    @Override
+    public void saveEditUserProfile(UserProfileDto userProfileDto, Long userId) {
+        UserProfile userProfile = userProfileRepository.findUserProfileByUserEntityId(userId);
+        userProfile.setFullName(userProfileDto.getFullName());
+        userProfile.setEmail(userProfileDto.getEmail());
+        userProfile.setPhoneNumber(userProfileDto.getPhoneNumber());
+        userProfileRepository.save(userProfile);
     }
 }
