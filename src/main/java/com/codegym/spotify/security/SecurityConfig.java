@@ -54,6 +54,9 @@ public class SecurityConfig {
                 .accessDeniedPage("/index?access_denied=true");
 
         http.authorizeRequests()
+                .requestMatchers("/*/*/songs/songsDetail").authenticated();
+
+        http.authorizeRequests()
                 .requestMatchers("/admin/**")
                 .access("hasAnyRole('ROLE_ADMIN')");
         http.authorizeRequests()

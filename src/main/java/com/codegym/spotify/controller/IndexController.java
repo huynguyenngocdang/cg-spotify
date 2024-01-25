@@ -40,6 +40,4 @@ public class IndexController {
         model.addAttribute("user", user);
         return "account/account-menu";
     }
-
-
 }

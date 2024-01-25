@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Spotify - Web Player: Music for everyone</title>
+    <link rel="icon" sizes="32x32" type="image/png"
+          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
+    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/playlist-hover.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/genre.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script th:src="@{/assets/js/layoutIndexTopSideBar.js}"></script>
+    <script th:src="@{/assets/js/colorGenerate.js}"></script>
+    <script th:src="@{/assets/js/search-autocomplete.js}"></script>
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
+<div style="background: black;">
+    <div sec:authorize="!isAuthenticated()" th:replace="layout/index-layout::main-topbar"></div>
+    <div sec:authorize="isAuthenticated()" th:fragment="main-topbar" class="bg-black"></div>
+    <div>
+        <div th:if="${songs.isEmpty() && artists.isEmpty() && albums.isEmpty()}">
+            <p class="text-lg text-center color-white-5 my-32">No results found.</p>
+        </div>
+
+        <div th:if="${!songs.isEmpty() || !artists.isEmpty() || !albums.isEmpty()}" class="flex flex-col gap-16" id="search-result">
+            <div th:if="${!songs.isEmpty()}" class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 lg:gap-5 gap-16">
+                <a th:href="@{/search/song/{songId}(songId=${songs.get(0).id})}" class="flex flex-col flex-nowrap overflow-hidden gap-2 justify-between col-span-full lg:col-span-2 row-start-1 col-start-1">
+                    <p class="font-bold text-2xl">Top Result</p>
+                    <div class="w-full md:w-fit flex flex-col justify-between h-64 border-none rounded-lg bg-white bg-opacity-10 cursor-pointer hover:bg-opacity-20 p-6 overflow-hidden mt-2">
+                        <img class="object-cover w-28 aspect-square rounded-lg" th:src="@{/albums/image/{albumId}(albumId=${songs.get(0).albumId})}" alt="">
+
+                        <div class="overflow-hidden">
+                            <p class="font-bold text-xl md:text-3xl whitespace-nowrap text-ellipsis" th:text="${songs.get(0).title}"></p>
+                            <p class="color-white-5 text-lg whitespace-nowrap" th:text="${songs.get(0).title}">Artist name</p>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="flex-grow flex flex-col gap-2 lg:row-start-1 row-start-2 col-span-full lg:col-span-2 xl:col-span-3 2xl:col-span-5">
+                    <p class="font-bold text-2xl">Songs</p>
+
+                    <div class="flex flex-col h-60">
+                        <a th:each="song : ${songs}" th:href="@{/search/song/{songId}(songId=${song.id})}" class="p-2 flex items-center gap-3 bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer h-16">
+                            <img class="h-full rounded-md aspect-square" th:src="@{/albums/image/{albumId}(albumId=${song.albumId})}" alt="">
+                            <div class="flex flex-col text-base">
+                                <p th:text="${song.title}">Song name</p>
+                                <p th:text="${song.title}" class="color-white-5">Artist name</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${!artists.isEmpty()}" class="flex flex-col gap-2 h-fit w-full">
+                <div class="flex justify-between items-center font-bold">
+                    <p class="text-xl hover:underline">Artists</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                    <a th:each="artist, iterStat : ${artists}" th:href="@{/artist/{artistId}(artistId=${artist.id})}" class="playlist rounded-lg p-4 flex-col bg-white-07 overflow-hidden"
+                         th:classappend="${iterStat.index < 2 ? 'flex' :
+                                                        (iterStat.index < 3 ? 'hidden md:flex' :
+                                                        (iterStat.index < 4 ? 'hidden lg:flex' :
+                                                        (iterStat.index < 5 ? 'hidden xl:flex' :
+                                                        (iterStat.index < 7 ? 'hidden 2xl:flex' : 'hidden'))))}">
+                        <div class="relative">
+                            <img class="rounded-full object-cover w-full aspect-square box-shadow"
+                                 th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" alt="">
+                            <div style="display: none" class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full">
+                            </div>
+                        </div>
+
+                        <div class="rounded-lg-content w-full mt-4">
+                            <p class="font-bold text-lg" th:text="${artist.name}">Artist name</p>
+                            <p class="text-base color-white-5 two-line-ellipsis">Artist</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2 h-fit w-full">
+                <div class="flex justify-between items-center font-bold">
+                    <p class="text-xl hover:underline">Albums</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                    <a th:href="@{/albums/detail/{albumId}/songs(albumId=${album.id})}" th:each="album, iterStat : ${albums}" th:classappend="${iterStat.index < 2 ? 'flex' :
+                                                        (iterStat.index < 3 ? 'hidden md:flex' :
+                                                        (iterStat.index < 4 ? 'hidden lg:flex' :
+                                                        (iterStat.index < 5 ? 'hidden xl:flex' :
+                                                        (iterStat.index < 7 ? 'hidden 2xl:flex' : 'hidden'))))}"
+                         class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
+                        <div class="relative">
+                            <img class="rounded-md object-cover w-full aspect-square box-shadow"
+                                 th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
+                            <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
+                            </div>
+                        </div>
+
+                        <div class="rounded-lg-content w-full">
+                            <p class="font-bold text-lg" th:text="${album.title}">Playlist title</p>
+                            <p class="text-base color-white-5 two-line-ellipsis" >Album</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+</div>
+<div th:replace="layout/index-layout::footer">
+</div>
+
+</body>
+</html>

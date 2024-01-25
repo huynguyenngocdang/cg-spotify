@@ -25,9 +25,8 @@
     </div>
 
     <div class="flex flex-col gap-4">
-        <p class="font-bold text-2xl">Artist List</p>
+        <p class="font-bold text-2xl">Edit artist</p>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-            <div class="pt-14 h-fit">
                 <form class="w-login-fixed bg-black mx-auto rounded-xl px-24 pt-20 pb-10"
                       th:action="@{/artist/edit/{artistId}(artistId=${artistId})}" method="post" th:object="${artist}" role="form" enctype="multipart/form-data">
                     <div class="px-28 flex flex-col gap-8 mt-10">
@@ -61,7 +60,6 @@
                                 class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-400">Edit</button>
                     </div>
                 </form>
-            </div>
         </div>
     </div>
 </div>

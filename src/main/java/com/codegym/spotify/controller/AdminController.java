@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.codegym.spotify.constant.VarConstant;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,28 +35,26 @@ public class AdminController {
         this.userService = userService;
     }
 
-
-
-    @GetMapping("/admin/user-list")
-    public String showUserTable(Model model){
-        List<RegistrationDto> registrationDtos = userServiceImpl.findAllUserEntity();
-        model.addAttribute("user2",registrationDtos);
-
-        UserEntity user = new UserEntity();
-        String username = SecurityUtil.getSessionUser();
-        if (username != null) {
-            user = userService.findByUsername(username);
-        }
-        model.addAttribute("user", user);
-
-        return "user/admin";
-    }
-
-    @GetMapping("/detail")
-    public String showAdminProfile(@AuthenticationPrincipal UserProfileDto userProfileDto,Model model) {
-        model.addAttribute(userProfileDto);
-        return "user/profile";
-    }
+//    @GetMapping("/admin/user-list")
+//    public String showUserTable(Model model){
+//        List<RegistrationDto> registrationDtos = userServiceImpl.findAllUserEntity();
+//        model.addAttribute("user2",registrationDtos);
+//
+//        UserEntity user = new UserEntity();
+//        String username = SecurityUtil.getSessionUser();
+//        if (username != null) {
+//            user = userService.findByUsername(username);
+//        }
+//        model.addAttribute("user", user);
+//
+//        return "user/admin";
+//    }
+//
+//    @GetMapping("/detail")
+//    public String showAdminProfile(@AuthenticationPrincipal UserProfileDto userProfileDto,Model model) {
+//        model.addAttribute(userProfileDto);
+//        return "user/profile";
+//    }
 
     @GetMapping("/admin")
     public String displayAdminPage(Model model) {

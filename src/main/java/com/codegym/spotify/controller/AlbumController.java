@@ -16,11 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -28,6 +24,7 @@ import java.util.Base64;
 import java.util.List;
 
 @Controller
+@RequestMapping("/albums")
 public class AlbumController {
     private final AlbumService albumService;
     private final ArtistService artistService;
@@ -42,7 +39,7 @@ public class AlbumController {
         this.userService = userService;
     }
 
-    @GetMapping("/albums/new/{artistId}")
+    @GetMapping("/new/{artistId}")
     public String displayNewAlbumForm(@PathVariable("artistId") Long artistId, Model model) {
         AlbumDto albumDto = new AlbumDto();
         albumDto.setArtistId(artistId);
@@ -51,15 +48,7 @@ public class AlbumController {
         return "album/album-new";
     }
 
-    @GetMapping("/albums/image/{albumId}")
-    public ResponseEntity<byte[]> getAlbumImage(@PathVariable Long albumId) {
-        AlbumDto albumDto = albumService.findAlbumById(albumId);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE)
-                .body(albumDto.getAlbumImage());
-    }
-
-    @PostMapping("/albums/new/{artistId}")
+    @PostMapping("/new/{artistId}")
     public String saveNewAlbum(@PathVariable("artistId") Long artistId,
                                @Valid @ModelAttribute("newAlbum") AlbumDto albumDto,
                                @RequestParam("imageAlbumUpload") MultipartFile file,
@@ -84,7 +73,15 @@ public class AlbumController {
         return "redirect:/artist/" + artistId;
     }
 
-    @GetMapping("/albums/detail/{albumId}/songs")
+    @GetMapping("/image/{albumId}")
+    public ResponseEntity<byte[]> getAlbumImage(@PathVariable Long albumId) {
+        AlbumDto albumDto = albumService.findAlbumById(albumId);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_PNG_VALUE)
+                .body(albumDto.getAlbumImage());
+    }
+
+    @GetMapping("/detail/{albumId}/songs")
     public String listSongs(@PathVariable("albumId") Long albumId, Model model) {
         List<SongDto> songs = songService.findSongsByAlbumId(albumId);
         model.addAttribute("songs", songs);
@@ -93,10 +90,12 @@ public class AlbumController {
         ArtistDto artistDto = artistService.findArtistById(albumDto.getArtistId());
         model.addAttribute("artist", artistDto);
         model.addAttribute("album", albumDto);
+        UserEntity user = userService.getCurrentUser();
+        model.addAttribute("user", user);
         return "song/songs-list";
     }
 
-    @GetMapping("/albums/edit/{albumId}")
+    @GetMapping("/edit/{albumId}")
     public String displayEditAlbum(@PathVariable("albumId") Long albumId,
                                    Model model) {
         AlbumDto albumDto = albumService.findAlbumById(albumId);
@@ -115,7 +114,7 @@ public class AlbumController {
         }
     }
 
-    @PostMapping("/albums/edit/{albumId}")
+    @PostMapping("/edit/{albumId}")
     public String editAlbum(@PathVariable("albumId") Long albumId,
                             @Valid @ModelAttribute("album") AlbumDto albumDto,
                             @RequestParam("imageAlbumUpload") MultipartFile file,
@@ -147,7 +146,7 @@ public class AlbumController {
 
     }
 
-    @PostMapping("/album/delete/{albumId}")
+    @PostMapping("/delete/{albumId}")
     public String deleteAlbum(@PathVariable("albumId") Long albumId,
                               Model model) {
         UserEntity user = userService.getCurrentUser();

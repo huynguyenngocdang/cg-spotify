@@ -39,7 +39,7 @@
             <a href="" class="search-select color-white-5 hover:text-white">
                 <div class="search-icon flex items-center">
                     <i class="fa-solid fa-magnifying-glass text-xl"></i>
-                    <p class="ml-4 mt-1">Search</p>
+                    <a th:href="@{/search}" class="ml-4 mt-1">Search</a>
                 </div>
             </a>
         </div>
@@ -107,11 +107,13 @@
                 <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-right"></i>
             </div>
 
-            <form class="search-bar relative text-base">
+            <form th:action="@{/search/result}" method="get" class="search-bar relative text-base">
                 <i class="absolute top-2 left-3.5 color-white-7 fa-solid fa-magnifying-glass text-xl"></i>
                 <input class="search-input rounded-full pl-12 pr-6 py-3 text-clip overflow-hidden bg-white-1 hover:border-gray-500 focus:text-white focus:border-white w-80"
-                       id="search" type="text" name="searchKeyword" placeholder="What do you want to listen to?">
+                       type="text" id="searchKeyword" name="searchKeyword" placeholder="What do you want to listen to?">
+                <button class="hidden" type="submit">Search</button>
             </form>
+
         </div>
 
         <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">

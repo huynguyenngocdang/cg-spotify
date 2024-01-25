@@ -52,6 +52,13 @@ public class AlbumServiceImpl implements com.codegym.spotify.service.AlbumServic
         Album album = albumRepository.findAlbumById(albumId);
         return convertToAlbumDto(album);
     }
+
+    @Override
+    public List<AlbumDto> findAlbumsByName(String keyword) {
+        List<Album> albums = albumRepository.findAlbumsByTitleContainsIgnoreCase(keyword);
+        return albums.stream().map(this::convertToAlbumDto).collect(Collectors.toList());
+    }
+
     @Override
     public List<AlbumDto> findAlbumsByArtistId(Long artistId) {
         List<Album> albums = albumRepository.findAlbumsByArtistId(artistId);
