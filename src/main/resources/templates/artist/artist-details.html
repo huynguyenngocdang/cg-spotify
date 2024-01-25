@@ -38,30 +38,6 @@
                     <p class="text-base">Artist</p>
                     <p class="text-7xl font-black" th:text="${artist.name}">Artist</p>
 
-                    <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
-                        <div th:if="${user.id} == ${artist.getCreatedById()}">
-                            <div class="flex items-center gap-6">
-                                <p class="font-bold text-base mt-3" th:text="${albums.size()} + ' album(s)'"></p>
-
-                                <a th:href="@{/albums/new/{artistId}(artistId=${artist.id})}">
-                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">
-                                        Create new album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i>
-                                    </button>
-                                </a>
-                                <a th:href="@{/artist/edit/{artistId}(artistId=${artistId})}">
-                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">
-                                        Edit artist<i class="ml-2 fa-solid fa-pencil text-white text-lg"></i></button>
-                                </a>
-
-                                <form th:action="@{/artist/delete/{artistId}(artistId=${artistId})}" method="post">
-                                    <button type="submit"
-                                            class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
-                                            onclick="return confirmDelete()">Delete artist<i
-                                            class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 

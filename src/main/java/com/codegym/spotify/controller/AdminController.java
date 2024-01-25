@@ -68,6 +68,6 @@ public class AdminController {
     public String updateUserRole(@RequestParam Long userId,
                                  @RequestParam String role, RedirectAttributes redirectAttributes) {
         userService.updateUserRole(userId, role);
-        return "redirect:/admin";
+        return "redirect:/admin?successChangeRole";
     }
 }

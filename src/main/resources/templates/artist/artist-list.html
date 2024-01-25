@@ -29,7 +29,7 @@
     <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>
     <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
 
-    <div sec:authorize="isAuthenticated()">
+    <div>
 
         <!--        content ở thẻ div này-->
         <div class="flex flex-col h-fit w-full">

@@ -19,8 +19,27 @@
         <!--        content ở thẻ div này-->
         <div class="flex flex-col gap-3 h-fit">
             <div class="flex justify-between items-center font-bold">
-                <p class="text-xl hover:underline">Album</p>
-                <p class="text-sm color-white-5 hover:underline hidden md:block">Show all</p>
+                <p class="text-xl hover:underline">Artists</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                <a th:each="artist : ${artists}" th:href="@{/artist/{artistId}(artistId=${artist.id})}"
+                   class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
+                    <div class="relative">
+                        <img class="rounded-full object-cover w-60 aspect-square box-shadow"
+                             style="aspect-ratio: 1/1;"
+                             th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" alt="">
+                        <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg-content w-full flex flex-col gap-0.5 mt-3">
+                        <p class="font-bold text-base" th:text="${artist.name}">Album Title</p>
+                        <p class="text-xs color-white-5 two-line-ellipsis">Artist</p>
+                    </div>
+                </a>
+            </div>
+            <div class="flex justify-between items-center font-bold mt-10">
+                <p class="text-xl hover:underline">Albums</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
                 <div th:each="album : ${albums}"
