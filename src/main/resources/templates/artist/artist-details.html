@@ -37,19 +37,12 @@
                 <div class="text-white flex flex-col gap-3 h-fit mt-auto">
                     <p class="text-base">Artist</p>
                     <p class="text-7xl font-black" th:text="${artist.name}">Artist</p>
-<<<<<<< HEAD
-                    <div class="flex items-center gap-6">
-                        <p class="font-bold text-base mt-3" th:text="${albums.size()} + ' album(s)'"></p>
-                        <a th:href="@{/{artistId}/albums/new(artistId=${artist.id})}">
-                            <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Create new
-                                album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i></button>
-                        </a>
-=======
+
                     <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
                         <div th:if="${user.id} == ${artist.getCreatedById()}">
                             <div class="flex items-center gap-6">
                                 <p class="font-bold text-base mt-3" th:text="${albums.size()} + ' album(s)'"></p>
-                                <a th:href="@{/{artistId}/albums/new(artistId=${artist.id})}">
+                                <a th:href="@{/albums/new/{artistId}(artistId=${artist.id})}">
                                     <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Create new album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i></button>
                                 </a>
                                 <a th:href="@{/artist/edit/{artistId}(artistId=${artistId})}">
@@ -62,7 +55,6 @@
                                 </form>
                             </div>
                         </div>
->>>>>>> 648ff7d4028b907923355465873fc1e72a81ded8
                     </div>
                 </div>
             </div>
@@ -82,8 +74,14 @@
                     </tr>
 
                     <tr th:each="song : ${songs}"
+<<<<<<< HEAD
                         class="text-base bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer">
                         <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song)} + 1">1</td>
+=======
+                        class="change-song text-base bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer">
+                        <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song) + 1}">1</td>
+
+>>>>>>> 111afaf04e665d5166d4945c71c305f9855dc446
                         <td class="px-1 py-2.5">
                             <a th:href="@{/{artistId}/{songId}/songs/songsDetail(artistId=${artist.id}, songId=${song.id})}" class="block hover:underline cursor-pointer" th:text="${song.title}">Song name</a>
                             <p th:text="${artist.name}" class="color-white-5">Artist name 1</p>
