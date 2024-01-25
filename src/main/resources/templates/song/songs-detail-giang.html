@@ -27,8 +27,9 @@
 <div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
 <div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
 
-<div class="bg-white-07" sec:authorize="!isAuthenticated()">
-    <div th:replace="layout/index-layout::main-topbar"></div>
+<div class="bg-white-07" >
+    <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>
+    <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
     <div class="w-full overflow-y-scroll">
         <div class="w-full p-4 flex gap-6">
             <img class="box-shadow-heavy aspect-square w-60 object-cover"
@@ -51,42 +52,6 @@
                     </div>
 
                 </div>
-            </div>
-
-        </div>
-
-        <div class="w-full text-base mx-5 flex flex-col" th:object="${lyrics}">
-            <p class="font-bold text-xl">Lyrics</p>
-            <p class="color-white-5" th:if="${!lyrics.isEmpty()}" th:each="line : ${lyrics}">
-                <span th:text="${line}" class="text-base"></span><br>
-            </p>
-            <p th:if="${lyrics.isEmpty()}" class="color-white-5 text-lg mb-10">Lyrics for this song currently not available. We will update soon!</p>
-        </div>
-
-
-        <div class="w-full text-base mx-5 flex flex-col" th:if="${lyrics == null}">
-            <p class="color-white-5">Lyrics for this song currently not available. We will update soon!</p>
-        </div>
-
-        <div th:replace="layout/index-layout::main-footer"></div>
-    </div>
-
-</div>
-<div class="bg-white-07" sec:authorize="isAuthenticated()">
-    <div th:replace="layout/home-layout::main-topbar"></div>
-    <div class="w-full overflow-y-scroll">
-        <div class="w-full p-4 flex gap-6">
-            <img class="box-shadow-heavy aspect-square w-60 object-cover"
-                 th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
-
-            <div class="change-song text-white flex flex-col gap-2 h-fit mt-auto">
-                <p class="text-base">Song</p>
-
-                <p class="text-7xl font-black" th:text="${song.title}">Song title</p>
-                <p class="font-bold text-base mt-3" th:text="'Artist: ' + ${artist.name}">Artist name
-
-                </p>
-                <p class="font-bold text-base mt-3" th:text="'Album: ' + ${album.title}"></p>
             </div>
 
         </div>
