@@ -82,13 +82,8 @@
                     </tr>
 
                     <tr th:each="song : ${songs}"
-<<<<<<< HEAD
-                        class="change-song text-base bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer">
-                        <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song) + 1}">1</td>
-=======
                         class="text-base bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer">
                         <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song)} + 1">1</td>
->>>>>>> 648ff7d4028b907923355465873fc1e72a81ded8
                         <td class="px-1 py-2.5">
                             <a th:href="@{/{artistId}/{songId}/songs/songsDetail(artistId=${artist.id}, songId=${song.id})}" class="block hover:underline cursor-pointer" th:text="${song.title}">Song name</a>
                             <p th:text="${artist.name}" class="color-white-5">Artist name 1</p>
