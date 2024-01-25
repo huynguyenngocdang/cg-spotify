@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
+
+<div class="bg-white-07">
+    <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>
+    <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
+
+    <div class="bg-gradient-index" sec:authorize="!isAuthenticated()">
+        <!--        <div th:if="${param.success}" class="text-base font-bold">-->
+        <!--            You're logging in-->
+        <!--        </div>-->
+        <!--        content ở thẻ div này-->
+        <div th:replace="layout/content-layout::playlist-list">
+
+        </div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+
+    </div>
+        <form class="mt-28 rounded-xl lg:px-12 xl:px-52 2xl:px-80 h-fit"
+              th:action="@{/albums/edit/{albumId}(albumId=${album.id})}" method="post" th:object="${album}" role="form"
+              enctype="multipart/form-data">
+            <div class="px-28 flex flex-col gap-8">
+                <p class="font-bold text-6xl">Edit Album</p>
+
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-col gap-2">
+                        <label for="artistId" class="text-base font-bold hidden">Artist Id</label>
+                        <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white hidden"
+                               type="text"
+                               id="artistId"
+                               name="artistId"
+                               th:field="*{artistId}"
+                               placeholder="Artist Id"
+                         readonly>
+                    </div>
+                </div>
+
+
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-col gap-2">
+                        <label for="title" class="text-base font-bold">Album Title</label>
+                        <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                               type="text"
+                               id="title"
+                               name="title"
+                               th:field="*{title}"
+                               placeholder="Album Title" required>
+                    </div>
+                    <p th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}"></p>
+                </div>
+
+
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-col gap-2">
+                        <th:block th:if="${imageBase64}">
+                            <img id="imagePreview" th:src="@{'data:image/jpeg;base64,' + ${imageBase64}}" alt="Album Image" class="w-64 h-64"/>
+                        </th:block>
+
+                        <label for="imageAlbumUpload" class="text-base font-bold">Image</label>
+                        <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                               type="file"
+                               id="imageAlbumUpload"
+                               name="imageAlbumUpload"
+                               onchange="previewImage();"
+                               >
+                    </div>
+                </div>
+                <button type="submit"
+                        class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-400">
+                    Edit
+                </button>
+            </div>
+        </form>
+
+</div>
+
+<script>
+    function previewImage() {
+        let preview = document.getElementById('imagePreview');
+        let file    = document.getElementById('imageAlbumUpload').files[0];
+        let reader  = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = ""; // Set a placeholder or keep the old image if no file is chosen
+        }
+    }
+</script>
+
+<div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
+
+<div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>
+
+<script th:src="@{/assets/js/accountOverlay.js}" sec:authorize="isAuthenticated()"></script>
+
+</body>
+</html>

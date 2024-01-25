@@ -1,0 +1,18 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss build -i src/main/resources/static/assets/css/tailwind-import.css -o src/main/resources/static/css/tailwind.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.69.7"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

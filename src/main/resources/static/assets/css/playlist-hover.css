@@ -1,0 +1,47 @@
+@import "animation.css";
+.play-button {
+  transform: translateY(10%);
+  opacity: 0;
+}
+
+.play-button::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 12px solid black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+}
+
+.playlist:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.playlist:hover .play-button {
+  transform: translateY(-10%);
+  opacity: 1;
+  transition: 0.4s ease;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; /* Spotify green color */
+  }
+  100% {
+    opacity: 1; /* Spotify green color */
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1; /* Spotify green color */
+  }
+  100% {
+    opacity: 0; /* Spotify green color */
+  }
+}
+
+/*# sourceMappingURL=playlist-hover.css.map */

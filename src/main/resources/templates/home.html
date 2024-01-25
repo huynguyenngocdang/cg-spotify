@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="/layout/home-layout::head('Spotify - Web Player: Music for everyone')">
+
+</head>
+<body>
+<div th:replace="/layout/home-layout::sidebar">
+</div>
+<div>
+    <div th:replace="/layout/home-layout::main-topbar">
+    </div>
+
+    <div class="bg-white-07 min-h-full">
+
+        <!--        content ở thẻ div này-->
+        <div></div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+
+    <div th:replace="/layout/home-layout::account-overlay">
+    </div>
+</div>
+
+
+<div th:replace="/layout/home-layout::player"></div>
+
+<script th:src="@{/assets/js/accountOverlay.js}"></script>
+
+</body>
+</html>

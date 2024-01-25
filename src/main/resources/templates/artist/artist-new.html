@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
+
+<div class="bg-white-07">
+    <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>
+    <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
+
+    <div class="bg-gradient-index" sec:authorize="!isAuthenticated()">
+        <!--        <div th:if="${param.success}" class="text-base font-bold">-->
+        <!--            You're logging in-->
+        <!--        </div>-->
+        <!--        content ở thẻ div này-->
+        <div th:replace="layout/content-layout::playlist-list">
+
+        </div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+        <p class="font-bold text-2xl">Artist List</p>
+
+        <form class="mt-28 rounded-xl lg:px-12 xl:px-52 2xl:px-80 h-fit"
+              th:action="@{/artist/new}" method="post" th:object="${artist}" role="form" enctype="multipart/form-data">
+            <div class="px-28 flex flex-col gap-8 mt-10">
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-col gap-2">
+                        <label for="name" class="text-base font-bold">Name</label>
+                        <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                               type="text"
+                               id="name"
+                               name="name"
+                               th:field="*{name}"
+                               placeholder="Artist Name" required>
+                    </div>
+                    <p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
+                </div>
+
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-col gap-2">
+                        <img id="imagePreview" alt="Artist Image" class="w-64 h-64" style="display: none"/>
+                        <label for="imageArtistUpload" class="text-base font-bold">Image</label>
+                        <input class="bg-black text-lg text-clip border border-gray-500 rounded-md p-3 hover:border-white"
+                               type="file"
+                               id="imageArtistUpload"
+                               name="imageArtistUpload"
+                               onchange="previewImage()"
+                               required>
+                        <button type="submit"
+                                class="bg-green rounded-full w-full py-4 text-lg text-black font-bold active:bg-green-400">
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
+
+
+
+        </form>
+    </div>
+
+</div>
+
+<script>
+    function previewImage() {
+        let preview = document.getElementById('imagePreview');
+        let file = document.getElementById('imageArtistUpload').files[0];
+        let reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+            preview.style.display = 'block'
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = ""; // Set a placeholder or keep the old image if no file is chosen
+            preview.style.display = 'none';
+        }
+    }
+</script>
+
+<div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
+
+<div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>
+
+<script th:src="@{/assets/js/accountOverlay.js}" sec:authorize="isAuthenticated()"></script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
+
+<div>
+    <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>
+    <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
+
+    <div class="bg-white-07 min-h-full" >
+        <!--        <div th:if="${param.success}" class="text-base font-bold">-->
+        <!--            You're logging in-->
+        <!--        </div>-->
+        <!--        content ở thẻ div này-->
+        <div class="flex flex-col gap-3 h-fit">
+            <div class="flex justify-between items-center font-bold">
+                <p class="text-xl hover:underline">Artists</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                <a th:each="artist : ${artists}" th:href="@{/artist/{artistId}(artistId=${artist.id})}"
+                   class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
+                    <div class="relative">
+                        <img class="rounded-full object-cover w-60 aspect-square box-shadow"
+                             style="aspect-ratio: 1/1;"
+                             th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" alt="">
+                        <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg-content w-full flex flex-col gap-0.5 mt-3">
+                        <p class="font-bold text-base" th:text="${artist.name}">Album Title</p>
+                        <p class="text-xs color-white-5 two-line-ellipsis">Artist</p>
+                    </div>
+                </a>
+            </div>
+            <div class="flex justify-between items-center font-bold mt-10">
+                <p class="text-xl hover:underline">Albums</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                <div th:each="album : ${albums}"
+                     class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
+                    <div class="relative">
+                        <a th:href="@{/albums/detail/{albumId}/songs(albumId=${album.id})}">
+                            <img class="rounded-md object-cover w-60 aspect-square box-shadow" style="aspect-ratio: 1/1;"
+                                 th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
+                            <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="rounded-lg-content w-full flex flex-col gap-0.5 mt-3">
+                        <p class="font-bold text-base" th:text="${album.title}">Album Title</p>
+                        <p class="text-xs color-white-5 two-line-ellipsis">Playlist
+                            long description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+
+    <!--    <div th:replace="layout/home-layout::content" sec:authorize="isAuthenticated()"></div>-->
+
+</div>
+
+<div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
+
+<div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>
+
+<script th:src="@{/assets/js/accountOverlay.js}" sec:authorize="isAuthenticated()"></script>
+
+</body>
+</html>

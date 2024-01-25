@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Artist list</title>
+    <link rel="icon" sizes="32x32" type="image/png"
+          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
+    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/playlist-hover.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/hide-search-bar.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script th:src="@{/assets/js/layoutIndexTopSideBar.js}"></script>
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
+
+<div class="bg-white-07">
+    <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>
+    <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
+
+    <div>
+
+        <!--        content ở thẻ div này-->
+        <div class="flex flex-col h-fit w-full">
+            <div class="flex justify-between items-center font-bold">
+                <p class="text-2xl hover:underline">Artists</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                <div th:each="artist : ${artists}" class="playlist rounded-lg p-4 flex-col bg-white-07 overflow-hidden">
+                    <a th:href="@{/artist/{artistId}(artistId=${artist.id})}" class="">
+                        <div class="relative">
+                            <img class="rounded-full object-cover w-full aspect-square box-shadow"
+                                 th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" style="aspect-ratio: 1/1;" alt="">
+                            <div style="display: none"
+                                 class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full">
+                            </div>
+                        </div>
+
+                        <div class="rounded-lg-content w-full mt-4">
+                            <p th:text="${artist.name}" class="font-bold text-lg">Artist name</p>
+                            <p class="text-base color-white-5 two-line-ellipsis">Artist</p>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+<!--        <div class="flex flex-col gap-4">-->
+<!--            <p class="font-bold text-2xl">Artist List</p>-->
+<!--            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">-->
+<!--                <div th:each="artist : ${artists}" class="color-white-5">-->
+<!--                    <p th:text="${artist.name}" class="p-3 text-xl rounded-2xl"></p>-->
+<!--                    <img th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" />-->
+<!--                    <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">-->
+<!--                        <div th:if="${user.id} == ${artist.getCreatedById()}">-->
+<!--                            <a th:href="@{/{artistId}/albums/new(artistId=${artist.id})}" class="p-3 text-xs rounded-2xl" >New Album</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <a th:href="@{/{artistId}/albums(artistId=${artist.id})}" class="p-3 text-xs rounded-2xl" >List Album</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+
+
+
+</div>
+
+<div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
+
+<div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>
+
+<script th:src="@{/assets/js/accountOverlay.js}" sec:authorize="isAuthenticated()"></script>
+
+</body>
+</html>

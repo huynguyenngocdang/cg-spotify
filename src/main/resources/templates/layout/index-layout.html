@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:fragment="head(title, detailStyle, detailjs)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Spotify - Web Player: Music for everyone</title>
+    <link rel="icon" sizes="32x32" type="image/png"
+          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
+    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/playlist-hover.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{${detailStyle}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script th:src="@{/assets/js/layoutIndexTopSideBar.js}"></script>
+    <script th:src="@{${detailjs}}"></script>
+</head>
+<body>
+<div th:fragment="sidebar">
+    <div class="sidebar-top rounded-lg font-bold px-2 py-1 bg-white-07 h-fit">
+        <div class="flex flex-col text-base p-4 justify-between gap-4">
+            <a th:href="@{/index}">
+                <img class="home-logo h-6 w-fit object-contain" src="/assets/img/logo/spotify-logo-white.png"
+                     alt="This is spotify logo" th:fragment="logo">
+            </a>
+            <a th:href="@{/index}" class="home-select color-white-5 hover:text-white">
+                <div class="home-icon flex items-center">
+                    <i class="fa-solid fa-house text-xl"></i>
+                    <p class="ml-4 mt-1">Home</p>
+                </div>
+            </a>
+            <a href="" class="search-select color-white-5 hover:text-white">
+                <div class="search-icon flex items-center">
+                    <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                    <a th:href="@{/search}" class="ml-4 mt-1">Search</a>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="sidebar-main rounded-lg p-2 relative z-10 flex flex-col bg-white-07">
+        <div class="library-section flex flex-col gap-6">
+            <div class="library-top-section flex justify-between mx-4 text-base items-center mt-2">
+                <div class="color-white-5 hover:text-white library-icon font-bold flex items-center">
+                    <i class="fa-solid fa-layer-group text-xl"></i>
+                    <p class="ml-4">Your Library</p>
+                </div>
+
+                <div class="color-white-5 hover:text-white plus-icon">
+                    <i class="fa-solid fa-plus text-base"></i>
+                </div>
+            </div>
+
+            <div class="library-content-section flex flex-col gap-6">
+                <div class="library-playlist rounded-lg bg-white-1 p-4 flex flex-col gap-2">
+                    <div class="library-text-bold text-base font-bold">Create your first playlist</div>
+                    <div class="library-text-normal text-xs">It's easy, we'll help you</div>
+                    <button class="bg-white rounded-full text-black px-4 py-2 mt-3 text-left w-fit text-sm font-bold">
+                        Create playlist
+                    </button>
+                </div>
+                <div class="library-podcast rounded-lg bg-white-1 p-4 flex flex-col gap-2">
+                    <div class="library-text-bold text-base font-bold">Let's find some podcasts to follow</div>
+                    <div class="library-text-normal text-xs">We'll keep you updated on new episodes</div>
+                    <button class="bg-white rounded-full text-black px-4 py-2 mt-3 text-left w-fit text-sm font-bold">
+                        Browse podcasts
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 right-0 p-4 mb-6 flex flex-col gap-10 z-20 bg-overlay w-full">
+            <div class="footer-list color-white-5 text-tiny flex flex-col gap-3">
+                <div class="flex gap-4">
+
+                    <a th:href="@{https://www.spotify.com/vn-en/legal/end-user-agreement/}"><p>Legal</p></a>
+                    <a th:href="@{https://www.spotify.com/vn-en/privacy}"><p>Privacy Center</p></a>
+                    <a th:href="@{https://www.spotify.com/vn-en/legal/privacy-policy/}"><p>Privacy Policy</p></a>
+                </div>
+
+                <div class="flex gap-4">
+                    <a th:href="@{https://www.spotify.com/vn-en/legal/cookies-policy/}"><p>Cookies</p></a>
+                    <a th:href="@{https://www.spotify.com/vn-en/legal/privacy-policy/#s3}"><p>About Ads</p></a>
+                    <a th:href="@{https://www.spotify.com/vn-en/accessibility}"><p>Accessibility</p></a>
+                </div>
+            </div>
+
+            <button class="footer-language border-white-op rounded-full px-4 py-2 w-fit text-sm font-bold">
+                <i class="fa-solid fa-earth-americas" style="color: #ffffff;"></i><span class="ml-2">English</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div th:fragment="main-topbar" class="bg-black">
+        <div class="flex items-center gap-4">
+            <div class="flex gap-2 text-base">
+                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-left"></i>
+                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-right"></i>
+            </div>
+
+            <form th:action="@{/search/result}" method="get" class="search-bar relative text-base">
+                <i class="absolute top-2 left-3.5 color-white-7 fa-solid fa-magnifying-glass text-xl"></i>
+                <input class="search-input rounded-full pl-12 pr-6 py-3 text-clip overflow-hidden bg-white-1 hover:border-gray-500 focus:text-white focus:border-white w-80"
+                       type="text" id="searchKeyword" name="searchKeyword" placeholder="What do you want to listen to?">
+                <button class="hidden" type="submit">Search</button>
+            </form>
+
+        </div>
+
+        <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">
+            <div class="support flex gap-8 items-center">
+                <a href="" class="hover:text-white">Premium</a>
+<!--                <a th:href="@{/artist}" class="hover:text-white">List Artist</a>-->
+                <a target="_blank"
+                   href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                   class="hover:text-white">Support</a>
+                <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/" class="hover:text-white">Download</a>
+            </div>
+
+            <span class="bg-white color-white-full w-0.5 h-full">|</span>
+            <div class="user flex gap-8 items-center" sec:authorize="!isAuthenticated()">
+                <a th:href="@{/register}" class="hover:text-white">Sign up</a>
+                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/login}"
+                   sec:authorize="!isAuthenticated()">Log in</a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div th:fragment="main-footer">
+            <div class="footer-1 gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7">
+                <div class="footer-category text-base leading-7 p-4">
+                    <p class="font-bold">Company</p>
+                    <div class="color-white-5">
+                        <a target="_blank" href="https://www.spotify.com/vn-en/about-us/contact/"
+                           class="hover:underline hover:text-white">About</a>
+                        <a target="_blank"
+                           href="https://www.lifeatspotify.com/?_gl=1*uli4hd*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">Jobs</a>
+                        <a target="_blank" href="" class="hover:underline hover:text-white">For the Record</a>
+                    </div>
+                </div>
+                <div class="footer-category text-base leading-7 p-4">
+                    <p class="font-bold">Communities</p>
+                    <div class="color-white-5">
+                        <a target="_blank"
+                           href="https://artists.spotify.com/home?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">For Artists</a>
+                        <a target="_blank"
+                           href="https://developer.spotify.com/?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">Developers</a>
+                        <a target="_blank"
+                           href="https://ads.spotify.com/en-US/?_gl=1*797b3g*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">Advertising</a>
+                        <a target="_blank" href="https://investors.spotify.com/home/default.aspx"
+                           class="hover:underline hover:text-white">Investors</a>
+                        <a target="_blank" href="https://spotifyforvendors.com/"
+                           class="hover:underline hover:text-white">Vendors</a>
+                    </div>
+                </div>
+                <div class="footer-category text-base leading-7 p-4">
+                    <p class="font-bold">Useful links</p>
+                    <div class="color-white-5">
+                        <a target="_blank"
+                           href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                           class="hover:underline hover:text-white">Support</a>
+                        <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/"
+                           class="hover:underline hover:text-white">Free Mobile App</a>
+                    </div>
+                </div>
+
+                <div class="brand-icons text-lg hidden col-start-1 md:col-start-3 lg:flex lg:col-start-4 xl:col-start-5 2xl:col-start-7 ml-auto gap-3">
+                    <a target="_blank" href="https://www.instagram.com/spotify"
+                       class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
+                        <i class="fa-brands fa-instagram" style="color: #ffffff;"></i>
+                    </a>
+                    <a target="_blank" href="https://twitter.com/spotify"
+                       class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
+                        <i class="fa-brands fa-twitter" style="color: #ffffff;"></i>
+                    </a>
+                    <a target="_blank" href="https://www.facebook.com/SpotifyVietnam/?brand_redir=6243987495"
+                       class="bg-white bg-opacity-5 rounded-full w-11 h-11 flex justify-center items-center hover:bg-opacity-10 cursor-pointer">
+                        <i class="fa-brands fa-facebook" style="color: #ffffff;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <hr class="border-white opacity-10">
+
+            <div class="text-sm color-white-5 mt-4 mb-8">
+                <p>© 2024 Spotify AB</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:fragment="footer" class="bg-gradient-footer">
+    <div class="banner-content flex flex-col justify-between text-base">
+        <p class="banner-title font-bold">Preview of Spotify</p>
+        <p class="text-xs md:text-base">Sign up to get unlimited songs and podcasts with occasional ads. No credit card
+            needed.</p>
+    </div>
+    <a th:href="@{/register}">
+        <button class="bg-white rounded-full text-black text-base font-bold py-3 px-8 whitespace-nowrap">Sign up free
+        </button>
+    </a>
+
+</div>
+</body>
+</html>

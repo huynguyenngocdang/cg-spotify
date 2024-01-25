@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
+
+<div>
+    <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>
+    <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
+
+    <div class="bg-gradient-index" sec:authorize="!isAuthenticated()">
+        <!--        <div th:if="${param.success}" class="text-base font-bold">-->
+        <!--            You're logging in-->
+        <!--        </div>-->
+        <!--        content ở thẻ div này-->
+        <div th:replace="layout/content-layout::playlist-list">
+
+        </div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+
+    <div class="flex flex-col gap-4">
+        <p class="font-bold text-2xl">Song</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+            <audio th:src="@{'/assets/song/' + ${song.filename}}" controls>
+                Your browser does not support the audio tag.
+            </audio>
+
+            <div th:if="${lyrics != null}" th:object="${lyrics}">
+                <h2 class="text-2xl">Song Lyrics:</h2>
+                <p th:each="line : ${lyrics}">
+                    <span th:text="${line}" class="text-xs"></span><br>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
+
+<div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>
+
+<script th:src="@{/assets/js/accountOverlay.js}" sec:authorize="isAuthenticated()"></script>
+
+</body>
+</html>

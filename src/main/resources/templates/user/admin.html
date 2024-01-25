@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="layout/index-layout::head('Spotify - Web Player: Music for everyone', '/assets/css/hide-search-bar.css', '')">
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
+
+<div>
+    <div th:replace="layout/index-layout::main-topbar" sec:authorize="!isAuthenticated()"></div>
+    <div th:replace="layout/home-layout::main-topbar" sec:authorize="isAuthenticated()"></div>
+
+    <div class="bg-gradient-index" sec:authorize="!isAuthenticated()">
+        <!--        <div th:if="${param.success}" class="text-base font-bold">-->
+        <!--            You're logging in-->
+        <!--        </div>-->
+        <!--        content ở thẻ div này-->
+        <div th:replace="layout/content-layout::playlist-list"></div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+
+    <div class="bg-white-07" sec:authorize="isAuthenticated()" >
+        <table id="datatablesSimple" class="table table-bordered table-danger text-center border-white border-2">
+            <thead>
+            <tr>
+                <th><p class="text-xl">Id</p></th>
+                <th><p class="text-xl ">Username</p></th>
+                <th><p class="text-xl ">Email</p></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="reg : ${user2}">
+                <td th:text="${reg.id}" class="text-xl hover:underline"></td>
+                <td th:text="${reg.username}" class="text-xl hover:underline"></td>
+                <td th:text="${reg.email}" class="text-xl hover:underline"></td>
+                <td>
+                    <a th:href="@{/user/detail/{id}(id=${reg.id})}" class="text-blue-500 text-xl hover:underline">Detail</a>
+                </td>
+                <td>
+                    <a th:href="@{/user/delete/{id}(id=${reg.id})}" class="text-red-500 text-xl hover:underline">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div th:replace="layout/home-layout::account-overlay" sec:authorize="isAuthenticated()"></div>
+
+<div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>
+
+<script th:src="@{/assets/js/accountOverlay.js}" sec:authorize="isAuthenticated()"></script>
+
+</body>
+</html>

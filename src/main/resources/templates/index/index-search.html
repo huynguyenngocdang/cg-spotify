@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Spotify - Web Player: Music for everyone</title>
+    <link rel="icon" sizes="32x32" type="image/png"
+          href="https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"/>
+    <script src="https://kit.fontawesome.com/94d7aff8f4.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/tailwind.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/reset.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/grid.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/playlist-hover.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/custom-scrollbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/genre.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script th:src="@{/assets/js/layoutIndexTopSideBar.js}"></script>
+    <script th:src="@{/assets/js/colorGenerate.js}"></script>
+    <script th:src="@{/assets/js/search-autocomplete.js}"></script>
+</head>
+<body>
+<div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
+<div style="background: black;">
+    <div sec:authorize="!isAuthenticated()" th:replace="layout/index-layout::main-topbar"></div>
+    <div sec:authorize="isAuthenticated()" th:fragment="main-topbar" class="bg-black">
+        <div class="flex items-center gap-4">
+            <div class="flex gap-2 text-base">
+                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-left"></i>
+                <i class="bg-black rounded-full w-8 h-8 flex items-center justify-center color-white-5 hover:text-white fa-solid fa-chevron-right"></i>
+            </div>
+
+            <form th:action="@{/search/result}" method="get" class="search-bar relative text-base">
+                <i class="absolute top-2 left-3.5 color-white-7 fa-solid fa-magnifying-glass text-xl"></i>
+                <input class="search-input rounded-full pl-12 pr-6 py-3 text-clip overflow-hidden bg-white-1 hover:border-gray-500 focus:text-white focus:border-white w-80"
+                       type="text" id="searchKeyword" name="searchKeyword" placeholder="What do you want to listen to?">
+                <button class="hidden" type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="ml-8 flex gap-8 items-center h-full text-base font-bold whitespace-nowrap color-white-5">
+            <div class="support flex gap-8 items-center">
+                <a href="" class="hover:text-white">Premium</a>
+                <a th:href="@{/artist}" class="hover:text-white">List Artist</a>
+                <a th:href="@{/artist/new}" class="hover:text-white">New Artist</a>
+                <a target="_blank"
+                   href="https://support.spotify.com/vn-en/?_gl=1*1okapux*_gcl_au*MTgzMjI0MDk0OS4xNzAyODc4MjQy"
+                   class="hover:text-white">Support</a>
+                <a target="_blank" href="https://www.spotify.com/vn-en/download/windows/"
+                   class="hover:text-white">Download</a>
+            </div>
+
+            <span class="bg-white color-white-full w-0.5 h-full">|</span>
+
+            <div class="user flex gap-8 items-center" sec:authorize="!isAuthenticated()">
+                <a th:href="@{/register}" class="hover:text-white">Sign up</a>
+                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/login}"
+                   sec:authorize="!isAuthenticated()">Log in</a>
+            </div>
+            <div class="user flex gap-8 items-center" sec:authorize="isAuthenticated()">
+                <a class="text-black bg-white rounded-full py-3 px-8 w-fit" th:href="@{/logout}"
+                   sec:authorize="isAuthenticated()">Log out</a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div id="categories-container" class="flex flex-col gap-4">
+            <p class="font-bold text-2xl">Browse all</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                <a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                    <p class="font-bold text-2xl">Pop</p>
+                    <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                         alt="genre image">
+                </a> <a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                        style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Hip Hop</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a> <a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                    style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Rock</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a> <a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                    style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Latin</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a> <a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                    style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Indie</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Documentary</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Country</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">R&B</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Sleep</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Chill</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Karaoke</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Party</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Love</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Metal</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Decades</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Trending</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Jazz</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Classical</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Fork</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Focus</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a><a href="" class="relative w-full rounded-lg p-3 hover:cursor-pointer overflow-hidden color-random"
+                   style="aspect-ratio: 1;">
+                <p class="font-bold text-2xl">Soul</p>
+                <img class="genre-img absolute aspect-square object-cover bottom-0 right-0 w-3/5" src=""
+                     alt="genre image">
+            </a>
+            </div>
+        </div>
+
+        <div th:replace="layout/index-layout::main-footer"></div>
+    </div>
+
+
+</div>
+<div th:replace="layout/index-layout::footer" sec:authorize="!isAuthenticated()"></div>
+<div th:replace="layout/home-layout::player" sec:authorize="isAuthenticated()"></div>
+</body>
+</html>
