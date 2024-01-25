@@ -43,6 +43,7 @@ public class UserEntity {
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "userEntity")
     private UserProfile userProfile;
+
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.REMOVE)
     private List<Artist> artists = new ArrayList<>();
 

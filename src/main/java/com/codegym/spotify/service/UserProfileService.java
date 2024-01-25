@@ -1,7 +1,6 @@
 package com.codegym.spotify.service;
 
 import com.codegym.spotify.dto.UserProfileDto;
-import com.codegym.spotify.entity.UserEntity;
 
 import java.util.List;
 
@@ -15,5 +14,5 @@ public interface UserProfileService {
 
     void updateUserProfile(String fullName, String email, String phoneNumber);
 
-    void createUserProfileWithId(UserEntity userEntity);
+    void createUserProfileWithUserName();
 }

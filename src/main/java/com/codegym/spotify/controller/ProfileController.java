@@ -1,9 +1,9 @@
 package com.codegym.spotify.controller;
 
 import com.codegym.spotify.dto.UserProfileDto;
-import com.codegym.spotify.entity.UserProfile;
+import com.codegym.spotify.entity.UserEntity;
 import com.codegym.spotify.service.UserProfileService;
-import groovyjarjarasm.asm.tree.TryCatchBlockNode;
+import com.codegym.spotify.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ProfileController {
     private UserProfileService userProfileService;
+    private UserService userService;
 
-    public ProfileController(UserProfileService userProfileService) {
+    public ProfileController(UserProfileService userProfileService, UserService userService) {
         this.userProfileService = userProfileService;
+        this.userService = userService;
     }
 
     @GetMapping("/user-profiles/{userId}/profile")
@@ -32,7 +32,10 @@ public class ProfileController {
             model.addAttribute("userProfile", userProfileDto);
             return "user/profile";
         }catch (Exception e){
-            return "redirect:/user-profiles/{userId}/profile/create";
+            UserEntity user = userService.getCurrentUser();
+            model.addAttribute(user);
+            userProfileService.createUserProfileWithUserName();
+            return "user/profile";
         }
 
     }

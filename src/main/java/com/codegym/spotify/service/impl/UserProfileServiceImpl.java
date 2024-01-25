@@ -93,9 +93,9 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public void createUserProfileWithId(UserEntity userEntity) {
+    public void createUserProfileWithUserName() {
         UserProfile userProfile = new UserProfile();
-        userEntity = userService.getCurrentUser();
+        UserEntity userEntity = userService.getCurrentUser();
         userProfile.setUserEntity(userEntity);
     }
 }
