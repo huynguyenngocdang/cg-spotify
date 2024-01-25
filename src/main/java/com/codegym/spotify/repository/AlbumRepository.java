@@ -8,5 +8,5 @@ import java.util.List;
 public interface AlbumRepository extends JpaRepository<Album, Long> {
     Album findAlbumById(Long albumId);
     List<Album> findAlbumsByArtistId(Long artistId);
-
+    List<Album> findAlbumsByTitleContainsIgnoreCase(String keyword);
 }

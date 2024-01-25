@@ -25,44 +25,25 @@
 <div th:replace="layout/index-layout::sidebar" sec:authorize="!isAuthenticated()"></div>
 <div th:replace="layout/home-layout::sidebar" sec:authorize="isAuthenticated()"></div>
 
-<div class="bg-white-07 pb-10" sec:authorize="isAuthenticated()">
+<div class="bg-white-07 pb-10" sec:authorize="!isAuthenticated()">
     <div th:replace="layout/home-layout::main-topbar"></div>
     <div>
 
         <div class="w-full overflow-y-scroll overflow-x-hidden">
             <div class="w-full p-4 flex gap-6">
                 <img class="h-fit box-shadow-heavy aspect-square w-60 object-cover rounded-full"
-                     th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" alt="">
+                     style="aspect-ratio: 1/1;" th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" alt="">
 
                 <div class="text-white flex flex-col gap-3 h-fit mt-auto">
                     <p class="text-base">Artist</p>
                     <p class="text-7xl font-black" th:text="${artist.name}">Artist</p>
-<<<<<<< HEAD
-                    <div class="flex items-center gap-6">
-                        <p class="font-bold text-base mt-3" th:text="${albums.size()} + ' album(s)'"></p>
-                        <a th:href="@{/{artistId}/albums/new(artistId=${artist.id})}">
-                            <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Create new
-                                album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i></button>
-                        </a>
-=======
+
                     <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
                         <div th:if="${user.id} == ${artist.getCreatedById()}">
                             <div class="flex items-center gap-6">
                                 <p class="font-bold text-base mt-3" th:text="${albums.size()} + ' album(s)'"></p>
-                                <a th:href="@{/{artistId}/albums/new(artistId=${artist.id})}">
-                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Create new album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i></button>
-                                </a>
-                                <a th:href="@{/artist/edit/{artistId}(artistId=${artistId})}">
-                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Edit artist<i class="ml-2 fa-solid fa-pencil text-white text-lg"></i></button>
-                                </a>
-
-                                <form th:action="@{/artist/delete/{artistId}(artistId=${artistId})}" method="post">
-                                    <button type="submit" class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
-                                            onclick="return confirmDelete()">Delete artist<i class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
-                                </form>
                             </div>
                         </div>
->>>>>>> 648ff7d4028b907923355465873fc1e72a81ded8
                     </div>
                 </div>
             </div>
@@ -82,13 +63,9 @@
                     </tr>
 
                     <tr th:each="song : ${songs}"
-<<<<<<< HEAD
                         class="change-song text-base bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer">
                         <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song) + 1}">1</td>
-=======
-                        class="text-base bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer">
-                        <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song)} + 1">1</td>
->>>>>>> 648ff7d4028b907923355465873fc1e72a81ded8
+
                         <td class="px-1 py-2.5">
                             <a th:href="@{/{artistId}/{songId}/songs/songsDetail(artistId=${artist.id}, songId=${song.id})}" class="block hover:underline cursor-pointer" th:text="${song.title}">Song name</a>
                             <p th:text="${artist.name}" class="color-white-5">Artist name 1</p>
@@ -103,9 +80,95 @@
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
                     <a th:each="album : ${albums}"
                        th:href="@{/albums/detail/{albumId}/songs(albumId=${album.id})}"
-                         class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
+                       class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
                         <div class="relative">
-                            <img class="rounded-md object-cover w-full aspect-square box-shadow"
+                            <img class="rounded-md object-cover w-full aspect-square box-shadow" style="aspect-ratio: 1/1;"
+                                 th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
+                            <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
+                            </div>
+                        </div>
+
+                        <div class="rounded-lg-content w-full flex flex-col gap-0.5 mt-4">
+                            <p class="font-bold text-base" th:text="${album.title}">Playlist title</p>
+                            <p class="text-xs color-white-5 two-line-ellipsis">Album</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="bg-white-07 pb-10" sec:authorize="isAuthenticated()">
+    <div th:replace="layout/home-layout::main-topbar"></div>
+    <div>
+
+        <div class="w-full overflow-y-scroll overflow-x-hidden">
+            <div class="w-full p-4 flex gap-6">
+                <img class="h-fit box-shadow-heavy aspect-square w-60 object-cover rounded-full"
+                     style="aspect-ratio: 1/1;" th:src="@{/artist/image/{artistId}(artistId=${artist.id})}" alt="">
+
+                <div class="text-white flex flex-col gap-3 h-fit mt-auto">
+                    <p class="text-base">Artist</p>
+                    <p class="text-7xl font-black" th:text="${artist.name}">Artist</p>
+
+                    <div th:if="${#authorization.expression('hasRole(''ROLE_MODERATOR'')')}">
+                        <div th:if="${user.id} == ${artist.getCreatedById()}">
+                            <div class="flex items-center gap-6">
+                                <p class="font-bold text-base mt-3" th:text="${albums.size()} + ' album(s)'"></p>
+                                <a th:href="@{/artist/{artistId}/albums/new(artistId=${artist.id})}">
+                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Create new album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i></button>
+                                </a>
+                                <a th:href="@{/artist/edit/{artistId}(artistId=${artistId})}">
+                                    <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Edit artist<i class="ml-2 fa-solid fa-pencil text-white text-lg"></i></button>
+                                </a>
+
+                                <form th:action="@{/artist/delete/{artistId}(artistId=${artistId})}" method="post">
+                                    <button type="submit" class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
+                                            onclick="return confirmDelete()">Delete artist<i class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${songs.isEmpty() && albums.isEmpty()}">
+                <p class="text-center text-xl opacity-50 mt-32">Looks like this artist doesn't have anything yet</p>
+            </div>
+
+            <div class="flex flex-col gap-2" th:if="${!songs.isEmpty()}">
+                <p class="text-2xl font-bold">Songs</p>
+
+                <table class="w-full text-base mx-5">
+                    <tr class="text-sm color-white-5 text-left"
+                        style="border-bottom: solid 1px rgba(255, 255, 255, 0.1);">
+                        <td class="p-1 w-14 text-center">#</td>
+                        <td class="p-1">Title</td>
+                    </tr>
+
+                    <tr th:each="song : ${songs}"
+                        class="change-song text-base bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer">
+                        <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song) + 1}">1</td>
+
+                        <td class="px-1 py-2.5">
+                            <a th:href="@{/{artistId}/{songId}/songs/songsDetail(artistId=${artist.id}, songId=${song.id})}" class="block hover:underline cursor-pointer" th:text="${song.title}">Song name</a>
+                            <p th:text="${artist.name}" class="color-white-5">Artist name 1</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div th:if="${!albums.isEmpty()}" class="w-full flex flex-col gap-2 mt-10">
+                <p class="text-2xl font-bold">Albums</p>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-4">
+                    <a th:each="album : ${albums}"
+                       th:href="@{/albums/detail/{albumId}/songs(albumId=${album.id})}"
+                       class="playlist rounded-lg p-4 flex-col gap-4 bg-white-03 overflow-hidden">
+                        <div class="relative">
+                            <img class="rounded-md object-cover w-full aspect-square box-shadow" style="aspect-ratio: 1/1;"
                                  th:src="@{/albums/image/{albumId}(albumId=${album.id})}" alt="">
                             <div class="play-button absolute right-3 bottom-2 w-11 h-11 box-shadow-heavy bg-green rounded-full ">
                             </div>

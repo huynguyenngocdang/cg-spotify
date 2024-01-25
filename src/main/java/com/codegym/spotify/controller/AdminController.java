@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
 
@@ -23,7 +25,7 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping("/admin")
+    @GetMapping("")
     public String displayAdminPage(Model model) {
         List<UserEntity> users = userService.getAllNonAdminUsers();
         model.addAttribute("users", users);
@@ -31,7 +33,7 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @PostMapping("/admin/update-role")
+    @PostMapping("/update-role")
     public String updateUserRole(@RequestParam Long userId,
                                  @RequestParam String role, RedirectAttributes redirectAttributes) {
         userService.updateUserRole(userId, role);

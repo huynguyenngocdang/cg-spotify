@@ -78,6 +78,15 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     @Override
+    public List<ArtistDto> findArtistsByName(String keyword) {
+        List<Artist> artists = artistRepository.findArtistsByNameContainsIgnoreCase(keyword);
+
+        return artists.stream()
+                .map(this::convertToArtistDto)
+                .toList();
+    }
+
+    @Override
     public List<ArtistDto> findArtistByUserId() {
         String username = SecurityUtil.getSessionUser();
         UserEntity user = userService.findByUsername(username);

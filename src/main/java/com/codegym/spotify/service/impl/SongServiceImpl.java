@@ -59,6 +59,12 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
+    public List<SongDto> findSongsByName(String keyword) {
+        List<Song> songs = songRepository.findSongByTitleContainsIgnoreCase(keyword);
+        return songs.stream().map(this::convertToSongDto).collect(Collectors.toList());
+    }
+
+    @Override
     public List<SongDto> findSongsByArtistId(Long artistId) {
         List<Album> albums = albumRepository.findAlbumsByArtistId(artistId);
         List<Song> songs = new ArrayList<>();

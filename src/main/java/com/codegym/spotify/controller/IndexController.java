@@ -42,6 +42,4 @@ public class IndexController {
     public String account() {
         return "account/account-menu";
     }
-
-
 }

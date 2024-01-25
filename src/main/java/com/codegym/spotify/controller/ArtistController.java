@@ -16,11 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -30,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/artist")
 public class ArtistController {
     private ArtistService artistService;
     private UserService userService;
@@ -43,7 +40,7 @@ public class ArtistController {
         this.songService = songService;
     }
 
-    @GetMapping("/artist")
+    @GetMapping("")
     public String displayArtistList(Model model) {
         List<ArtistDto> artists = artistService.findArtistByUserId();
         model.addAttribute("artists", artists);
@@ -56,7 +53,7 @@ public class ArtistController {
         return "artist/artist-list";
     }
 
-    @GetMapping("/artist/{artistId}")
+    @GetMapping("/{artistId}")
     public String displayArtist(@PathVariable("artistId") Long artistId, Model model) {
         ArtistDto artistDto = artistService.findArtistById(artistId);
         List<AlbumDto> albums = albumService.findAlbumsByArtistId(artistId);
@@ -70,7 +67,41 @@ public class ArtistController {
         return "artist/artist-details";
     }
 
-    @GetMapping("/artist/image/{artistId}")
+    @GetMapping("/{artistId}/albums/new")
+    public String displayNewAlbumForm(@PathVariable("artistId") Long artistId, Model model) {
+        AlbumDto albumDto = new AlbumDto();
+        albumDto.setArtistId(artistId);
+        model.addAttribute("newAlbum", albumDto);
+        model.addAttribute("artistId", artistId);
+        return "album/album-new";
+    }
+
+    @PostMapping("/{artistId}/albums/new")
+    public String saveNewAlbum(@PathVariable("artistId") Long artistId,
+                               @Valid @ModelAttribute("newAlbum") AlbumDto albumDto,
+                               @RequestParam("imageAlbumUpload") MultipartFile file,
+                               BindingResult result,
+                               Model model) {
+        albumDto.setArtistId(artistId);
+        if (result.hasErrors()) {
+            model.addAttribute("newAlbum", albumDto);
+            return "album/album-new";
+        }
+        try {
+            albumDto.setAlbumImage(file.getBytes());
+            albumService.saveAlbum(albumDto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArtistDto artistDto = artistService.findArtistById(artistId);
+        model.addAttribute("artist", artistDto);
+        model.addAttribute("artistId", artistId);
+//        return String.format("redirect:/%d/albums", artistId);
+        return "redirect:/artist/" + artistId;
+    }
+
+    @GetMapping("/image/{artistId}")
     public ResponseEntity<byte[]> getArtistImage(@PathVariable Long artistId) {
         ArtistDto artistDto = artistService.findArtistById(artistId);
         return ResponseEntity.ok()
@@ -78,13 +109,13 @@ public class ArtistController {
                 .body(artistDto.getArtistImage());
     }
 
-    @GetMapping("/artist/new")
+    @GetMapping("/new")
     public String displayNewArtistForm(Model model) {
         model.addAttribute("artist", new ArtistDto());
         return "artist/artist-new";
     }
 
-    @PostMapping("/artist/new")
+    @PostMapping("/new")
     public String saveArtist(@Valid @ModelAttribute("artist") ArtistDto artistDto,
                              @RequestParam("imageArtistUpload") MultipartFile imageFile,
                              BindingResult result,
@@ -102,7 +133,7 @@ public class ArtistController {
         }
     }
 
-    @GetMapping("/artist/edit/{artistId}")
+    @GetMapping("/edit/{artistId}")
     public String editArtist(@PathVariable("artistId") Long artistId,
                              Model model) {
         ArtistDto artistDto = artistService.findArtistById(artistId);
@@ -116,7 +147,7 @@ public class ArtistController {
         return "artist/artist-edit";
     }
 
-    @PostMapping("/artist/edit/{artistId}")
+    @PostMapping("/edit/{artistId}")
     public String updateArtist(@ModelAttribute("artist") ArtistDto artist,
                                @PathVariable("artistId") Long artistId,
                                @RequestParam("imageArtistUpload") MultipartFile file,
@@ -140,7 +171,7 @@ public class ArtistController {
         return "redirect:/artist";
     }
 
-    @PostMapping("/artist/delete/{artistId}")
+    @PostMapping("/delete/{artistId}")
     public String deleteArtist(@PathVariable("artistId")Long artistId) {
         ArtistDto artistDto = artistService.findArtistById(artistId);
         UserEntity user = userService.getCurrentUser();
