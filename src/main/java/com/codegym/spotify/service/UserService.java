@@ -9,9 +9,14 @@ public interface UserService {
     void saveUser(RegistrationDto registrationDto);
     UserEntity findByEmail(String email);
     UserEntity findByUsername(String username);
-
-    UserEntity findById(Long userId);
+    List<RegistrationDto> findAllUserEntity();
+    RegistrationDto findById(Long userId);
     UserEntity getCurrentUser();
+
+    void updatePassword(String newPassword);
+
+    boolean checkExistingPassword(String currentPassword);
+    boolean passwordValid(String password1, String password2);
     List<UserEntity> getAllNonAdminUsers();
 
     void updateUserRole(Long userId, String role);

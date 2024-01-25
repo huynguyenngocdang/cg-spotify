@@ -128,11 +128,13 @@
     </div>
 
     <div th:fragment="content" class="bg-white-07 min-h-full">
-        <div th:replace="layout/content-layout::main-playlist"></div>
-
+        <div th:replace="layout/content-layout::main-playlist">
+        </div>
         <!--        content ở thẻ div này-->
 
     </div>
+
+
 </div>
 <div th:fragment="player" class="stream-bar p-3 flex justify-between items-center overflow-hidden w-full bg-black">
     <!--    <audio th:src="">Your browser did not support this audio format</audio>-->

@@ -13,10 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
+import java.util.List;
+import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
@@ -36,9 +35,15 @@ public class UserServiceImpl implements UserService {
         user.setUsername(registrationDto.getUsername());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         user.setEmail(registrationDto.getEmail());
-
         Role role = roleRepository.findByRoleType(VarConstant.ROLE_TYPE_USER);
         user.setRoles(Arrays.asList(role));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updatePassword(String newPassword) {
+        UserEntity user = getCurrentUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
 
@@ -53,8 +58,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findById(Long userId) {
-        return userRepository.findById(userId).get();
+    public List<RegistrationDto> findAllUserEntity() {
+        List<UserEntity> registrationDtos = userRepository.findAll();
+        return registrationDtos.stream().map(this::mapToRegistrationDto).collect(Collectors.toList());
+    }
+
+    protected RegistrationDto mapToRegistrationDto(UserEntity userEntity){
+        RegistrationDto registrationDto = RegistrationDto.builder()
+                .id(userEntity.getId())
+                .username(userEntity.getUsername())
+                .password(userEntity.getPassword())
+                .email(userEntity.getEmail())
+                .build();
+        return registrationDto;
+    }
+
+    public RegistrationDto findById(Long userId) {
+        UserEntity user = userRepository.findById(userId).get();
+        return mapToRegistrationDto(user);
     }
     @Override
     public UserEntity getCurrentUser(){
@@ -67,6 +88,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+
+    public boolean checkExistingPassword(String currentEnterPassword) {
+        UserEntity userEntity = getCurrentUser();
+        String currentUserPassword = userEntity.getPassword();
+        return passwordEncoder.matches(currentEnterPassword, currentUserPassword);
+    }
+    @Override
+    public boolean passwordValid(String password1, String password2) {
+        return password1.equals(password2);
+    }
+
     public List<UserEntity> getAllNonAdminUsers() {
         return userRepository.findAllNonAdminUsers();
     }

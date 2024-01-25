@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="flex justify-between items-center font-bold" th:if="${param.continue}">
+    <table id="datatablesSimple" border="1" align="center">
+        <thead>
+        <tr>
+            <th><p class="text-xl ">Id</p></th>
+            <th><p class="text-xl ">Username</p></th>
+            <th><p class="text-xl ">Email</p></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reg : ${user}">
+            <td th:text="${reg.id}" class="text-xl hover:underline"></td>
+            <td th:text="${reg.username}" class="text-xl hover:underline"></td>
+            <td th:text="${reg.email}" class="text-xl hover:underline"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
