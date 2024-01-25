@@ -1,8 +1,10 @@
 package com.codegym.spotify.controller;
 
+
+import com.codegym.spotify.dto.SongDto;
+
 import com.codegym.spotify.dto.AlbumDto;
 import com.codegym.spotify.dto.ArtistDto;
-import com.codegym.spotify.dto.SongDto;
 import com.codegym.spotify.entity.UserEntity;
 import com.codegym.spotify.service.AlbumService;
 import com.codegym.spotify.service.ArtistService;

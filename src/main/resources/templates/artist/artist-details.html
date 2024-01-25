@@ -42,8 +42,7 @@
                         <div th:if="${user.id} == ${artist.getCreatedById()}">
                             <div class="flex items-center gap-6">
                                 <p class="font-bold text-base mt-3" th:text="${albums.size()} + ' album(s)'"></p>
-                                <<<<<<< HEAD
-                                =======
+
                                 <a th:href="@{/albums/new/{artistId}(artistId=${artist.id})}">
                                     <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">
                                         Create new album<i class="ml-2 fa-solid fa-plus text-white text-lg"></i>
@@ -60,7 +59,6 @@
                                             onclick="return confirmDelete()">Delete artist<i
                                             class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
                                 </form>
-                                >>>>>>> 111afaf04e665d5166d4945c71c305f9855dc446
                             </div>
                         </div>
                     </div>
@@ -174,8 +172,7 @@
                         <td class="p-1">Title</td>
                     </tr>
 
-                    <tr th:each="song : ${songs}"
-                        class="change-song text-base bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer">
+                    <tr th:each="song : ${songs}" class="change-song text-base bg-white bg-opacity-0 hover:bg-opacity-10 cursor-pointer">
                         <td class="px-1 py-2.5 text-center" th:text="${songs.indexOf(song) + 1}">1</td>
 
                         <td class="px-1 py-2.5">

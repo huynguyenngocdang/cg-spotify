@@ -31,6 +31,7 @@ public class SecurityConfig {
         http.csrf().disable();
 
         http.authorizeRequests()
+                .requestMatchers("/login", "/assets/**", "/", "/index", "/register/**","/admin-error").permitAll()
                 .requestMatchers("/login", "/assets/**", "/", "/index", "/register/**", "/forbidden").permitAll()
                 .and()
                 .formLogin(form -> form
@@ -46,9 +47,18 @@ public class SecurityConfig {
                         .permitAll()
                 );
         http.authorizeRequests()
+                .requestMatchers("/admin","/admin/**")
+                .access("hasRole('ROLE_ADMIN')")
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/index?access_denied=true");
+
+        http.authorizeRequests()
+                .requestMatchers("/*/*/songs/songsDetail").authenticated();
+
+        http.authorizeRequests()
                 .requestMatchers("/admin/**")
                 .access("hasAnyRole('ROLE_ADMIN')");
-
         http.authorizeRequests()
                         .requestMatchers("/artist/edit/**", "/artist/new", "/artist/delete/**", "/own-artist")
                                 .access("hasAnyRole('ROLE_MODERATOR', 'ROLE_ADMIN')");

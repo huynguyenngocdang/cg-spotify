@@ -12,16 +12,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RegistrationDto {
+public class UserProfileDto {
     private Long id;
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9]{3,}$", message = "Invalid username")
-    private String username;
-    @NotBlank
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[@#$%^&+=.!]).{8,}$", message = "Invalid password")
-    private String password;
+    private String fullName;
     @NotBlank
     @Email
-    @Pattern(regexp = "^[a-zA-Z0-9]{1,}@[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}$", message = "Invalid email")
     private String email;
+    @NotBlank
+    @Pattern(regexp = "^0\\d{0,9}$", message = "Phone number Phone numbers can only have a maximum of 10 characters and must start with 0")
+    private String phoneNumber;
+    private Double balance;
+    private Long userId;
 }

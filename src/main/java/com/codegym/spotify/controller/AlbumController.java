@@ -90,6 +90,8 @@ public class AlbumController {
         ArtistDto artistDto = artistService.findArtistById(albumDto.getArtistId());
         model.addAttribute("artist", artistDto);
         model.addAttribute("album", albumDto);
+        UserEntity user = userService.getCurrentUser();
+        model.addAttribute("user", user);
         return "song/songs-list";
     }
 

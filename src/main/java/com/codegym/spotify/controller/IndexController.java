@@ -1,10 +1,7 @@
 package com.codegym.spotify.controller;
 
 import com.codegym.spotify.dto.AlbumDto;
-import com.codegym.spotify.dto.SongDto;
-import com.codegym.spotify.entity.Playlist;
 import com.codegym.spotify.entity.UserEntity;
-import com.codegym.spotify.security.SecurityUtil;
 import com.codegym.spotify.service.AlbumService;
 import com.codegym.spotify.service.SongService;
 import com.codegym.spotify.service.UserService;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,7 +35,9 @@ public class IndexController {
     }
 
     @GetMapping("account")
-    public String account() {
+    public String account(Model model) {
+        UserEntity user = userService.getCurrentUser();
+        model.addAttribute("user", user);
         return "account/account-menu";
     }
 }

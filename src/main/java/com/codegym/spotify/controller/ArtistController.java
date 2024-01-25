@@ -57,10 +57,6 @@ public class ArtistController {
     public String displayOwnArtistList(Model model) {
         List<ArtistDto> artists = artistService.findArtistByUserId();
         model.addAttribute("artists", artists);
-//        List<String> imageArtistBase64 = artists.stream()
-//                .map(artist -> Base64.getEncoder().encodeToString(artist.getArtistImage()))
-//                .collect(Collectors.toList());
-//        model.addAttribute("imagesBase64", imageArtistBase64);
         UserEntity user = userService.getCurrentUser();
         model.addAttribute("user", user);
         return "artist/artist-list";
@@ -175,9 +171,10 @@ public class ArtistController {
             if (file != null && !file.isEmpty()) {
                 artist.setArtistImage(file.getBytes());
             }
+            ArtistDto artistDto = artistService.findArtistById(artistId);
 
             UserEntity user = userService.getCurrentUser();
-            if(user.getId().equals(artist.getCreatedById())) {
+            if(user.getId().equals(artistDto.getCreatedById())) {
                 artistService.editArtist(artist, artistId);
                 redirectAttributes.addFlashAttribute("success", "Artist updated successfully");
             } else {
