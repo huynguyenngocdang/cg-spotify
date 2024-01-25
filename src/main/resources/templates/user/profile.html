@@ -18,7 +18,7 @@
         <div th:if="${param.editSuccess}" class="text-base font-bold"
         th:href="@{/user-profiles/{userId}/profile}">
             <script>
-                alert("Your profile have been change")
+                alert("Your profile have been change!")
             </script>
         </div>
         <div class="px-28 flex flex-col gap-8 mt-10">
@@ -72,7 +72,7 @@
                                type="text"
                                pattern="\*d"
                                id="balance"
-                               name="phoneNumber"
+                               name="balance"
                                th:field="*{balance}"
                                placeholder="0.0" required
                                th:readonly="readOnly">
