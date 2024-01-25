@@ -25,17 +25,19 @@
                 <p class="text-5xl font-black" th:text="${album.title}">Album name</p>
                 <div class="flex items-center gap-6">
                     <p class="font-bold text-base mt-3" th:text="${songs.size()} + ' songs'">10 songs</p>
-                    <a th:href="@{/{albumId}/songs/upload(albumId=${albumId})}">
-                        <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Upload new song<i class="ml-2 fa-solid fa-arrow-up text-lg text-white-5"></i></button>
-                    </a>
-                    <a th:href="@{/albums/edit/{albumId}(albumId=${albumId})}">
-                        <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Edit album<i class="ml-2 fa-solid fa-pencil text-lg text-white-5"></i></button>
-                    </a>
+                    <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')">
+                        <a th:href="@{/{albumId}/songs/upload(albumId=${albumId})}">
+                            <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Upload new song<i class="ml-2 fa-solid fa-arrow-up text-lg text-white-5"></i></button>
+                        </a>
+                        <a th:href="@{/albums/edit/{albumId}(albumId=${albumId})}">
+                            <button class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white">Edit album<i class="ml-2 fa-solid fa-pencil text-lg text-white-5"></i></button>
+                        </a>
 
-                    <form th:action="@{/album/delete/{albumId}(albumId=${albumId})}" method="post">
-                        <button type="submit" class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
-                                onclick="return confirmDelete()">Delete Album<i class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
-                    </form>
+                        <form th:action="@{/album/delete/{albumId}(albumId=${albumId})}" method="post">
+                            <button type="submit" class="mt-2 text-base font-bold rounded-md px-4 py-2 border border-white"
+                                    onclick="return confirmDelete()">Delete Album<i class="ml-2 fa-solid fa-minus text-white text-lg"></i></button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

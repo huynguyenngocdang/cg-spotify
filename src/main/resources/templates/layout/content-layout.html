@@ -53,6 +53,9 @@
 
 <div th:fragment="main-playlist" class="flex flex-col gap-4">
     <p class="font-bold text-2xl">Good morning</p>
+    <div th:if="${param.success}">
+        <p class="font-bold text-2xl">You have logged in successfully</p>
+    </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
         <div class="flex items-center rounded-md w-full bg-white cursor-pointer bg-opacity-10 hover:bg-opacity-20 h-14 overflow-hidden">
