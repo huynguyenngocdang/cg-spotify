@@ -22,5 +22,6 @@ public class RegistrationDto {
     private String password;
     @NotBlank
     @Email
+    @Pattern(regexp = "^[a-zA-Z0-9]{5,}@[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}$", message = "Invalid email")
     private String email;
 }
