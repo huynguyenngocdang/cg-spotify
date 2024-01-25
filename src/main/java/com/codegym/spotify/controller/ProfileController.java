@@ -36,7 +36,7 @@ public class ProfileController {
         } else {
             UserEntity user = userService.getCurrentUser();
             userProfileService.createUserProfileWithUserName(user.getUsername());
-            return ("redirect:/index?createNewProfileSuccess");
+            return ("redirect:/user-profiles/{userId}/profile");
         }
     }
 
@@ -68,6 +68,6 @@ public class ProfileController {
         }
 
         userProfileService.saveEditUserProfile(userProfileDto, userId);
-        return "redirect:/index?addNewProfile";
+        return "redirect:/user-profiles/{userId}/profile?editSuccess";
     }
 }
