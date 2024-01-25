@@ -12,6 +12,7 @@ import java.util.List;
 public interface SongService {
     List<SongDto> findAllSongs();
     List<SongDto> findSongsByAlbumId(Long albumId);
+    List<SongDto> findSongsByArtistId(Long artistId);
 
     SongDto findSongById(Long songId);
 
@@ -19,5 +20,5 @@ public interface SongService {
     Song convertToSongEntity(SongDto songDto);
     boolean handleSongUpload(MultipartFile file, String fileName);
     void saveSong(SongDto songDto, MultipartFile file);
-
+    boolean deleteSong(Long songId);
 }
